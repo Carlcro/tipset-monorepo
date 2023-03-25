@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { router, protectedProcedure } from "../trpc";
+import { router, protectedProcedure, publicProcedure } from "../trpc";
 
 export const championshipRouter = router({
   createChampionship: protectedProcedure
@@ -13,7 +13,7 @@ export const championshipRouter = router({
       });
     }),
 
-  getOneChampionship: protectedProcedure.query(({ ctx }) => {
+  getOneChampionship: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.championship.findFirst({
       include: {
         matchGroups: {

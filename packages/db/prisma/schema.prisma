@@ -11,22 +11,25 @@ datasource db {
   relationMode = "prisma"
 }
 
-model UserTournament {
-  id        String                   @id @default(cuid())
-  name      String
-  ownerId   String
-  members   MembersInUserTounament[]
-  createdAt DateTime                 @default(now())
-}
-
-model MembersInUserTounament {
-  id               String         @id @default(cuid())
-  userId           String
-  fullName         String
-  userTournamentId String
-  UserTournament   UserTournament @relation(fields: [userTournamentId], references: [id])
+model User {
+  id               String          @id @default(cuid())
+  firstName         String
+  lastName        String
+  fullName        String
+  email            String          @unique
+  userId           String       @unique
+  UserTournament   UserTournament? @relation(fields: [userTournamentId], references: [id])
+  userTournamentId String?
 
   @@index([userTournamentId])
+}
+
+model UserTournament {
+  id        String   @id @default(cuid())
+  name      String
+  ownerId   String
+  members   User[]
+  createdAt DateTime @default(now())
 }
 
 model VerificationToken {
@@ -41,9 +44,9 @@ model Team {
   id   String @id @default(cuid())
   name String
 
-  bet1                Bet?    @relation("team1")
-  bet2                Bet?    @relation("team2")
-  betPenaltyWinner    Bet?    @relation("penaltyWinner")
+  bet1                Bet[]   @relation("team1")
+  bet2                Bet[]   @relation("team2")
+  betPenaltyWinner    Bet[]   @relation("penaltyWinner")
   match1              Match[] @relation("matchTeam1")
   match2              Match[] @relation("matchTeam2")
   result1             Result? @relation("resultTeam1")
@@ -64,12 +67,17 @@ model Bet {
   team1           Team     @relation("team1", fields: [team1Id], references: [id])
   team2           Team     @relation("team2", fields: [team2Id], references: [id])
   penaltyWinner   Team?    @relation("penaltyWinner", fields: [penaltyWinnerId], references: [id])
-  team1Id         String   @unique
-  team2Id         String   @unique
-  penaltyWinnerId String?  @unique
+  team1Id         String
+  team2Id         String
+  penaltyWinnerId String?
   points          Int      @default(0)
   betSlip         BetSlip? @relation(fields: [betSlipId], references: [id])
-  betSlipId       String?  @unique
+  betSlipId       String?
+
+  @@index([team1Id])
+  @@index([team2Id])
+  @@index([penaltyWinnerId])
+  @@index([betSlipId])
 }
 
 model PointsFromGroup {
@@ -102,12 +110,14 @@ model BetSlip {
   bets                  Bet[]
   pointsFromGroup       PointsFromGroup[]
   pointsFromAdvancement PointsFromAdvancement[]
-  goalscorer            Player                  @relation(fields: [playerId], references: [id])
-  playerId              String                  @unique
+  goalscorer            Player?                 @relation(fields: [goalscorerId], references: [id])
+  goalscorerId          String?
   points                Int
   pointsHistory         PointsHistory[]
   championship          Championship            @relation(fields: [championshipId], references: [id])
   championshipId        String                  @unique
+
+  @@index([goalscorerId])
 }
 
 model Player {
@@ -166,11 +176,11 @@ model MatchInfo {
 }
 
 model AnswerSheetGoalscorer {
-  id          String       @id @default(cuid())
-  player      Player       @relation(fields: [playerId], references: [id])
-  goals       Int
-  playerId    String       @unique
-  AnswerSheet AnswerSheet?
+  id           String       @id @default(cuid())
+  goalscorer   Player       @relation(fields: [goalscorerId], references: [id])
+  goals        Int
+  goalscorerId String       @unique
+  AnswerSheet  AnswerSheet?
 }
 
 model AnswerSheet {

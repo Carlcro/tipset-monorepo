@@ -7,13 +7,36 @@ import { useAuth, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 
 const Home: NextPage = () => {
+  const { isSignedIn } = useAuth();
+
   const utMutation = trpc.userTournament.createUserTournament.useMutation();
 
-  const tournaments = trpc.userTournament.getUserTournaments.useQuery();
+  const tournaments = trpc.userTournament.getUserTournaments.useQuery(
+    undefined,
+    { enabled: !!isSignedIn },
+  );
+
+  const betslip = trpc.betslip.createBetSlip.useMutation();
 
   const addUsertournament = () => {
-    utMutation.mutate({
-      name: "Cool!",
+    betslip.mutate({
+      bets: [
+        {
+          matchId: 1,
+          team1Id: "clfnv5dup0048vy6q0azscosd",
+          team2Id: "clfnv5dup0049vy6qv8v83n7a",
+          team1Score: 1,
+          team2Score: 1,
+        },
+        {
+          matchId: 2,
+          team1Id: "clfnv5dup004avy6q1md9ty5q",
+          team2Id: "clfnv5duq004bvy6qam4kj26a",
+          team1Score: 3,
+          team2Score: 2,
+        },
+      ],
+      goalScorerId: "clfnv5dlt0002vy6qgino4se4",
     });
   };
 
@@ -30,9 +53,6 @@ const Home: NextPage = () => {
             Create <span className="text-[hsl(280,100%,70%)]">T3</span> Turbo
           </h1>
           <AuthShowcase />
-          {tournaments.data?.map((x) => (
-            <div>{JSON.stringify(x)}</div>
-          ))}
 
           <button onClick={addUsertournament}>Create!</button>
         </div>

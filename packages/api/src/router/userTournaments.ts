@@ -81,4 +81,22 @@ export const userTournamentRouter = router({
         });
       }
     }),
+  addMember: protectedProcedure
+    .input(
+      z.object({
+        userTournamentId: z.string(),
+        email: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      // TODO
+      const userTournament = await ctx.prisma.userTournament.findUnique({
+        where: {
+          id: input.userTournamentId,
+        },
+        include: {
+          members: true,
+        },
+      });
+    }),
 });
