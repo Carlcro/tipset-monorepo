@@ -2,16 +2,197 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "sqlite"
-    url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
-model Post {
-    id      String @id @default(cuid())
-    title   String
-    content String
+model UserTournament {
+  id        String                   @id @default(cuid())
+  name      String
+  ownerId   String
+  members   MembersInUserTounament[]
+  createdAt DateTime                 @default(now())
+}
+
+model MembersInUserTounament {
+  id               String         @id @default(cuid())
+  userId           String
+  fullName         String
+  userTournamentId String
+  UserTournament   UserTournament @relation(fields: [userTournamentId], references: [id])
+
+  @@index([userTournamentId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Team {
+  id   String @id @default(cuid())
+  name String
+
+  bet1                Bet?    @relation("team1")
+  bet2                Bet?    @relation("team2")
+  betPenaltyWinner    Bet?    @relation("penaltyWinner")
+  match1              Match[] @relation("matchTeam1")
+  match2              Match[] @relation("matchTeam2")
+  result1             Result? @relation("resultTeam1")
+  result2             Result? @relation("resultTeam2")
+  resultPenaltyWinner Result? @relation("resultPenaltyWinner")
+
+  matchGroup   MatchGroup? @relation(fields: [matchGroupId], references: [id])
+  matchGroupId String?
+
+  @@index([matchGroupId])
+}
+
+model Bet {
+  id              String   @id @default(cuid())
+  matchId         Int
+  team1Score      Int
+  team2Score      Int
+  team1           Team     @relation("team1", fields: [team1Id], references: [id])
+  team2           Team     @relation("team2", fields: [team2Id], references: [id])
+  penaltyWinner   Team?    @relation("penaltyWinner", fields: [penaltyWinnerId], references: [id])
+  team1Id         String   @unique
+  team2Id         String   @unique
+  penaltyWinnerId String?  @unique
+  points          Int      @default(0)
+  betSlip         BetSlip? @relation(fields: [betSlipId], references: [id])
+  betSlipId       String?  @unique
+}
+
+model PointsFromGroup {
+  id        String   @id @default(cuid())
+  group     String
+  points    Int
+  betSlip   BetSlip? @relation(fields: [betSlipId], references: [id])
+  betSlipId String?  @unique
+}
+
+model PointsFromAdvancement {
+  id        String   @id @default(cuid())
+  final     String
+  points    Int
+  betSlip   BetSlip? @relation(fields: [betSlipId], references: [id])
+  betSlipId String?  @unique
+}
+
+model PointsHistory {
+  id          String   @id @default(cuid())
+  matchNumber Int
+  points      Int
+  betSlip     BetSlip? @relation(fields: [betSlipId], references: [id])
+  betSlipId   String?  @unique
+}
+
+model BetSlip {
+  id                    String                  @id @default(cuid())
+  userId                String                  @unique
+  bets                  Bet[]
+  pointsFromGroup       PointsFromGroup[]
+  pointsFromAdvancement PointsFromAdvancement[]
+  goalscorer            Player                  @relation(fields: [playerId], references: [id])
+  playerId              String                  @unique
+  points                Int
+  pointsHistory         PointsHistory[]
+  championship          Championship            @relation(fields: [championshipId], references: [id])
+  championshipId        String                  @unique
+}
+
+model Player {
+  id                    String                  @id @default(cuid())
+  name                  String
+  betSlip               BetSlip[]
+  AnswerSheetGoalscorer AnswerSheetGoalscorer[]
+}
+
+model Championship {
+  id          String        @id @default(cuid())
+  name        String
+  matchGroups MatchGroup[]
+  matchInfos  MatchInfo[]
+  answerSheet AnswerSheet[]
+  BetSlip     BetSlip[]
+}
+
+model MatchGroup {
+  id             String        @id @default(cuid())
+  name           String
+  teams          Team[]
+  matches        Match[]
+  championship   Championship? @relation(fields: [championshipId], references: [id])
+  championshipId String?
+  matchInfo      MatchInfo[]
+
+  @@index([championshipId])
+}
+
+model Match {
+  id           String     @id @default(cuid())
+  matchId      Int        @unique
+  team1        Team       @relation("matchTeam1", fields: [team1Id], references: [id])
+  team2        Team       @relation("matchTeam2", fields: [team2Id], references: [id])
+  team1Id      String
+  team2Id      String
+  matchGroup   MatchGroup @relation(fields: [matchGroupId], references: [id])
+  matchGroupId String
+
+  @@index([matchGroupId])
+  @@index([team2Id])
+  @@index([team1Id])
+}
+
+model MatchInfo {
+  id             String        @id @default(cuid())
+  time           DateTime
+  arena          String
+  city           String
+  matchId        Int
+  matchGroup     MatchGroup    @relation(fields: [matchGroupId], references: [id])
+  matchGroupId   String        @unique
+  Championship   Championship? @relation(fields: [championshipId], references: [id])
+  championshipId String?       @unique
+}
+
+model AnswerSheetGoalscorer {
+  id          String       @id @default(cuid())
+  player      Player       @relation(fields: [playerId], references: [id])
+  goals       Int
+  playerId    String       @unique
+  AnswerSheet AnswerSheet?
+}
+
+model AnswerSheet {
+  id                      String                @id @default(cuid())
+  championship            Championship          @relation(fields: [championshipId], references: [id])
+  championshipId          String                @unique
+  goalscorer              AnswerSheetGoalscorer @relation(fields: [answerSheetGoalscorerId], references: [id])
+  answerSheetGoalscorerId String                @unique
+  results                 Result[]
+}
+
+model Result {
+  id              String       @id @default(cuid())
+  matchId         Int
+  team1Score      Int
+  team2Score      Int
+  team1           Team         @relation("resultTeam1", fields: [team1Id], references: [id])
+  team2           Team         @relation("resultTeam2", fields: [team2Id], references: [id])
+  penaltyWinner   Team?        @relation("resultPenaltyWinner", fields: [penaltyWinnerId], references: [id])
+  team1Id         String       @unique
+  team2Id         String       @unique
+  penaltyWinnerId String?      @unique
+  AnswerSheet     AnswerSheet? @relation(fields: [answerSheetId], references: [id])
+  answerSheetId   String?      @unique
 }

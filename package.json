@@ -12,7 +12,11 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo lint",
     "FIXME:lint": "turbo lint && manypkg check",
-    "type-check": "turbo type-check"
+    "type-check": "turbo type-check",
+    "db-seed": "NODE_ENV=development prisma db seed"
+  },
+  "prisma": {
+    "seed": "tsx packages/db/prisma/seed.ts"
   },
   "dependencies": {
     "@manypkg/cli": "^0.19.2",
@@ -21,6 +25,7 @@
     "eslint": "^8.28.0",
     "prettier": "^2.8.3",
     "prettier-plugin-tailwindcss": "^0.1.13",
+    "tsx": "^3.12.6",
     "turbo": "^1.7.3",
     "typescript": "^4.9.3"
   },

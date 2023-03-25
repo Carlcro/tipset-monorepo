@@ -1,7 +1,7 @@
 import { prisma } from "@acme/db";
 import { type inferAsyncReturnType } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
-import { getAuth } from "@clerk/nextjs/server";
+import { getAuth, clerkClient } from "@clerk/nextjs/server";
 import type {
   SignedInAuthObject,
   SignedOutAuthObject,
@@ -31,7 +31,17 @@ export const createContextInner = async ({ auth }: AuthContextProps) => {
  * @link https://trpc.io/docs/context
  **/
 export const createContext = async (opts: CreateNextContextOptions) => {
-  return await createContextInner({ auth: getAuth(opts.req) });
+  const auth = getAuth(opts.req);
+
+  const user = auth.userId
+    ? await clerkClient.users.getUser(auth.userId)
+    : null;
+
+  auth.user = user;
+
+  return await createContextInner({
+    auth,
+  });
 };
 
 export type Context = inferAsyncReturnType<typeof createContext>;
