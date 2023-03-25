@@ -8,19 +8,11 @@ export const userTournamentRouter = router({
     .input(z.object({ name: z.string() }))
     .mutation(async ({ ctx, input }) => {
       try {
+        // TODO add yourself as member
         const newTournament = await ctx.prisma.userTournament.create({
           data: {
             name: input.name,
             ownerId: ctx.auth.userId,
-
-            members: {
-              create: [
-                {
-                  userId: ctx.auth.userId,
-                  fullName: `${ctx.auth.user?.firstName} ${ctx.auth.user?.lastName}`,
-                },
-              ],
-            },
           },
         });
 
@@ -90,6 +82,7 @@ export const userTournamentRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       // TODO
+
       const userTournament = await ctx.prisma.userTournament.findUnique({
         where: {
           id: input.userTournamentId,
