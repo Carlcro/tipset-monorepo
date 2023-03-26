@@ -4,6 +4,7 @@ import { router } from "../trpc";
 import { userTournamentRouter } from "./userTournaments";
 import { authRouter } from "./auth";
 import { teamRouter } from "./team";
+import { answerSheetRouter } from "./answerSheet";
 
 export const appRouter = router({
   auth: authRouter,
@@ -11,6 +12,7 @@ export const appRouter = router({
   userTournament: userTournamentRouter,
   championship: championshipRouter,
   betslip: betslipRouter,
+  answerSheet: answerSheetRouter
 });
 
 // export type definition of API

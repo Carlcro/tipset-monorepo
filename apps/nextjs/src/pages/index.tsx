@@ -1,13 +1,15 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { trpc } from "../utils/trpc";
-
 import { useAuth, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 
 const Home: NextPage = () => {
   const betslip = trpc.betslip.createBetSlip.useMutation();
 
+  const test = trpc.answerSheet.updatePoints.useQuery();
+
+  console.log(test.data);
   const addUsertournament = () => {
     betslip.mutate({
       bets: [

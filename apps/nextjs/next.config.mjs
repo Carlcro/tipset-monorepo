@@ -11,7 +11,7 @@ import { PrismaPlugin } from "@prisma/nextjs-monorepo-workaround-plugin";
 const config = {
   reactStrictMode: true,
   swcMinify: true,
-  transpilePackages: ["@acme/api", "@acme/db"],
+  transpilePackages: ["@acme/api", "@acme/db", "calculations"],
   // We already do linting on GH actions
   eslint: {
     ignoreDuringBuilds: !!process.env.CI,

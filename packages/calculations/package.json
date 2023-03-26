@@ -1,0 +1,9 @@
+{
+  "name": "calculations",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "dependencies": {
+    "ramda": "^0.28.0",
+    "typescript": "latest"
+  }
+}

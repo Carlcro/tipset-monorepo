@@ -1,4 +1,4 @@
-import { calculateThirdPlaceAdvancePoints } from "./../common";
+import { calculateThirdPlaceAdvancePoints } from "../common";
 import { GoalScorer } from "../../types/goalScorer";
 import { GroupResult } from "../../results/groupResult";
 import {
@@ -28,7 +28,7 @@ export function calculatePoints(
   adjustedPoints: number,
   outcomeGroupsResults: GroupResult[],
   outcomeMatchResults: MatchResult[],
-  outcomeGoalScorer: GoalScorer
+  outcomeGoalScorer: GoalScorer,
 ): number {
   const positionPoints = betGroupResults
     .map((groupResult, i): number => {
@@ -36,7 +36,7 @@ export function calculatePoints(
         groupResult,
         outcomeGroupsResults[i],
         betMatchResults,
-        outcomeMatchResults
+        outcomeMatchResults,
       );
     })
     .reduce((x, y) => x + y, 0);
@@ -54,12 +54,12 @@ export function calculatePoints(
 
   const correctAdvancedTeam = calculateCorrectAdvanceTeam(
     betMatchResults,
-    outcomeMatchResults
+    outcomeMatchResults,
   ).reduce((acc, x) => acc + x.points, 0);
 
   const goalScorerPoints = calculateGoalScorer(
     betGoalScorer,
-    outcomeGoalScorer
+    outcomeGoalScorer,
   );
 
   return (
@@ -73,7 +73,7 @@ export function calculatePoints(
 
 export const getMatchPoint = (
   outcomeResult: MatchResult,
-  matchResult: MatchResult
+  matchResult: MatchResult,
 ) => {
   if (outcomeResult.matchId <= 48) {
     return calculateGroupStageScorePoints(matchResult, outcomeResult);
@@ -97,7 +97,7 @@ interface AdvancementPoints {
 
 export const calculateCorrectAdvanceTeam = (
   betMatchResults: MatchResult[],
-  outcomeMatchResults: MatchResult[]
+  outcomeMatchResults: MatchResult[],
 ): AdvancementPoints[] => {
   return [
     {
@@ -106,7 +106,7 @@ export const calculateCorrectAdvanceTeam = (
         betMatchResults,
         outcomeMatchResults,
         57,
-        60
+        60,
       ),
     },
     {
@@ -115,7 +115,7 @@ export const calculateCorrectAdvanceTeam = (
         betMatchResults,
         outcomeMatchResults,
         61,
-        62
+        62,
       ),
     },
     {
@@ -124,7 +124,7 @@ export const calculateCorrectAdvanceTeam = (
         betMatchResults,
         outcomeMatchResults,
         64,
-        64
+        64,
       ),
     },
     {
@@ -132,7 +132,7 @@ export const calculateCorrectAdvanceTeam = (
       points: calculateThirdPlaceAdvancePoints(
         betMatchResults,
         outcomeMatchResults,
-        63
+        63,
       ),
     },
     {
@@ -140,7 +140,7 @@ export const calculateCorrectAdvanceTeam = (
       points: calculateFinalAdvancePoints(
         betMatchResults,
         outcomeMatchResults,
-        64
+        64,
       ),
     },
   ];
@@ -150,15 +150,15 @@ export const calculatePointsFromGroup = (
   groupResult: GroupResult,
   groupOutcome: GroupResult,
   betMatchResults: MatchResult[],
-  outcomeMatchResults: MatchResult[]
+  outcomeMatchResults: MatchResult[],
 ): number => {
   const betTeamRanking = calculateTeamRanking(
     groupResult.results,
-    betMatchResults
+    betMatchResults,
   );
   const outcomeTeamRanking = calculateTeamRanking(
     groupOutcome.results,
-    outcomeMatchResults
+    outcomeMatchResults,
   );
 
   if (isGroupFinished(groupOutcome)) {

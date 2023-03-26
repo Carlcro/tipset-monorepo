@@ -4,11 +4,11 @@ import {
   calculateGroupOf8,
   calculateSemiFinals,
   calculateTeamRanking,
-} from "../calculation/matchGroup/World/calculations";
+} from "./matchGroup/World/calculations";
 import {
   getBestOfThirds,
   calculateTopFourThirdPlaces,
-} from "../calculation/matchGroup/Euro/thirdPlacements";
+} from "./matchGroup/Euro/thirdPlacements";
 import {
   calculateGroupOf16Results,
   calculateGroupOf8Results,
@@ -22,6 +22,10 @@ import {
   getMatchPoint,
   calculateCorrectAdvanceTeam,
 } from "./points/World/pointCalculation";
+
+const hej = () => {
+  console.log("hejhejhej");
+};
 
 export {
   calculateGroupOf16,
@@ -40,4 +44,5 @@ export {
   getMatchPoint,
   calculateCorrectAdvanceTeam,
   calculateSemiFinalsLosers,
+  hej,
 };

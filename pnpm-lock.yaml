@@ -148,6 +148,7 @@ importers:
       '@acme/db': '*'
       '@trpc/client': ^10.1.0
       '@trpc/server': ^10.1.0
+      calculations: workspace:*
       eslint: ^8.28.0
       superjson: ^1.9.1
       typescript: ^4.9.3
@@ -156,11 +157,20 @@ importers:
       '@acme/db': link:../db
       '@trpc/client': 10.5.0_@trpc+server@10.5.0
       '@trpc/server': 10.5.0
+      calculations: link:../calculations
       superjson: 1.12.0
       zod: 3.20.0
     devDependencies:
       eslint: 8.29.0
       typescript: 4.9.4
+
+  packages/calculations:
+    specifiers:
+      ramda: ^0.28.0
+      typescript: latest
+    dependencies:
+      ramda: 0.28.0
+      typescript: 5.0.2
 
   packages/config/tailwind:
     specifiers:
@@ -3063,25 +3073,6 @@ packages:
       use-sync-external-store: 1.2.0_react@18.1.0
     dev: false
 
-  /@tanstack/react-query/4.19.1_2so4eo66zr774rftk5qlya5ltu:
-    resolution: {integrity: sha512-5dvHvmc0vrWI03AJugzvKfirxCyCLe+qawrWFCXdu8t7dklIhJ7D5ZhgTypv7mMtIpdHPcECtCiT/+V74wCn2A==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-native: '*'
-    peerDependenciesMeta:
-      react-dom:
-        optional: true
-      react-native:
-        optional: true
-    dependencies:
-      '@tanstack/query-core': 4.19.1
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-native: 0.70.5_rnbco5eodjkfp6ucueusre3z4i_ildacul6tjko7jf3wnaev3ii3q
-      use-sync-external-store: 1.2.0_react@18.2.0
-    dev: false
-
   /@tanstack/react-query/4.19.1_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-5dvHvmc0vrWI03AJugzvKfirxCyCLe+qawrWFCXdu8t7dklIhJ7D5ZhgTypv7mMtIpdHPcECtCiT/+V74wCn2A==}
     peerDependencies:
@@ -3138,7 +3129,7 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@tanstack/react-query': 4.19.1_2so4eo66zr774rftk5qlya5ltu
+      '@tanstack/react-query': 4.19.1_biqbaboplfbrettd7655fr4n2y
       '@trpc/client': 10.5.0_@trpc+server@10.5.0
       '@trpc/server': 10.5.0
       react: 18.2.0
@@ -8560,6 +8551,10 @@ packages:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
 
+  /ramda/0.28.0:
+    resolution: {integrity: sha512-9QnLuG/kPVgWvMQ4aODhsBUFKOUmnbUnsSXACv+NCQZcHbeb+v8Lodp8OVxtRULN1/xOyYLLaL6npE6dMq5QTA==}
+    dev: false
+
   /range-parser/1.2.1:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
     engines: {node: '>= 0.6'}
@@ -8734,56 +8729,6 @@ packages:
     dev: false
     patched: true
 
-  /react-native/0.70.5_rnbco5eodjkfp6ucueusre3z4i_ildacul6tjko7jf3wnaev3ii3q:
-    resolution: {integrity: sha512-5NZM80LC3L+TIgQX/09yiyy48S73wMgpIgN5cCv3XTMR394+KpDI3rBZGH4aIgWWuwijz31YYVF5504+9n2Zfw==}
-    engines: {node: '>=14'}
-    hasBin: true
-    peerDependencies:
-      react: 18.1.0
-    dependencies:
-      '@jest/create-cache-key-function': 29.3.1
-      '@react-native-community/cli': 9.2.1_@babel+core@7.20.5
-      '@react-native-community/cli-platform-android': 9.2.1
-      '@react-native-community/cli-platform-ios': 9.2.1
-      '@react-native/assets': 1.0.0
-      '@react-native/normalize-color': 2.0.0
-      '@react-native/polyfills': 2.0.0
-      abort-controller: 3.0.0
-      anser: 1.4.10
-      base64-js: 1.5.1
-      event-target-shim: 5.0.1
-      invariant: 2.2.4
-      jsc-android: 250230.2.1
-      memoize-one: 5.2.1
-      metro-react-native-babel-transformer: 0.72.3_@babel+core@7.20.5
-      metro-runtime: 0.72.3
-      metro-source-map: 0.72.3
-      mkdirp: 0.5.6
-      nullthrows: 1.1.1
-      pretty-format: 26.6.2
-      promise: 8.3.0
-      react: 18.2.0
-      react-devtools-core: 4.24.0
-      react-native-codegen: 0.70.6_@babel+preset-env@7.20.2
-      react-native-gradle-plugin: 0.70.3
-      react-refresh: 0.4.3
-      react-shallow-renderer: 16.15.0_react@18.2.0
-      regenerator-runtime: 0.13.11
-      scheduler: 0.22.0
-      stacktrace-parser: 0.1.10
-      use-sync-external-store: 1.2.0_react@18.2.0
-      whatwg-fetch: 3.6.2
-      ws: 6.2.2
-    transitivePeerDependencies:
-      - '@babel/core'
-      - '@babel/preset-env'
-      - bufferutil
-      - encoding
-      - supports-color
-      - utf-8-validate
-    dev: false
-    patched: true
-
   /react-popper/2.3.0_r6q5zrenym2zg7je7hgi674bti:
     resolution: {integrity: sha512-e1hj8lL3uM+sgSR4Lxzn5h1GxBlpa4CQz0XLF8kx4MDrDRWY0Ena4c97PUeSX9i5W3UAfDP0z0FXCTQkoXUl3Q==}
     peerDependencies:
@@ -8810,16 +8755,6 @@ packages:
     dependencies:
       object-assign: 4.1.1
       react: 18.1.0
-      react-is: 18.2.0
-    dev: false
-
-  /react-shallow-renderer/16.15.0_react@18.2.0:
-    resolution: {integrity: sha512-oScf2FqQ9LFVQgA73vr86xl2NaOIX73rh+YFqcOp68CWj56tSfgtGKrEbyhCj0rSijyG9M1CYprTh39fBi5hzA==}
-    peerDependencies:
-      react: ^16.0.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      object-assign: 4.1.1
-      react: 18.2.0
       react-is: 18.2.0
     dev: false
 
@@ -10142,6 +10077,12 @@ packages:
   /typescript/4.9.5:
     resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
     engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
+
+  /typescript/5.0.2:
+    resolution: {integrity: sha512-wVORMBGO/FAs/++blGNeAVdbNKtIh1rbBL2EyQ1+J9lClJ93KiiKe8PmFIVdXhHcyv44SL9oglmfeSsndo0jRw==}
+    engines: {node: '>=12.20'}
     hasBin: true
     dev: false
 
