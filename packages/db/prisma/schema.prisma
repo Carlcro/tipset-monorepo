@@ -65,6 +65,7 @@ model BetSlip {
   bets                  Bet[]
   pointsFromGroup       PointsFromGroup[]
   pointsFromAdvancement PointsFromAdvancement[]
+  pointsFromGoalscorer  Int
   goalscorer            Player?                 @relation(fields: [goalscorerId], references: [id])
   goalscorerId          String?
   points                Int
@@ -86,7 +87,7 @@ model Bet {
   team1Id         String
   team2Id         String
   penaltyWinnerId String?
-  points          Int      @default(0)
+  points          Int?
   betSlip         BetSlip? @relation(fields: [betSlipId], references: [id])
   betSlipId       String?
 
@@ -98,11 +99,12 @@ model Bet {
 
 model AnswerSheet {
   id             String       @id @default(cuid())
-  results           Result[]
-  goalscorer     Player?      @relation(fields: [goalscorerId], references: [id])
+  results        Result[]
+  goalscorer     GoalScorer?  @relation(fields: [goalscorerId], references: [id])
   goalscorerId   String?
   championship   Championship @relation(fields: [championshipId], references: [id])
   championshipId String       @unique
+
 
   @@index([goalscorerId])
 }
@@ -133,7 +135,9 @@ model PointsFromGroup {
   group     String
   points    Int
   betSlip   BetSlip? @relation(fields: [betSlipId], references: [id])
-  betSlipId String?  @unique
+  betSlipId String?  
+
+  @@index([betSlipId])
 }
 
 model PointsFromAdvancement {
@@ -146,7 +150,7 @@ model PointsFromAdvancement {
 
 model PointsHistory {
   id          String   @id @default(cuid())
-  matchNumber Int
+  matchNumber Int      @unique
   points      Int
   betSlip     BetSlip? @relation(fields: [betSlipId], references: [id])
   betSlipId   String?  @unique
@@ -156,7 +160,17 @@ model Player {
   id          String        @id @default(cuid())
   name        String
   betSlip     BetSlip[]
-  answerSHeet AnswerSheet[]
+  GoalScorer  GoalScorer[]
+}
+
+model GoalScorer {
+  id          String        @id @default(cuid())
+  player      Player        @relation(fields: [playerId], references: [id])
+  goals       Int
+  playerId    String
+  AnswerSheet AnswerSheet[]
+
+  @@index([playerId])
 }
 
 model Championship {

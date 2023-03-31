@@ -23,10 +23,6 @@ import {
   calculateCorrectAdvanceTeam,
 } from "./points/World/pointCalculation";
 
-const hej = () => {
-  console.log("hejhejhej");
-};
-
 export {
   calculateGroupOf16,
   calculateFinal,
@@ -44,5 +40,4 @@ export {
   getMatchPoint,
   calculateCorrectAdvanceTeam,
   calculateSemiFinalsLosers,
-  hej,
 };

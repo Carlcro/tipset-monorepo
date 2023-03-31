@@ -19,12 +19,11 @@ import {
 } from "../common";
 import { calculateTeamRanking } from "../../matchGroup/World/calculations";
 import { MatchResult } from "../../types/matchResult";
-import { ObjectId } from "mongodb";
 
 export function calculatePoints(
   betGroupResults: GroupResult[],
   betMatchResults: MatchResult[],
-  betGoalScorer: ObjectId,
+  betGoalScorerId: string,
   adjustedPoints: number,
   outcomeGroupsResults: GroupResult[],
   outcomeMatchResults: MatchResult[],
@@ -58,7 +57,7 @@ export function calculatePoints(
   ).reduce((acc, x) => acc + x.points, 0);
 
   const goalScorerPoints = calculateGoalScorer(
-    betGoalScorer,
+    betGoalScorerId,
     outcomeGoalScorer,
   );
 
@@ -91,7 +90,7 @@ export const getMatchPoint = (
 };
 
 interface AdvancementPoints {
-  final: String;
+  final: string;
   points: number;
 }
 

@@ -7,10 +7,15 @@ import Link from "next/link";
 const Home: NextPage = () => {
   const betslip = trpc.betslip.createBetSlip.useMutation();
 
-  const test = trpc.answerSheet.updatePoints.useQuery();
+  const answerSheetUpdate = trpc.answerSheet.updatePoints.useMutation();
 
-  console.log(test.data);
-  const addUsertournament = () => {
+  const action = () => {
+    answerSheetUpdate.mutate({
+      calculateAllPoints: true,
+    });
+  };
+
+  const action2 = () => {
     betslip.mutate({
       bets: [
         {
@@ -46,7 +51,7 @@ const Home: NextPage = () => {
           </h1>
           <AuthShowcase />
 
-          <button onClick={addUsertournament}>Create!</button>
+          <button onClick={action}>Create!</button>
         </div>
       </main>
     </>

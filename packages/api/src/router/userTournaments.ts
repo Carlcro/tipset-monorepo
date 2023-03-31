@@ -12,7 +12,6 @@ export const userTournamentRouter = router({
           data: {
             name: input.name,
             ownerId: ctx.auth.userId,
-
             members: {
               connect: {
                 userId: ctx.auth.userId,

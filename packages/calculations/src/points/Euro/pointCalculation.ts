@@ -1,5 +1,4 @@
 import { GoalScorer } from "../../types/goalScorer";
-import { ObjectId } from "mongodb";
 import { GroupResult } from "../../results/groupResult";
 import {
   allGroupMatchesSet,
@@ -24,11 +23,11 @@ import { MatchResult } from "../../types/matchResult";
 export function calculatePoints(
   betGroupResults: GroupResult[],
   betMatchResults: MatchResult[],
-  betGoalScorer: ObjectId,
+  betGoalScorerId: string,
   adjustedPoints: number,
   outcomeGroupsResults: GroupResult[],
   outcomeMatchResults: MatchResult[],
-  outcomeGoalScorer: GoalScorer
+  outcomeGoalScorer: GoalScorer,
 ): number {
   const positionPoints = betGroupResults
     .map((groupResult, i): number => {
@@ -36,7 +35,7 @@ export function calculatePoints(
         groupResult,
         outcomeGroupsResults[i],
         betMatchResults,
-        outcomeMatchResults
+        outcomeMatchResults,
       );
     })
     .reduce((x, y) => x + y, 0);
@@ -48,7 +47,7 @@ export function calculatePoints(
       betGroupResults,
       outcomeGroupsResults,
       betMatchResults,
-      outcomeMatchResults
+      outcomeMatchResults,
     );
   }
 
@@ -65,12 +64,12 @@ export function calculatePoints(
 
   const correctAdvancedTeam = calculateCorrectAdvanceTeam(
     betMatchResults,
-    outcomeMatchResults
+    outcomeMatchResults,
   );
 
   const goalScorerPoints = calculateGoalScorer(
-    betGoalScorer,
-    outcomeGoalScorer
+    betGoalScorerId,
+    outcomeGoalScorer,
   );
 
   return (
@@ -87,15 +86,15 @@ export const calculateBestOfThirdPoints = (
   betGroupResults: GroupResult[],
   groupOutcomes: GroupResult[],
   betMatchResults: MatchResult[],
-  outcomeMatchResults: MatchResult[]
+  outcomeMatchResults: MatchResult[],
 ): number => {
   const betBestOfThirds = getBestOfThirds(betGroupResults, betMatchResults).map(
-    (r) => r._id
+    (r) => r.id,
   );
   const outcomeBestOfThirds = getBestOfThirds(
     groupOutcomes,
-    outcomeMatchResults
-  ).map((r) => r._id);
+    outcomeMatchResults,
+  ).map((r) => r.id);
 
   let points = 0;
   if (betBestOfThirds.length === outcomeBestOfThirds.length) {
@@ -110,7 +109,7 @@ export const calculateBestOfThirdPoints = (
 
 export const getMatchPoint = (
   outcomeResult: MatchResult,
-  matchResult: MatchResult
+  matchResult: MatchResult,
 ) => {
   if (outcomeResult.matchId <= 36) {
     return calculateGroupStageScorePoints(matchResult, outcomeResult);
@@ -127,26 +126,26 @@ export const getMatchPoint = (
 
 const calculateCorrectAdvanceTeam = (
   betMatchResults: MatchResult[],
-  outcomeMatchResults: MatchResult[]
+  outcomeMatchResults: MatchResult[],
 ): number => {
   return (
     calculateGroupOf16AdvancePoints(
       betMatchResults,
       outcomeMatchResults,
       45,
-      48
+      48,
     ) +
     calculateGroupOf8AdvancePoints(
       betMatchResults,
       outcomeMatchResults,
       49,
-      50
+      50,
     ) +
     calculateSemiFinalAdvancePoints(
       betMatchResults,
       outcomeMatchResults,
       51,
-      51
+      51,
     ) +
     calculateFinalAdvancePoints(betMatchResults, outcomeMatchResults, 51)
   );
@@ -156,15 +155,15 @@ export const calculatePointsFromGroup = (
   groupResult: GroupResult,
   groupOutcome: GroupResult,
   betMatchResults: MatchResult[],
-  outcomeMatchResults: MatchResult[]
+  outcomeMatchResults: MatchResult[],
 ): number => {
   const betTeamRanking = calculateTeamRanking(
     groupResult.results,
-    betMatchResults
+    betMatchResults,
   );
   const outcomeTeamRanking = calculateTeamRanking(
     groupOutcome.results,
-    outcomeMatchResults
+    outcomeMatchResults,
   );
 
   if (isGroupFinished(groupOutcome)) {

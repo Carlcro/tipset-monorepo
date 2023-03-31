@@ -10,7 +10,7 @@ import { Team } from "../types/team";
 export function getScores(
   matchResults: RawMatchResult[],
   fromId: number,
-  toId: number
+  toId: number,
 ): MatchResult[] {
   return matchResults
     .filter(matchIdRange(fromId, toId))
@@ -20,13 +20,13 @@ export function getScores(
 
 function matchIdRange(
   fromId: number,
-  toId: number
+  toId: number,
 ): (score: RawMatchResult) => boolean {
   return (score) => score.matchId >= fromId && score.matchId <= toId;
 }
 
 function bothScoresAreSet(): (score: RawMatchResult) => boolean {
-  return (score) => score.team1Score !== "" && score.team2Score !== "";
+  return (score) => score.team1Score !== null && score.team2Score !== null;
 }
 
 function parseScores(): (score: RawMatchResult) => MatchResult {
@@ -35,15 +35,15 @@ function parseScores(): (score: RawMatchResult) => MatchResult {
       matchId: score.matchId,
       team1: { ...score.team1, name: score.team1.name },
       team2: { ...score.team2, name: score.team2.name },
-      team1Score: Number.parseInt(score.team1Score),
-      team2Score: Number.parseInt(score.team2Score),
+      team1Score: score.team1Score || 0,
+      team2Score: score.team2Score || 0,
       penaltyWinner: score.penaltyWinner,
     };
   };
 }
 
 export function getGroupScores(
-  scores: MatchResult[]
+  scores: MatchResult[],
 ): (mg: MatchGroup) => MatchGroupScores {
   return (mg) => {
     return { scores: getExistingScores(mg, scores), matchGroup: mg };
@@ -52,7 +52,7 @@ export function getGroupScores(
 
 function getExistingScores(
   mg: MatchGroup,
-  scores: MatchResult[]
+  scores: MatchResult[],
 ): MatchResult[] {
   return mg.matches
     .map(findMatchScore(scores))
@@ -60,7 +60,7 @@ function getExistingScores(
 }
 
 function findMatchScore(
-  scores: MatchResult[]
+  scores: MatchResult[],
 ): (match: Match) => MatchResult | undefined {
   return (match) => scores.find((s) => s.matchId === match.matchId);
 }
@@ -81,7 +81,7 @@ export function getGroupResults(): (group: MatchGroupScores) => GroupResult {
 export function calculateWinners(
   results: RawMatchResult[],
   fromId: number,
-  toId: number
+  toId: number,
 ): Team[] {
   const scores = getScores(results, fromId, toId);
   return scores.map(getWinningTeam()).filter((t) => t !== undefined);
@@ -90,7 +90,7 @@ export function calculateWinners(
 export function calculateLosers(
   results: RawMatchResult[],
   fromId: number,
-  toId: number
+  toId: number,
 ): Team[] {
   const scores = getScores(results, fromId, toId);
   return scores.map(getLosingTeam()).filter((t) => t !== undefined);
@@ -103,7 +103,7 @@ function getLosingTeam(): (score: MatchResult) => Team {
     } else if (score.team1Score < score.team2Score) {
       return score.team1;
     } else {
-      return score.penaltyWinner?._id === score.team1._id
+      return score.penaltyWinner?.id === score.team1.id
         ? score.team2
         : score.team1;
     }

@@ -1,6 +1,4 @@
-import { ObjectId } from "mongodb";
-
 export interface GoalScorer {
-  player: ObjectId;
+  playerId: string;
   goals: number;
 }

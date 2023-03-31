@@ -6,5 +6,5 @@ export interface MatchResult {
   team2: Team;
   team1Score: number;
   team2Score: number;
-  penaltyWinner?: Team;
+  penaltyWinner?: Team | null;
 }
