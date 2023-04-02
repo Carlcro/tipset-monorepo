@@ -3,22 +3,32 @@ import { Dialog, Transition } from "@headlessui/react";
 
 import { useRouter } from "next/router";
 import Container from "../Container";
-import { kickMember } from "../../services/userTournamentService";
-import { useQueryClient } from "react-query";
+
+import { trpc } from "../../utils/trpc";
+
+type Props = {
+  memberId: string;
+  memberName: string;
+  isOpen: boolean;
+  setIsOpen: (arg: boolean) => void;
+};
 
 export default function KickMemberDialog({
   isOpen,
   setIsOpen,
-  memberEmail,
+  memberId,
   memberName,
-}) {
+}: Props) {
   const router = useRouter();
-  const { id } = router.query;
-  const queryClient = useQueryClient();
+  const id = router.query.id as string;
+
+  const { mutate } = trpc.userTournament.kickMember.useMutation();
 
   const handleKickMember = async () => {
-    await kickMember({ id, email: memberEmail });
-    queryClient.invalidateQueries(["highscoreData", id]);
+    await mutate({
+      userTournamentId: id,
+      userIdToKick: memberId,
+    });
 
     setIsOpen(false);
   };
@@ -34,26 +44,26 @@ export default function KickMemberDialog({
       leaveTo="transform scale-95 opacity-0"
     >
       <Dialog
-        className="fixed z-10 inset-0 overflow-y-auto"
+        className="fixed inset-0 z-10 overflow-y-auto"
         static
         open={true}
         onClose={() => setIsOpen(false)}
       >
-        <div className="flex items-center justify-center min-h-screen">
-          <Dialog.Overlay className="fixed inset-0 bg-black opacity-20" />
+        <div className="flex min-h-screen items-center justify-center">
+          <Dialog.Overlay className="bg-black fixed inset-0 opacity-20" />
           <Container classNames="z-10 border border-black max-w-sm mx-auto">
             <Dialog.Description>
               {`Är du säker på att du vill ta bort ${memberName}`}
             </Dialog.Description>
-            <div className="flex justify-between mt-3">
+            <div className="mt-3 flex justify-between">
               <button
-                className="bg-auroraRed text-snowStorm3 border-polarNight py-1 px-2 rounded-sm border border-black"
+                className="border-black rounded-sm border border-polarNight bg-auroraRed py-1 px-2 text-snowStorm3"
                 onClick={handleKickMember}
               >
                 {`Ta bort`}
               </button>
               <button
-                className="px-2 py-1 border rounded"
+                className="rounded border px-2 py-1"
                 onClick={() => setIsOpen(false)}
               >
                 Avbryt

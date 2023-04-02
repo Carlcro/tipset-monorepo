@@ -44,13 +44,13 @@ export const userTournamentRouter = router({
     });
   }),
   getUserTournament: protectedProcedure
-    .input(z.string())
+    .input(z.object({ userTournamentId: z.string() }))
     .query(async ({ ctx, input }) => {
       try {
         const userTournament =
           await ctx.prisma.userTournament.findUniqueOrThrow({
             where: {
-              id: input,
+              id: input.userTournamentId,
             },
             include: {
               members: true,
@@ -60,9 +60,10 @@ export const userTournamentRouter = router({
         const isMember = userTournament.members.some(
           (member) => member.userId === ctx.auth.userId,
         );
+        const isOwner = userTournament.ownerId === ctx.auth.userId;
 
         if (isMember) {
-          return userTournament;
+          return { userTournament, isOwner };
         } else {
           throw new TRPCError({
             code: "FORBIDDEN",
@@ -76,6 +77,24 @@ export const userTournamentRouter = router({
           cause: error,
         });
       }
+    }),
+  leaveUserTournament: protectedProcedure
+    .input(
+      z.object({
+        userTournamentId: z.string(),
+      }),
+    )
+    .mutation(({ ctx, input }) => {
+      // Todo
+    }),
+  deleteUserTournament: protectedProcedure
+    .input(
+      z.object({
+        userTournamentId: z.string(),
+      }),
+    )
+    .mutation(({ ctx, input }) => {
+      // Todo
     }),
   addMember: protectedProcedure
     .input(
@@ -100,5 +119,88 @@ export const userTournamentRouter = router({
           members: true,
         },
       });
+    }),
+  kickMember: protectedProcedure
+    .input(
+      z.object({
+        userTournamentId: z.string(),
+        userIdToKick: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userTournament = await ctx.prisma.userTournament.findFirstOrThrow({
+        where: {
+          id: input.userTournamentId,
+        },
+        select: {
+          ownerId: true,
+        },
+      });
+
+      if (userTournament.ownerId !== ctx.auth.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You are not authorized",
+        });
+      }
+
+      if (input.userIdToKick === ctx.auth.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You cannot kick yourself",
+        });
+      }
+
+      const updatedUserTournament = await ctx.prisma.userTournament.update({
+        where: {
+          id: input.userTournamentId,
+        },
+        data: {
+          members: {
+            disconnect: {
+              userId: input.userIdToKick,
+            },
+          },
+        },
+      });
+
+      return updatedUserTournament;
+    }),
+  getHighscore: protectedProcedure
+    .input(
+      z.object({
+        userTournamentId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const userTournament = await ctx.prisma.userTournament.findUniqueOrThrow({
+        where: {
+          id: input.userTournamentId,
+        },
+        include: {
+          members: true,
+        },
+      });
+
+      const betSlips = await ctx.prisma.betSlip.findMany({
+        where: {
+          userId: { in: userTournament.members.map((user) => user.userId) },
+        },
+        include: {
+          user: true,
+        },
+      });
+
+      return {
+        isOwner: userTournament.ownerId === ctx.auth.userId,
+        name: userTournament.name,
+        highScoreData: betSlips.map((betSlip) => ({
+          id: betSlip.id,
+          points: betSlip.points,
+          fullName: betSlip.user.fullName,
+          email: betSlip.user.email,
+          difference: 0,
+        })),
+      };
     }),
 });

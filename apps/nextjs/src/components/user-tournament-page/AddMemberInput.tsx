@@ -1,19 +1,20 @@
 import { trpc } from "../../../../expo/src/utils/trpc";
 import { SyntheticEvent, useState } from "react";
 import SubmitButton from "../SubmitButton";
+import { useRouter } from "next/router";
 
-type Props = {
-  userTournamentId: string;
-};
+const AddMemberInput = () => {
+  const router = useRouter();
 
-const AddMemberInput = ({ userTournamentId }: Props) => {
+  const id = router.query.id as string;
+
   const [memberInput, setMemberInput] = useState("");
 
   const { mutate } = trpc.userTournament.addMember.useMutation();
 
   const handleAddMember = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
-    mutate({ email: memberInput, userTournamentId });
+    mutate({ email: memberInput, userTournamentId: id });
     setMemberInput("");
   };
 

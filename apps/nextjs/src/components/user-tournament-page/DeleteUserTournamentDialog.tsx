@@ -1,18 +1,21 @@
 import React from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import {
-  deleteUserTournament,
-  leaveUserTournament,
-} from "../../services/userTournamentService";
+
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import Container from "../Container";
+
+type Props = {
+  isOpen: boolean;
+  setIsOpen: (arg: boolean) => void;
+  isOwner: boolean;
+};
 
 export default function DeleteUserTournamentDialog({
   isOpen,
   setIsOpen,
   isOwner,
-}) {
+}: Props) {
   const router = useRouter();
   const { id } = router.query;
   const exitUserTournament = async () => {
@@ -40,22 +43,22 @@ export default function DeleteUserTournamentDialog({
       leaveTo="transform scale-95 opacity-0"
     >
       <Dialog
-        className="fixed z-10 inset-0 overflow-y-auto"
+        className="fixed inset-0 z-10 overflow-y-auto"
         static
         open={true}
         onClose={() => setIsOpen(false)}
       >
-        <div className="flex items-center justify-center min-h-screen">
-          <Dialog.Overlay className="fixed inset-0 bg-black opacity-20" />
+        <div className="flex min-h-screen items-center justify-center">
+          <Dialog.Overlay className="bg-black fixed inset-0 opacity-20" />
           <Container classNames="z-10 border border-black max-w-sm mx-auto">
             <Dialog.Description>
               {`Är du säker på att du vill ${
                 isOwner ? "radera gruppen?" : "lämna gruppen?"
               }`}
             </Dialog.Description>
-            <div className="flex justify-between mt-3">
+            <div className="mt-3 flex justify-between">
               <button
-                className="bg-auroraRed text-snowStorm3 border-polarNight py-1 px-2 rounded-sm border border-black"
+                className="border-black rounded-sm border border-polarNight bg-auroraRed py-1 px-2 text-snowStorm3"
                 onClick={() =>
                   isOwner ? removeUserTournament() : exitUserTournament()
                 }
@@ -63,7 +66,7 @@ export default function DeleteUserTournamentDialog({
                 {`${isOwner ? "Radera" : "Lämna"}`}
               </button>
               <button
-                className="px-2 py-1 border rounded"
+                className="rounded border px-2 py-1"
                 onClick={() => setIsOpen(false)}
               >
                 Avbryt

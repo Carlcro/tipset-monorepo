@@ -1,6 +1,14 @@
 import * as React from "react";
 
-const DiffIndicator = ({ fill, height, width }) => (
+const DiffIndicator = ({
+  fill = "full",
+  height,
+  width,
+}: {
+  fill?: string;
+  height: number;
+  width: number;
+}) => (
   <svg
     width={width}
     height={height}

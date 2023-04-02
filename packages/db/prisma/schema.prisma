@@ -20,6 +20,7 @@ model User {
   userId           String           @unique
   UserTournament   UserTournament[]
   userTournamentId String?
+  BetSlip          BetSlip[]
 
   @@index([userTournamentId])
 }
@@ -30,14 +31,6 @@ model UserTournament {
   ownerId   String
   members   User[]
   createdAt DateTime @default(now())
-}
-
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
 }
 
 model Team {
@@ -62,6 +55,7 @@ model Team {
 model BetSlip {
   id                    String                  @id @default(cuid())
   userId                String                  @unique
+  user                  User                    @relation(fields: [userId], references: [id])
   bets                  Bet[]
   pointsFromGroup       PointsFromGroup[]
   pointsFromAdvancement PointsFromAdvancement[]
@@ -105,7 +99,6 @@ model AnswerSheet {
   championship   Championship @relation(fields: [championshipId], references: [id])
   championshipId String       @unique
 
-
   @@index([goalscorerId])
 }
 
@@ -135,7 +128,7 @@ model PointsFromGroup {
   group     String
   points    Int
   betSlip   BetSlip? @relation(fields: [betSlipId], references: [id])
-  betSlipId String?  
+  betSlipId String?
 
   @@index([betSlipId])
 }
@@ -157,10 +150,10 @@ model PointsHistory {
 }
 
 model Player {
-  id          String        @id @default(cuid())
-  name        String
-  betSlip     BetSlip[]
-  GoalScorer  GoalScorer[]
+  id         String       @id @default(cuid())
+  name       String
+  betSlip    BetSlip[]
+  GoalScorer GoalScorer[]
 }
 
 model GoalScorer {

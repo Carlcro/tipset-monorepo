@@ -1,14 +1,26 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
-import DiffIndicator from "../../components/DiffIndicator";
+import DiffIndicator from "../DiffIndicator";
 import Container from "../Container";
+import { trpc } from "../../utils/trpc";
+import { useRouter } from "next/router";
 
-const HighScoreTable = ({
-  highscoreData,
-  name,
-  isOwner = false,
-  handleKick,
-}) => {
+type Props = {
+  showKickDialog: (id: string, fullName: string) => void;
+};
+
+const HighScoreTable = ({ showKickDialog }: Props) => {
+  const router = useRouter();
+
+  const id = router.query.id as string;
+
+  const { data } = trpc.userTournament.getHighscore.useQuery({
+    userTournamentId: id,
+  });
+
+  if (data === undefined) {
+    return <div></div>;
+  }
   return (
     <motion.div
       initial={{ opacity: 0, y: -10 }}
@@ -16,13 +28,13 @@ const HighScoreTable = ({
       transition={{ duration: 0.4 }}
     >
       <Container classNames="sm:w-[400px]">
-        <h2 className="font-semibold text-xl text-center">
-          {name ? name : "Topplistan"}
+        <h2 className="text-center text-xl font-semibold">
+          {data.name ? data.name : "Topplistan"}
         </h2>
         <table className="mx-1 w-full">
           <thead>
             <tr>
-              {isOwner && <th />}
+              {data.isOwner && <th />}
               <th>Rank</th>
               <th className="text-center md:text-left">Namn</th>
               <th>Poäng</th>
@@ -30,57 +42,59 @@ const HighScoreTable = ({
             </tr>
           </thead>
           <tbody>
-            {highscoreData.map((score, index) => (
+            {data.highScoreData.map((betslip, index) => (
               <tr
                 className={
                   index % 2 === 0
-                    ? "bg-gray-100 border-b-2 border-polarNight"
+                    ? "border-b-2 border-polarNight bg-gray-100"
                     : "border-b-2 border-polarNight"
                 }
-                key={score.id}
+                key={betslip.id}
               >
-                {isOwner && (
+                {data.isOwner && (
                   <td
                     className="cursor-pointer text-sm"
-                    onClick={() => handleKick(score.email, score.fullName)}
+                    onClick={() =>
+                      showKickDialog(betslip.email, betslip.fullName)
+                    }
                   >
                     ❌
                   </td>
                 )}
                 <td className="text-center">{index + 1}</td>
                 <td className="text-center md:text-left">
-                  <Link href={`/placed-bets/${score.id}`}>
-                    <a>{score.fullName}</a>
+                  <Link href={`/placed-bets/${betslip.id}`}>
+                    {betslip.fullName}
                   </Link>
                 </td>
-                <td className="text-center">{score.points || "-"}</td>
+                <td className="text-center">{betslip.points || "-"}</td>
                 <td className="text-center">
                   {false ? (
-                    <div className="justify-around my-2 absolute">
+                    <div className="absolute my-2 justify-around">
                       <span
                         className={
-                          score.difference < 0
+                          betslip.difference < 0
                             ? "relative left-4 top-[-23px] text-xs"
                             : "relative left-4 top-[-17px] text-xs"
                         }
                       >
-                        {Math.abs(score.difference)}
+                        {Math.abs(betslip.difference)}
                       </span>
                       <div
                         className={
-                          score.difference < 0
+                          betslip.difference < 0
                             ? "relative left-[14px] top-[-34px]"
                             : "relative left-[18.5px] top-[-48px]"
                         }
                       >
                         <div
                           className={
-                            score.difference < 0
+                            betslip.difference < 0
                               ? "rotate-180 fill-red-600"
                               : "fill-green-600"
                           }
                         >
-                          <DiffIndicator hight={20} width={20} />
+                          <DiffIndicator height={20} width={20} />
                         </div>
                       </div>
                     </div>
