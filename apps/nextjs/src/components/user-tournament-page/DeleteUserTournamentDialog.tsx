@@ -4,6 +4,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import Container from "../Container";
+import { trpc } from "../../utils/trpc";
 
 type Props = {
   isOpen: boolean;
@@ -17,18 +18,25 @@ export default function DeleteUserTournamentDialog({
   isOwner,
 }: Props) {
   const router = useRouter();
-  const { id } = router.query;
+  const id = router.query.id as string;
+
+  const { mutate: leaveUserTournament } =
+    trpc.userTournament.leaveUserTournament.useMutation();
+  const { mutate: deleteUserTournament } =
+    trpc.userTournament.deleteUserTournament.useMutation();
+
   const exitUserTournament = async () => {
     try {
-      await leaveUserTournament(id);
+      leaveUserTournament({ userTournamentId: id });
       router.push("/");
     } catch (error) {
-      toast.error(error.response?.data);
+      // todo
+      // toast.error(error.response?.data);
     }
   };
 
   const removeUserTournament = async () => {
-    await deleteUserTournament(id);
+    deleteUserTournament({ userTournamentId: id });
     router.push("/");
   };
 

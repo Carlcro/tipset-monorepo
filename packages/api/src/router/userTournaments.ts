@@ -84,8 +84,31 @@ export const userTournamentRouter = router({
         userTournamentId: z.string(),
       }),
     )
-    .mutation(({ ctx, input }) => {
-      // Todo
+    .mutation(async ({ ctx, input }) => {
+      const userTournament = await ctx.prisma.userTournament.findUniqueOrThrow({
+        where: {
+          id: input.userTournamentId,
+        },
+      });
+
+      if (userTournament.ownerId === ctx.auth.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You cannot leave when you are the owner",
+        });
+      }
+      await ctx.prisma.userTournament.update({
+        where: {
+          id: input.userTournamentId,
+        },
+        data: {
+          members: {
+            disconnect: { userId: ctx.auth.userId },
+          },
+        },
+      });
+
+      return true;
     }),
   deleteUserTournament: protectedProcedure
     .input(
@@ -93,8 +116,26 @@ export const userTournamentRouter = router({
         userTournamentId: z.string(),
       }),
     )
-    .mutation(({ ctx, input }) => {
-      // Todo
+    .mutation(async ({ ctx, input }) => {
+      const userTournament = await ctx.prisma.userTournament.findUniqueOrThrow({
+        where: {
+          id: input.userTournamentId,
+        },
+      });
+
+      if (userTournament.ownerId !== ctx.auth.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You cannot delete if you are not the owner",
+        });
+      }
+
+      await ctx.prisma.userTournament.delete({
+        where: {
+          id: input.userTournamentId,
+        },
+      });
+      return true;
     }),
   addMember: protectedProcedure
     .input(

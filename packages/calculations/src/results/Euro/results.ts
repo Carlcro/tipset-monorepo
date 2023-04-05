@@ -11,7 +11,7 @@ import { GroupResult } from "../groupResult";
 
 export function calculateGroupResults(
   results: RawMatchResult[],
-  matchGroups: MatchGroup[]
+  matchGroups: MatchGroup[],
 ): GroupResult[] {
   const scores = getScores(results, 1, 36);
   const groupScores = matchGroups.map(getGroupScores(scores));

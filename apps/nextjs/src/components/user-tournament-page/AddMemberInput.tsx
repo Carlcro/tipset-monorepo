@@ -1,7 +1,7 @@
-import { trpc } from "../../../../expo/src/utils/trpc";
 import { SyntheticEvent, useState } from "react";
 import SubmitButton from "../SubmitButton";
 import { useRouter } from "next/router";
+import { trpc } from "../../utils/trpc";
 
 const AddMemberInput = () => {
   const router = useRouter();

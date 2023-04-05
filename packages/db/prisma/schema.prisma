@@ -20,7 +20,7 @@ model User {
   userId           String           @unique
   UserTournament   UserTournament[]
   userTournamentId String?
-  BetSlip          BetSlip[]
+  betSlip          BetSlip?
 
   @@index([userTournamentId])
 }
@@ -209,7 +209,15 @@ model MatchInfo {
   city           String
   matchId        Int
   matchGroup     MatchGroup    @relation(fields: [matchGroupId], references: [id])
-  matchGroupId   String        @unique
+  matchGroupId   String        
   Championship   Championship? @relation(fields: [championshipId], references: [id])
-  championshipId String?       @unique
+  championshipId String?       
+
+  @@index([matchGroupId])
+  @@index([championshipId])
+}
+
+model Config {
+  id             String  @id @default(cuid())
+  bettingAllowed Boolean
 }

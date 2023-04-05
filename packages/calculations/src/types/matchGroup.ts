@@ -1,8 +1,8 @@
-import {Team} from "./team";
-import {Match} from "./match";
+import { Team } from "./team";
+import { Match } from "./match";
 
 export interface MatchGroup {
-  name: string,
-  teams: Team[],
-  matches: Match[]
+  name: string;
+  teams: Team[];
+  matches: Match[];
 }

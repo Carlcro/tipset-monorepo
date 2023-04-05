@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { router, protectedProcedure } from "../trpc";
 
-export const teamRouter = router({
+export const playerRouter = router({
   savePlayer: protectedProcedure
     .input(z.object({ name: z.string() }))
     .mutation(({ ctx, input }) => {

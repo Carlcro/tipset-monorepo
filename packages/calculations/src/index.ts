@@ -4,6 +4,7 @@ import {
   calculateGroupOf8,
   calculateSemiFinals,
   calculateTeamRanking,
+  calculateThirdPlaceMatch,
 } from "./matchGroup/World/calculations";
 import {
   getBestOfThirds,
@@ -40,4 +41,5 @@ export {
   getMatchPoint,
   calculateCorrectAdvanceTeam,
   calculateSemiFinalsLosers,
+  calculateThirdPlaceMatch,
 };

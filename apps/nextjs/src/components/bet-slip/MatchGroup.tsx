@@ -10,13 +10,7 @@ const LabelMap = {
   Final: "Poäng rätt världsmästare",
 };
 
-function MatchGroup({
-  group,
-  matchInfos,
-  mode,
-  matchStatistics,
-  showStatistics,
-}) {
+function MatchGroup({ group, matchInfos, mode }) {
   // För många "?"" i den här filen. Kan snyggas till
 
   const points = useRecoilValue(getPointsFromAdvancement(group.name));
@@ -40,18 +34,15 @@ function MatchGroup({
     >
       <Container classNames="lg:w-ful my-2">
         <div className="flex justify-between">
-          <h2 className="font-semibold text-xl pl-2 pb-1">{`${
+          <h2 className="pl-2 pb-1 text-xl font-semibold">{`${
             group.finalsStage ? "" : "Grupp"
           } ${group.name}`}</h2>
         </div>
         {matchInfosForGroup.map((matchInfo) => {
           const match = group.matches.find(
-            (match) => matchInfo.matchId === match.matchId
+            (match) => matchInfo.matchId === match.matchId,
           );
 
-          const stats = matchStatistics?.find(
-            (x) => x.matchId === match.matchId
-          );
           return (
             <Match
               key={match.team1.name + match.team2.name}
@@ -59,13 +50,11 @@ function MatchGroup({
               matchInfo={matchInfo}
               finalsStage={group.finalsStage}
               mode={mode}
-              matchStatistic={stats}
-              showStatistics={showStatistics}
             />
           );
         })}
         {points !== null && mode === "placedBet" && (
-          <div className="flex border-t justify-end border-black pt-1 pr-1 ">
+          <div className="border-black flex justify-end border-t pt-1 pr-1 ">
             {points > 0
               ? `${LabelMap[group.name] || "Poäng rätt lag vidare"}: ${points}`
               : ""}

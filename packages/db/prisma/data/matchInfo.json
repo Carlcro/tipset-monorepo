@@ -1,0 +1,629 @@
+[
+  {
+    "date": "11-20-2022",
+    "time": "19:00",
+    "arena": "Al Bayt Stadium",
+    "city": "Al Khor",
+    "team1": "Qatar",
+    "team2": "Ecuador",
+    "matchGroupId": "A",
+    "matchId": 1
+  },
+  {
+    "date": "11-21-2022",
+    "time": "19:00",
+    "arena": "Al Thumama Stadium",
+    "city": "Doha",
+    "team1": "Senegal",
+    "team2": "Nederländerna",
+    "matchGroupId": "A",
+    "matchId": 6
+  },
+  {
+    "date": "11-25-2022",
+    "time": "16:00",
+    "arena": "Al Thumama Stadium",
+    "city": "Doha",
+    "team1": "Qatar",
+    "team2": "Senegal",
+    "matchGroupId": "A",
+    "matchId": 2
+  },
+  {
+    "date": "11-25-2022",
+    "time": "19:00",
+    "arena": "Khalifa International Stadium",
+    "city": "Al Rayyan",
+    "team1": "Ecuador",
+    "team2": "Nederländerna",
+    "matchGroupId": "A",
+    "matchId": 5
+  },
+  {
+    "date": "11-29-2022",
+    "time": "18:00",
+    "arena": "Khalifa International Stadium",
+    "city": "Al Rayyan",
+    "team1": "Ecuador",
+    "team2": "Senegal",
+    "matchGroupId": "A",
+    "matchId": 4
+  },
+  {
+    "date": "11-29-2022",
+    "time": "18:00",
+    "arena": "Al Bayt Stadium",
+    "city": "Al Khor",
+    "team1": "Nederländerna",
+    "team2": "Qatar",
+    "matchGroupId": "A",
+    "matchId": 3
+  },
+  {
+    "date": "11-21-2022",
+    "time": "16:00",
+    "arena": "Khalifa International Stadium",
+    "city": "Al Rayyan",
+    "team1": "England",
+    "team2": "Iran",
+    "matchGroupId": "B",
+    "matchId": 7
+  },
+  {
+    "date": "11-21-2022",
+    "time": "22:00",
+    "arena": "Ahmad bin Ali Stadium",
+    "city": "Al Rayyan",
+    "team1": "USA",
+    "team2": "Wales",
+    "matchGroupId": "B",
+    "matchId": 12
+  },
+  {
+    "date": "11-25-2022",
+    "time": "13:00",
+    "arena": "Ahmad bin Ali Stadium",
+    "city": "Al Rayyan",
+    "team1": "Wales",
+    "team2": "Iran",
+    "matchGroupId": "B",
+    "matchId": 11
+  },
+  {
+    "date": "11-25-2022",
+    "time": "22:00",
+    "arena": "Al Bayt Stadium",
+    "city": "Al Khor",
+    "team1": "England",
+    "team2": "USA",
+    "matchGroupId": "B",
+    "matchId": 8
+  },
+  {
+    "date": "11-29-2022",
+    "time": "22:00",
+    "arena": "Ahmad bin Ali Stadium",
+    "city": "Al Rayyan",
+    "team1": "Wales",
+    "team2": "England",
+    "matchGroupId": "B",
+    "matchId": 10
+  },
+  {
+    "date": "11-29-2022",
+    "time": "22:00",
+    "arena": "Al Thumama Stadium",
+    "city": "Doha",
+    "team1": "Iran",
+    "team2": "USA",
+    "matchGroupId": "B",
+    "matchId": 9
+  },
+  {
+    "date": "11-22-2022",
+    "time": "19:00",
+    "arena": "Stadium 974",
+    "city": "Doha",
+    "team1": "Argentina",
+    "team2": "Saudiarabien",
+    "matchGroupId": "C",
+    "matchId": 18
+  },
+  {
+    "date": "11-22-2022",
+    "time": "13:00",
+    "arena": "Lusail Iconic Stadium",
+    "city": "Lusail",
+    "team1": "Mexico",
+    "team2": "Poland",
+    "matchGroupId": "C",
+    "matchId": 13
+  },
+  {
+    "date": "11-26-2022",
+    "time": "16:00",
+    "arena": "Education City Stadium",
+    "city": "Al Rayyan",
+    "team1": "Poland",
+    "team2": "Saudiarabien",
+    "matchGroupId": "C",
+    "matchId": 17
+  },
+  {
+    "date": "11-26-2022",
+    "time": "22:00",
+    "arena": "Lusail Iconic Stadium",
+    "city": "Lusail",
+    "team1": "Argentina",
+    "team2": "Mexiko",
+    "matchGroupId": "C",
+    "matchId": 14
+  },
+  {
+    "date": "11-30-2022",
+    "time": "22:00",
+    "arena": "Lusail Iconic Stadium",
+    "city": "Lusail",
+    "team1": "Poland",
+    "team2": "Argentina",
+    "matchGroupId": "C",
+    "matchId": 16
+  },
+  {
+    "date": "11-30-2022",
+    "time": "22:00",
+    "arena": "Stadium 974",
+    "city": "Doha",
+    "team1": "Saudiarabien",
+    "team2": "Mexiko",
+    "matchGroupId": "C",
+    "matchId": 15
+  },
+  {
+    "date": "11-22-2022",
+    "time": "22:00",
+    "arena": "Al Janoub Stadium",
+    "city": "Al Wakrah",
+    "team1": "Frankrike",
+    "team2": "Australien",
+    "matchGroupId": "D",
+    "matchId": 19
+  },
+  {
+    "date": "11-22-2022",
+    "time": "16:00",
+    "arena": "Education City Stadium",
+    "city": "Al Rayyan",
+    "team1": "Danmark",
+    "team2": "Tunisien",
+    "matchGroupId": "D",
+    "matchId": 24
+  },
+  {
+    "date": "11-26-2022",
+    "time": "13:00",
+    "arena": "Al Janoub Stadium",
+    "city": "Al Wakrah",
+    "team1": "Tunisien",
+    "team2": "Australien",
+    "matchGroupId": "D",
+    "matchId": 23
+  },
+  {
+    "date": "11-26-2022",
+    "time": "19:00",
+    "arena": "Stadium 974",
+    "city": "Doha",
+    "team1": "Frankrike",
+    "team2": "Danmark",
+    "matchGroupId": "D",
+    "matchId": 20
+  },
+  {
+    "date": "11-30-2022",
+    "time": "18:00",
+    "arena": "Al Janoub Stadium",
+    "city": "Al Wakrah",
+    "team1": "Australien",
+    "team2": "Danmark",
+    "matchGroupId": "D",
+    "matchId": 22
+  },
+  {
+    "date": "11-30-2022",
+    "time": "18:00",
+    "arena": "Education City Stadium",
+    "city": "Al Rayyan",
+    "team1": "Kroatien",
+    "team2": "Skottland",
+    "matchGroupId": "D",
+    "matchId": 21
+  },
+  {
+    "date": "11-23-2022",
+    "time": "16:00",
+    "arena": "Khalifa International Stadium",
+    "city": "Al Rayyan",
+    "team1": "Polen",
+    "team2": "Slovakien",
+    "matchGroupId": "E",
+    "matchId": 30
+  },
+  {
+    "date": "11-23-2022",
+    "time": "19:00",
+    "arena": "Al Thumama Stadium",
+    "city": "Doha",
+    "team1": "Spanien",
+    "team2": "Sverige",
+    "matchGroupId": "E",
+    "matchId": 25
+  },
+  {
+    "date": "11-27-2022",
+    "time": "13:00",
+    "arena": "Ahmad bin Ali Stadium",
+    "city": "Al Rayyan",
+    "team1": "Sverige",
+    "team2": "Slovakien",
+    "matchGroupId": "E",
+    "matchId": 29
+  },
+  {
+    "date": "11-27-2022",
+    "time": "22:00",
+    "arena": "Al Bayt Stadium",
+    "city": "Al Khor",
+    "team1": "Spanien",
+    "team2": "Polen",
+    "matchGroupId": "E",
+    "matchId": 26
+  },
+  {
+    "date": "12-01-2022",
+    "time": "22:00",
+    "arena": "Khalifa International Stadium",
+    "city": "Al Rayyan",
+    "team1": "Sverige",
+    "team2": "Polen",
+    "matchGroupId": "E",
+    "matchId": 27
+  },
+  {
+    "date": "12-01-2022",
+    "time": "22:00",
+    "arena": "Al Bayt Stadium",
+    "city": "Al Khor",
+    "team1": "Slovakien",
+    "team2": "Spanien",
+    "matchGroupId": "E",
+    "matchId": 28
+  },
+  {
+    "date": "11-23-2022",
+    "time": "13:00",
+    "arena": "Al Bayt Stadium",
+    "city": "Al Khor",
+    "team1": "Ungern",
+    "team2": "Portugal",
+    "matchGroupId": "F",
+    "matchId": 36
+  },
+  {
+    "date": "11-23-2022",
+    "time": "22:00",
+    "arena": "Ahmad bin Ali Stadium",
+    "city": "Al Rayyan",
+    "team1": "Frankrike",
+    "team2": "Tyskland",
+    "matchGroupId": "F",
+    "matchId": 31
+  },
+  {
+    "date": "11-27-2022",
+    "time": "16:00",
+    "arena": "Al Thumama Stadium",
+    "city": "Doha",
+    "team1": "Ungern",
+    "team2": "Frankrike",
+    "matchGroupId": "F",
+    "matchId": 32
+  },
+  {
+    "date": "11-27-2022",
+    "time": "19:00",
+    "arena": "Khalifa International Stadium",
+    "city": "Al Rayyan",
+    "team1": "Portugal",
+    "team2": "Tyskland",
+    "matchGroupId": "F",
+    "matchId": 35
+  },
+  {
+    "date": "12-01-2022",
+    "time": "18:00",
+    "arena": "Ahmad bin Ali Stadium",
+    "city": "Al Rayyan",
+    "team1": "Tyskland",
+    "team2": "Ungern",
+    "matchGroupId": "F",
+    "matchId": 33
+  },
+  {
+    "date": "12-01-2022",
+    "time": "18:00",
+    "arena": "Al Thumama Stadium",
+    "city": "Doha",
+    "team1": "Portugal",
+    "team2": "Frankrike",
+    "matchGroupId": "F",
+    "matchId": 34
+  },
+
+  {
+    "date": "11-24-2022",
+    "time": "22:00",
+    "arena": "Lusail Iconic Stadium",
+    "city": "Lusail",
+    "team1": "Schweiz",
+    "team2": "Kamerun",
+    "matchGroupId": "G",
+    "matchId": 37
+  },
+  {
+    "date": "11-28-2022",
+    "time": "19:00",
+    "arena": "Stadium 974",
+    "city": "Doha",
+    "team1": "Brasilien",
+    "team2": "Serbien",
+    "matchGroupId": "G",
+    "matchId": 38
+  },
+  {
+    "date": "12-02-2022",
+    "time": "22:00",
+    "arena": "Lusail Iconic Stadium",
+    "city": "Lusail",
+    "team1": "Kamerun",
+    "team2": "Serbien",
+    "matchGroupId": "G",
+    "matchId": 39
+  },
+  {
+    "date": "12-02-2022",
+    "time": "22:00",
+    "arena": "Stadium 974",
+    "city": "Doha",
+    "team1": "Brasilien",
+    "team2": "Schweiz",
+    "matchGroupId": "G",
+    "matchId": 40
+  },
+  {
+    "date": "11-28-2022",
+    "time": "13:00",
+    "arena": "Al Janoub Stadium",
+    "city": "Al Wakrah",
+    "team1": "Serbien",
+    "team2": "Schweiz",
+    "matchGroupId": "G",
+    "matchId": 41
+  },
+  {
+    "date": "11-24-2022",
+    "time": "13:00",
+    "arena": "Al Janoub Stadium",
+    "city": "Al Wakrah",
+    "team1": "Kamerun",
+    "team2": "Brasilien",
+    "matchGroupId": "G",
+    "matchId": 42
+  },
+
+  {
+    "date": "11-24-2022",
+    "time": "19:00",
+    "arena": "Stadium 974",
+    "city": "Doha",
+    "team1": "Uruguay",
+    "team2": "Sydkorea",
+    "matchGroupId": "H",
+    "matchId": 43
+  },
+  {
+    "date": "11-28-2022",
+    "time": "22:00",
+    "arena": "Lusail Iconic Stadium",
+    "city": "Lusail",
+    "team1": "Portugal",
+    "team2": "Ghana",
+    "matchGroupId": "H",
+    "matchId": 44
+  },
+  {
+    "date": "12-02-2022",
+    "time": "18:00",
+    "arena": "Education City Stadium",
+    "city": "Al Rayyan",
+    "team1": "Sydkorea",
+    "team2": "Ghana",
+    "matchGroupId": "H",
+    "matchId": 45
+  },
+  {
+    "date": "12-02-2022",
+    "time": "18:00",
+    "arena": "Al Janoub Stadium",
+    "city": "Al Wakrah",
+    "team1": "Portugal",
+    "team2": "Uruguay",
+    "matchGroupId": "H",
+    "matchId": 46
+  },
+  {
+    "date": "11-28-2022",
+    "time": "16:00",
+    "arena": "Education City Stadium",
+    "city": "Al Rayyan",
+    "team1": "Ghana",
+    "team2": "Uruguay",
+    "matchGroupId": "H",
+    "matchId": 47
+  },
+  {
+    "date": "11-24-2022",
+    "time": "16:00",
+    "arena": "Education City Stadium",
+    "city": "Al Rayyan",
+    "team1": "Sydkorea",
+    "team2": "Ghana",
+    "matchGroupId": "H",
+    "matchId": 48
+  },
+
+  {
+    "date": "12-03-2022",
+    "time": "18:00",
+    "arena": "Khalifa International Stadium",
+    "city": "Al Rayyan",
+    "team1": "A2",
+    "team2": "B2",
+    "matchId": 49
+  },
+  {
+    "date": "12-03-2022",
+    "time": "22:00",
+    "arena": "Ahmad bin Ali Stadium",
+    "city": "Al Rayyan",
+    "team1": "A1",
+    "team2": "C2",
+    "matchId": 50
+  },
+  {
+    "date": "12-04-2022",
+    "time": "22:00",
+    "arena": "Al Thumama Stadium",
+    "city": "Doha",
+    "team1": "B1",
+    "team2": "A/D/E/F3",
+    "matchId": 51
+  },
+  {
+    "date": "12-04-2022",
+    "time": "18:00",
+    "arena": "Al Bayt Stadium",
+    "city": "Al Khor",
+    "team1": "C1",
+    "team2": "D/E/F3",
+    "matchId": 52
+  },
+  {
+    "date": "12-05-2022",
+    "time": "18:00",
+    "arena": "Al Janoub Stadium",
+    "city": "Al Wakrah",
+    "team1": "D2",
+    "team2": "E2",
+    "matchId": 53
+  },
+  {
+    "date": "12-05-2022",
+    "time": "22:00",
+    "arena": "Stadium 974",
+    "city": "Doha",
+    "team1": "F1",
+    "team2": "A/B/C3",
+    "matchId": 54
+  },
+  {
+    "date": "12-06-2022",
+    "time": "18:00",
+    "arena": "Education City Stadium",
+    "city": "Al Rayyan",
+    "team1": "D1",
+    "team2": "F2",
+    "matchId": 55
+  },
+  {
+    "date": "12-06-2022",
+    "time": "22:00",
+    "arena": "Lusail Iconic Stadium",
+    "city": "Lusail",
+    "team1": "E1",
+    "team2": "A/B/C/D3",
+    "matchId": 56
+  },
+  {
+    "date": "12-09-2022",
+    "time": "22:00",
+    "arena": "Lusail Iconic Stadium",
+    "city": " Lusail",
+    "team1": "W39",
+    "team2": "W37",
+    "matchId": 57
+  },
+  {
+    "date": "12-09-2022",
+    "time": "18:00",
+    "arena": "Education City Stadium",
+    "city": "Al Rayyan",
+    "team1": "W41",
+    "team2": "W42",
+    "matchId": 58
+  },
+  {
+    "date": "12-10-2022",
+    "time": "22:00",
+    "arena": "Al Bayt Stadium",
+    "city": "Al Khor",
+    "team1": "W43",
+    "team2": "W44",
+    "matchId": 59
+  },
+  {
+    "date": "12-10-2022",
+    "time": "18:00",
+    "arena": "Al Thumama Stadium",
+    "city": "Doha",
+    "team1": "W40",
+    "team2": "W38",
+    "matchId": 60
+  },
+  {
+    "date": "12-13-2022",
+    "time": "22:00",
+    "arena": "Lusail Iconic Stadium",
+    "city": "Lusail",
+    "team1": "W46",
+    "team2": "W45",
+    "matchId": 61
+  },
+  {
+    "date": "12-14-2022",
+    "time": "22:00",
+    "arena": "Al Bayt Stadium",
+    "city": "Al Khor",
+    "team1": "W48",
+    "team2": "W47",
+    "matchId": 62
+  },
+  {
+    "date": "12-17-2022",
+    "time": "18:00",
+    "arena": "Khalifa International Stadium",
+    "city": "Al Rayyan",
+    "team1": "W49",
+    "team2": "W50",
+    "matchId": 63
+  },
+  {
+    "date": "12-18-2022",
+    "time": "18:00",
+    "arena": "Lusail Iconic Stadium",
+    "city": "Lusail",
+    "team1": "W49",
+    "team2": "W50",
+    "matchId": 64
+  }
+]

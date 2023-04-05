@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { trpc } from "../../utils/trpc";
 import MatchGroup from "./MatchGroup";
 import GroupBoard from "./GroupBoard";
 import GoalscorerInput from "./GoalscorerInput";
@@ -16,14 +17,18 @@ import {
   getFinal,
   getThirdPlaceFinal,
 } from "../../recoil/bet-slip/selectors/matches";
-import { championshipState } from "../../recoil/championship/selectors";
+import { championshipState } from "../../recoil/championship/atoms";
 import Container from "../Container";
 import SubmitButton from "../SubmitButton";
-import { getMatchStatistics } from "../../services/statisticsService";
-import { useQuery } from "react-query";
-import { getConfig } from "../../services/configService";
 
-const BetSlip = ({ mode, handleSave, setFinalsMatches, headerText }) => {
+type Props = {
+  mode: string;
+  handleSave: () => void;
+  setFinalsMatches: (matches: any[]) => void;
+  headerText: string;
+};
+
+const BetSlip = ({ mode, handleSave, setFinalsMatches, headerText }: Props) => {
   const championship = useRecoilValue(championshipState);
   const groupOf16 = useRecoilValue(getGroupOf16);
   const groupOf8 = useRecoilValue(getGroupOf8);
@@ -34,16 +39,14 @@ const BetSlip = ({ mode, handleSave, setFinalsMatches, headerText }) => {
 
   const [showStatistics, setShowStatistics] = useState(false);
 
-  const { data: config, isLoading: configLoading } = useQuery(
-    ["config"],
-    getConfig
-  );
+  const { data: config, isLoading: configLoading } =
+    trpc.championship.getConfig.useQuery();
 
-  const { data: matchStats, isLoading: matchStatisticsLoading } = useQuery(
+  /*  const { data: matchStats, isLoading: matchStatisticsLoading } = useQuery(
     ["matchStatistics"],
     getMatchStatistics,
-    { enabled: config && !config.bettingAllowed }
-  );
+    { enabled: config && !config.bettingAllowed },
+  ); */
 
   useMemo(() => {
     if (setFinalsMatches) {
@@ -82,22 +85,13 @@ const BetSlip = ({ mode, handleSave, setFinalsMatches, headerText }) => {
   const handleSetGoalscorer = (goalscorer) => {
     setGoalscorer(goalscorer);
   };
-  if (configLoading || matchStatisticsLoading) {
+  if (configLoading) {
     return null;
   }
 
   return (
     <div>
-      <div className=" flex flex-col-reverse space-y-3 sm:space-y-0 items-center md:flex-row px-8">
-        {!config.bettingAllowed && (
-          <SubmitButton
-            className="w-44"
-            onClick={() => setShowStatistics(!showStatistics)}
-          >
-            {!showStatistics ? "Visa tipsfördelning" : "Visa lagt tips"}
-          </SubmitButton>
-        )}
-
+      <div className=" flex flex-col-reverse items-center space-y-3 px-8 sm:space-y-0 md:flex-row">
         <div className="flex-1">
           <Container classNames="mx-auto w-[300px] md:w-[500px] flex flex-col space-y-3 items-center ">
             <h1 className="text-center text-xl">{headerText} </h1>
@@ -105,41 +99,39 @@ const BetSlip = ({ mode, handleSave, setFinalsMatches, headerText }) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] mx-1 lg:flex lg:justify-center">
+      <div className="mx-1 grid grid-cols-1 md:grid-cols-[2fr_1fr] lg:flex lg:justify-center">
         <div className="lg:justify-end">
-          {championship.matchGroups.map((group) => (
+          {championship?.matchGroups?.map((group) => (
             <MatchGroup
               group={group}
               key={group.name}
               matchInfos={championship.matchInfos}
               mode={mode}
-              matchStatistics={matchStats}
-              showStatistics={showStatistics}
             />
           ))}
           <MatchGroup
             group={groupOf16}
-            matchInfos={championship.matchInfos}
+            matchInfos={championship?.matchInfos}
             mode={mode}
           />
           <MatchGroup
             group={groupOf8}
-            matchInfos={championship.matchInfos}
+            matchInfos={championship?.matchInfos}
             mode={mode}
           />
           <MatchGroup
             group={semiFinals}
-            matchInfos={championship.matchInfos}
+            matchInfos={championship?.matchInfos}
             mode={mode}
           />
           <MatchGroup
             group={thirdPlaceFinal}
-            matchInfos={championship.matchInfos}
+            matchInfos={championship?.matchInfos}
             mode={mode}
           />
           <MatchGroup
             group={final}
-            matchInfos={championship.matchInfos}
+            matchInfos={championship?.matchInfos}
             mode={mode}
           />
           <GoalscorerInput
@@ -148,13 +140,13 @@ const BetSlip = ({ mode, handleSave, setFinalsMatches, headerText }) => {
             mode={mode}
           />
           {mode !== "placedBet" && (
-            <div className="flex mb-10 mt-4">
-              {config.bettingAllowed || mode === "answerSheet" ? (
+            <div className="mb-10 mt-4 flex">
+              {config?.bettingAllowed || mode === "answerSheet" ? (
                 <SubmitButton type="button" onClick={handleSave}>
                   Spara tips
                 </SubmitButton>
               ) : (
-                <div className="rounded-lg my-3 py-1 px-2 ml-3  text-red-500 font-bold">
+                <div className="my-3 ml-3 rounded-lg py-1 px-2  font-bold text-red-500">
                   Det är inte längre tillåtet att uppdatera ditt tips.
                 </div>
               )}

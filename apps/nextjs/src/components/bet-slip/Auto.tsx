@@ -1,7 +1,6 @@
 import Autosuggest from "react-autosuggest";
 import React, { useState, useEffect } from "react";
-import { useQuery } from "react-query";
-import { getAllPlayers } from "../../services/betSlipService";
+import { trpc } from "../../utils/trpc";
 
 const theme = {
   container: {
@@ -64,8 +63,8 @@ const getSuggestions = (value, players) => {
           .toLowerCase()
           .split(" ")
           .some(
-            (term) => term.toLowerCase().slice(0, inputLength) === inputValue
-          )
+            (term) => term.toLowerCase().slice(0, inputLength) === inputValue,
+          ),
       );
 };
 
@@ -82,14 +81,7 @@ const Auto = (props) => {
   const [suggestions, setSuggestions] = useState([]);
   const [goalscorerSet, setGoalScorerSet] = useState(false);
 
-  const { data: allPlayers } = useQuery(
-    "players",
-    async () => {
-      const { data } = await getAllPlayers();
-      return data;
-    },
-    { staleTime: Infinity }
-  );
+  const { data: allPlayers } = trpc.player.getAll.useQuery();
 
   useEffect(() => {
     if (props.goalscorer) {

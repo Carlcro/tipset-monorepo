@@ -7,7 +7,7 @@ import { calculateInnerTeamRanking } from "./innerTeamRanking";
 
 export function calculateGroupOf16(
   rankedGroups: RankedGroup[],
-  bestOfThirds: Team[]
+  bestOfThirds: Team[],
 ): Match[] {
   if (rankedGroups.reduce((acc, x) => acc + x.teams.length, 0) < 24) {
     return [];
@@ -121,7 +121,7 @@ export function calculateFinal(teams: Team[]): Match[] {
 
 export function calculateTeamRanking(
   teamResults: TeamResult[],
-  matches: MatchResult[]
+  matches: MatchResult[],
 ): TeamResult[] {
   const results = [...teamResults];
   const groupMatches = [...matches].filter((x) => Boolean(x.matchId));

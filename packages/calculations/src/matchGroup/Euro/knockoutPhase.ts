@@ -25,7 +25,7 @@ export const getKnockoutPhase = () => {
 
 export function getKnockoutPhaseGroups(
   knockoutPhaseLineup: string[],
-  thirds: TeamResult[]
+  thirds: TeamResult[],
 ): Team[] {
   return knockoutPhaseLineup
     .flatMap((place) => {

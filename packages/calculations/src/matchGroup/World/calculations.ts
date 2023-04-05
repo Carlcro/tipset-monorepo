@@ -132,7 +132,7 @@ export function calculateFinal(teams: Team[]): Match[] {
 
 export function calculateTeamRanking(
   teamResults: TeamResult[],
-  matches: MatchResult[]
+  matches: MatchResult[],
 ): TeamResult[] {
   const results = [...teamResults];
   const groupMatches = [...matches].filter((x) => Boolean(x.matchId));
@@ -146,12 +146,12 @@ export function calculateTeamRanking(
     } else if (a.goals !== b.goals) {
       return b.goals - a.goals;
     } else {
-      if (innerRanking.findIndex((x) => x._id === a.team._id) < 0) {
+      if (innerRanking.findIndex((x) => x.id === a.team.id) < 0) {
         return 1;
       }
       return (
-        innerRanking.findIndex((x) => x._id === b.team._id) -
-        innerRanking.findIndex((x) => x._id === a.team._id)
+        innerRanking.findIndex((x) => x.id === b.team.id) -
+        innerRanking.findIndex((x) => x.id === a.team.id)
       );
     }
   });

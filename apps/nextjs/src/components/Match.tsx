@@ -7,10 +7,13 @@ import {
   setMatchState,
 } from "../recoil/bet-slip/selectors/selectors";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { flags } from "../utils/flags";
+import { flags } from "../../utils/flags";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
+import { RouterInputs, RouterOutputs } from "../utils/trpc";
 
 polyfillCountryFlagEmojis();
+
+
 
 const StatsRow = ({ stats }) => (
   <>
@@ -18,7 +21,7 @@ const StatsRow = ({ stats }) => (
       <div className="flex items-center justify-center">
         {(stats.team1Percentage * 100).toFixed(0) + "%"}
       </div>
-      <div className="flex justify-center items-center">
+      <div className="flex items-center justify-center">
         {(stats.drawPercentage * 100).toFixed(0) + "%"}
       </div>
       <div className="flex items-center justify-center">
@@ -64,7 +67,7 @@ const ResultRow = ({
           mode={mode}
         />
       </div>
-      <div className="flex justify-center items-center">-</div>
+      <div className="flex items-center justify-center">-</div>
       <div className="flex items-center justify-center">
         <GoalInput
           teamScore={matchScore.team2Score}
@@ -92,14 +95,7 @@ const ResultRow = ({
   </>
 );
 
-const Match = ({
-  match,
-  matchInfo,
-  finalsStage,
-  mode,
-  matchStatistic,
-  showStatistics,
-}) => {
+const Match = ({ match, matchInfo, finalsStage, mode }) => {
   const { team1, team2, matchId } = match;
   const { arena, city, time } = matchInfo;
 
@@ -185,33 +181,30 @@ const Match = ({
           : "mb-1 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-[100px_repeat(3,_160px)_1fr]"
       }
     >
-      <div className="hidden md:flex md:flex-col items-center justify-center">
+      <div className="hidden items-center justify-center md:flex md:flex-col">
         <span>{format(addHours(new Date(time), -2), "dd/M H:mm")}</span>
       </div>
       <div
-        className={`text-sm md:text-base flex items-center truncate justify-end px-2`}
+        className={`flex items-center justify-end truncate px-2 text-sm md:text-base`}
       >
         <span className={`truncate ${team1Style}`}>{team1.name}</span>
         <span className="ml-2 text-xl xs:flex">{flags[team1.name]}</span>
       </div>
-      {showStatistics ? (
-        <StatsRow stats={matchStatistic} />
-      ) : (
-        <ResultRow
-          finalsStage={finalsStage}
-          draw={draw}
-          matchScore={matchScore}
-          team1={team1}
-          team2={team2}
-          handleTeam1Score={handleTeam1Score}
-          handleTeam2Score={handleTeam2Score}
-          handlePenaltyWinner={handlePenaltyWinner}
-          mode={mode}
-        ></ResultRow>
-      )}
+
+      <ResultRow
+        finalsStage={finalsStage}
+        draw={draw}
+        matchScore={matchScore}
+        team1={team1}
+        team2={team2}
+        handleTeam1Score={handleTeam1Score}
+        handleTeam2Score={handleTeam2Score}
+        handlePenaltyWinner={handlePenaltyWinner}
+        mode={mode}
+      ></ResultRow>
 
       <div
-        className={`text-sm md:text-base truncate flex items-center justify-start px-2`}
+        className={`flex items-center justify-start truncate px-2 text-sm md:text-base`}
       >
         <span className="mr-2 text-xl xs:flex">{flags[team2.name]}</span>
 
@@ -220,7 +213,7 @@ const Match = ({
       {mode === "placedBet" && (
         <div className="text-center">{matchScore.points}</div>
       )}
-      <div className="hidden lg:flex flex-col truncate">
+      <div className="hidden flex-col truncate lg:flex">
         <span className="truncate">
           {city}, {arena}
         </span>

@@ -12,7 +12,7 @@ import {
 
 export function getBestOfThirds(
   groupResults: GroupResult[],
-  matches: MatchResult[]
+  matches: MatchResult[],
 ): Team[] {
   const thirds = calculateTopFourThirdPlaces(groupResults, matches);
   const groups = getThirdPlaceGroups(thirds);
@@ -26,7 +26,7 @@ export function getThirdPlaceGroups(teamResults: TeamResult[]): string[] {
 
 export function calculateTopFourThirdPlaces(
   groupResults: GroupResult[],
-  matches: MatchResult[]
+  matches: MatchResult[],
 ): TeamResult[] {
   const thirds = calculateThirdPlaces(groupResults, matches);
   return calculateTeamRanking(thirds, []).slice(0, 4);
@@ -34,20 +34,20 @@ export function calculateTopFourThirdPlaces(
 
 export function calculateThirdPlaces(
   groupResults: GroupResult[],
-  matches: MatchResult[]
+  matches: MatchResult[],
 ): TeamResult[] {
   return groupResults.map((gr) => calculateThirdPlace(gr.results, matches));
 }
 
 export function calculateThirdPlace(
   teamResults: TeamResult[],
-  matches: MatchResult[]
+  matches: MatchResult[],
 ): TeamResult {
   return calculateTeamRanking(teamResults, matches)[2];
 }
 
 export function calculateThirdPlaceGroups(
-  groupResults: GroupResult[]
+  groupResults: GroupResult[],
 ): MatchGroup[] {
   return [];
 }

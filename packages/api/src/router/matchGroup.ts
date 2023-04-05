@@ -6,20 +6,16 @@ export const matchGroupRouter = router({
   createMatchGroup: protectedProcedure
     .input(z.object({ name: z.string(), teams: z.array(z.string()) }))
     .mutation(async ({ ctx, input }) => {
-      try {
-        const championship = await ctx.prisma.championship.findFirstOrThrow();
-        ctx.prisma.matchGroup.create({
-          data: {
-            name: input.name,
-            championshipId: championship.id,
-            teams: {
-              connect: input.teams.map((id) => ({ id })),
-            },
+      const championship = await ctx.prisma.championship.findFirstOrThrow();
+      ctx.prisma.matchGroup.create({
+        data: {
+          name: input.name,
+          championshipId: championship.id,
+          teams: {
+            connect: input.teams.map((id) => ({ id })),
           },
-        });
-      } catch (error) {
-        console.log(error);
-      }
+        },
+      });
     }),
   createMatch: protectedProcedure
     .input(

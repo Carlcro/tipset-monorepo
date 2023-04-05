@@ -430,7 +430,7 @@ describe("Best of thirds", () => {
 
     const knockoutPhaseGroups = getKnockoutPhaseGroups(
       knockoutPhaseLineup,
-      groupResults
+      groupResults,
     );
 
     expect(knockoutPhaseGroups[0].name).toEqual("A");

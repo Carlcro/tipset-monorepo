@@ -1,12 +1,18 @@
 import React, { useRef } from "react";
 
-const GoalInput = (props) => {
-  const inputEl = useRef(null);
+type Props = {
+  teamScore: number;
+  setTeamScore: (score: number) => void;
+  mode: string;
+};
 
-  const handleKeyPress = (e) => {
+const GoalInput = (props: Props) => {
+  const inputEl = useRef<HTMLInputElement>(null);
+
+  const handleKeyPress = (e: any) => {
     e = e || window.event;
-    var charCode = typeof e.which == "undefined" ? e.keyCode : e.which;
-    var charStr = String.fromCharCode(charCode);
+    const charCode = typeof e.which == "undefined" ? e.keyCode : e.which;
+    const charStr = String.fromCharCode(charCode);
 
     if (!charStr.match(/^[0-9]+$/)) {
       e.preventDefault();
@@ -20,18 +26,14 @@ const GoalInput = (props) => {
   };
 
   function isTouchDevice() {
-    return (
-      "ontouchstart" in window ||
-      navigator.maxTouchPoints > 0 ||
-      navigator.msMaxTouchPoints > 0
-    );
+    return "ontouchstart" in window || navigator.maxTouchPoints > 0;
   }
 
-  function handleChange({ target }) {
+  function handleChange({ target }: React.ChangeEvent<HTMLInputElement>) {
     if (target.value.length > 1) {
       return;
     } else {
-      props.setTeamScore(target.value);
+      props.setTeamScore(Number(target.value));
     }
   }
 
@@ -46,10 +48,10 @@ const GoalInput = (props) => {
       onBlur={handleOnBlur}
       onFocus={() => {
         if (!isTouchDevice()) {
-          inputEl.current.select();
+          inputEl?.current?.select();
         }
       }}
-      className=" h-6 w-10 mx-3 p-0 border-grey-200 border text-center"
+      className=" border-grey-200 mx-3 h-6 w-10 border p-0 text-center"
     />
   );
 };

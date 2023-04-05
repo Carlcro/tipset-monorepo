@@ -6,7 +6,7 @@ import { calculateTeamResults } from "../common";
 
 export function calculateInnerTeamRanking(
   results: TeamResult[],
-  matchResults: MatchResult[]
+  matchResults: MatchResult[],
 ): Team[] {
   const sortedTeams: Team[] = [];
   const teamsInTie = groupTiedTeams(results);
@@ -18,7 +18,7 @@ export function calculateInnerTeamRanking(
       const matchResult = getMatchResultTwoTeams(
         team1._id,
         team2._id,
-        matchResults
+        matchResults,
       );
 
       if (matchResult) {
@@ -26,7 +26,7 @@ export function calculateInnerTeamRanking(
           [matchResult],
           tiedTeams,
           matchResults,
-          results
+          results,
         );
 
         sortedTeams.push(...sortedTiebreaker.map((result) => result.team));
@@ -35,7 +35,7 @@ export function calculateInnerTeamRanking(
           [],
           tiedTeams,
           matchResults,
-          results
+          results,
         );
         sortedTeams.push(...sortedTiebreaker.map((result) => result.team));
       }
@@ -48,14 +48,14 @@ export function calculateInnerTeamRanking(
         team1._id,
         team2._id,
         team3._id,
-        matchResults
+        matchResults,
       );
 
       const sortedTiebreaker = SortTiebreaker(
         matchResult,
         tiedTeams,
         matchResults,
-        results
+        results,
       );
 
       sortedTeams.push(...sortedTiebreaker.map((result) => result.team));
@@ -64,7 +64,7 @@ export function calculateInnerTeamRanking(
         matchResults,
         tiedTeams,
         matchResults,
-        results
+        results,
       );
 
       sortedTeams.push(...sortedTiebreaker.map((result) => result.team));
@@ -78,7 +78,7 @@ function SortTiebreaker(
   matchResult: MatchResult[],
   tiedTeams: Team[],
   matchResults: MatchResult[],
-  results: TeamResult[]
+  results: TeamResult[],
 ) {
   const teamsInQuestion = calculateTeamResults(matchResult, tiedTeams);
 
@@ -95,7 +95,7 @@ function SortTiebreaker(
           const matchResult = getMatchResultTwoTeams(
             a.team._id,
             b.team._id,
-            matchResults
+            matchResults,
           );
 
           if (matchResult) {
@@ -178,12 +178,12 @@ function SortTiebreaker(
 function getMatchResultTwoTeams(
   teamId1: string,
   teamId2: string,
-  matches: MatchResult[]
+  matches: MatchResult[],
 ): MatchResult {
   return matches.filter(
     (match) =>
       (match.team1._id === teamId1 && match.team2._id === teamId2) ||
-      (match.team1._id === teamId2 && match.team2._id === teamId1)
+      (match.team1._id === teamId2 && match.team2._id === teamId1),
   )[0];
 }
 
@@ -191,7 +191,7 @@ function getMatchResultForThreeTeams(
   teamId1: string,
   teamId2: string,
   teamId3: string,
-  matches: MatchResult[]
+  matches: MatchResult[],
 ): MatchResult[] {
   return matches.filter(
     (match) =>
@@ -200,18 +200,18 @@ function getMatchResultForThreeTeams(
       (match.team1._id === teamId2 && match.team2._id === teamId1) ||
       (match.team1._id === teamId2 && match.team2._id === teamId3) ||
       (match.team1._id === teamId3 && match.team2._id === teamId1) ||
-      (match.team1._id === teamId3 && match.team2._id === teamId2)
+      (match.team1._id === teamId3 && match.team2._id === teamId2),
   );
 }
 
 export function groupTiedTeams(results: TeamResult[]): Team[][] {
   return Object.entries(groupBy((x) => `${x.points}`, results)).map((x) =>
-    x[1].map((y) => y.team)
+    x[1].map((y) => y.team),
   );
 }
 
 export function groupTeamsWithSameShit(results: TeamResult[]): Team[][] {
   return Object.entries(
-    groupBy((x) => `${x.points}:${x.diff}:${x.goals}`, results)
+    groupBy((x) => `${x.points}:${x.diff}:${x.goals}`, results),
   ).map((x) => x[1].map((y) => y.team));
 }
