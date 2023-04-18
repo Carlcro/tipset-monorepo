@@ -131,12 +131,12 @@ export function calculateTeamRanking(
     if (a.points !== b.points) {
       return b.points - a.points;
     } else {
-      if (innerRanking.findIndex((x) => x._id === a.team._id) < 0) {
+      if (innerRanking.findIndex((x) => x.id === a.team.id) < 0) {
         return 1;
       }
       return (
-        innerRanking.findIndex((x) => x._id === b.team._id) -
-        innerRanking.findIndex((x) => x._id === a.team._id)
+        innerRanking.findIndex((x) => x.id === b.team.id) -
+        innerRanking.findIndex((x) => x.id === a.team.id)
       );
     }
   });

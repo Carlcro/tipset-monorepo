@@ -15,7 +15,6 @@ import {
   calculateGroupOf8,
   calculateSemiFinals,
   calculateTeamRanking,
-  getBestOfThirds,
   calculateGroupOf8Results,
   calculateSemiFinalsLosers,
   calculateThirdPlaceMatch,
@@ -154,12 +153,12 @@ function updateBetslip(betSlip, stage, newMatch, newIndex, newValue) {
 
     if (
       betSlip[index].penaltyWinner &&
-      betSlip[index].penaltyWinner._id !== stage[newIndex].team1._id &&
-      betSlip[index].penaltyWinner._id !== stage[newIndex].team2._id &&
+      betSlip[index].penaltyWinner.id !== stage[newIndex].team1.id &&
+      betSlip[index].penaltyWinner.id !== stage[newIndex].team2.id &&
       betSlip[index].matchId !== newValue.matchId
     ) {
       const newPenaltyWinner =
-        betSlip[index].penaltyWinner._id === betSlip[index].team1._id
+        betSlip[index].penaltyWinner.id === betSlip[index].team1.id
           ? stage[newIndex].team1
           : stage[newIndex].team2;
       newResult.penaltyWinner = newPenaltyWinner;
@@ -194,9 +193,8 @@ export const setMatchState = selector({
     const teamRankings = groupResults
       .map((gr) => calculateTeamRanking(gr.results, betSlip))
       .map((results) => ({ teams: results.map((result) => result.team) }));
-    const bestOfThirds = getBestOfThirds(groupResults, betSlip);
 
-    const newGroupOf16 = calculateGroupOf16(teamRankings, bestOfThirds);
+    const newGroupOf16 = calculateGroupOf16(teamRankings);
     newGroupOf16.forEach((newMatch, newIndex) => {
       const [newResult, index] = updateBetslip(
         betSlip,

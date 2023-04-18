@@ -47,7 +47,7 @@ model Team {
   resultPenaltyWinner Result[] @relation("resultPenaltyWinner")
 
   matchGroup   MatchGroup? @relation(fields: [matchGroupId], references: [id])
-  matchGroupId String?
+  matchGroupId String
 
   @@index([matchGroupId])
 }
@@ -182,7 +182,6 @@ model MatchGroup {
   matches        Match[]
   championship   Championship? @relation(fields: [championshipId], references: [id])
   championshipId String?
-  matchInfo      MatchInfo[]
 
   @@index([championshipId])
 }
@@ -207,13 +206,10 @@ model MatchInfo {
   time           DateTime
   arena          String
   city           String
-  matchId        Int
-  matchGroup     MatchGroup    @relation(fields: [matchGroupId], references: [id])
-  matchGroupId   String        
+  matchId        Int   
   Championship   Championship? @relation(fields: [championshipId], references: [id])
   championshipId String?       
 
-  @@index([matchGroupId])
   @@index([championshipId])
 }
 

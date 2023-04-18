@@ -15,8 +15,8 @@ const load = async () => {
     await prisma.match.deleteMany();
     await prisma.matchInfo.deleteMany();
 
-    await prisma.matchGroup.deleteMany();
     await prisma.team.deleteMany();
+    await prisma.matchGroup.deleteMany();
     await prisma.player.deleteMany();
     await prisma.config.deleteMany();
 
@@ -53,141 +53,35 @@ const load = async () => {
           matchGroupId: newMatchGroup.id,
         },
       });
-      matchId++,
-        await prisma.match.create({
-          data: {
-            matchId,
-            matchGroupId: newMatchGroup.id,
-            team1Id: newTeams[0].id,
-            team2Id: newTeams[1].id,
-          },
-        });
 
+      const teamPairs = new Set();
+      for (let i = 0; i < newTeams.length; i++) {
+        for (let j = i + 1; j < newTeams.length; j++) {
+          const pair = [newTeams[i].id, newTeams[j].id].sort().toString();
+          if (!teamPairs.has(pair)) {
+            teamPairs.add(pair);
+            matchId++;
+            await prisma.match.create({
+              data: {
+                matchId,
+                matchGroupId: newMatchGroup.id,
+                team1Id: newTeams[i].id,
+                team2Id: newTeams[j].id,
+              },
+            });
+          }
+        }
+      }
+    }
+
+    for (let index = 0; index < matchInfo.length; index++) {
       await prisma.matchInfo.create({
         data: {
-          matchId,
+          matchId: matchInfo[index].matchId,
           championshipId: championship.id,
-          matchGroupId: newMatchGroup.id,
-          time: new Date(
-            `${matchInfo[matchId - 1].date}-${matchInfo[matchId - 1].time}`,
-          ),
-          arena: matchInfo[matchId - 1].arena,
-          city: matchInfo[matchId - 1].city,
-        },
-      });
-
-      matchId++;
-      await prisma.match.create({
-        data: {
-          matchId,
-          matchGroupId: newMatchGroup.id,
-          team1Id: newTeams[1].id,
-          team2Id: newTeams[2].id,
-        },
-      });
-
-      await prisma.matchInfo.create({
-        data: {
-          matchId,
-          championshipId: championship.id,
-          matchGroupId: newMatchGroup.id,
-          time: new Date(
-            `${matchInfo[matchId - 1].date}-${matchInfo[matchId - 1].time}`,
-          ),
-          arena: matchInfo[matchId - 1].arena,
-          city: matchInfo[matchId - 1].city,
-        },
-      });
-
-      matchId++;
-      await prisma.match.create({
-        data: {
-          matchId,
-          matchGroupId: newMatchGroup.id,
-          team1Id: newTeams[2].id,
-          team2Id: newTeams[3].id,
-        },
-      });
-
-      await prisma.matchInfo.create({
-        data: {
-          matchId,
-          championshipId: championship.id,
-          matchGroupId: newMatchGroup.id,
-          time: new Date(
-            `${matchInfo[matchId - 1].date}-${matchInfo[matchId - 1].time}`,
-          ),
-          arena: matchInfo[matchId - 1].arena,
-          city: matchInfo[matchId - 1].city,
-        },
-      });
-
-      matchId++;
-      await prisma.match.create({
-        data: {
-          matchId,
-          matchGroupId: newMatchGroup.id,
-          team1Id: newTeams[3].id,
-          team2Id: newTeams[0].id,
-        },
-      });
-
-      await prisma.matchInfo.create({
-        data: {
-          matchId,
-          championshipId: championship.id,
-          matchGroupId: newMatchGroup.id,
-          time: new Date(
-            `${matchInfo[matchId - 1].date}-${matchInfo[matchId - 1].time}`,
-          ),
-          arena: matchInfo[matchId - 1].arena,
-          city: matchInfo[matchId - 1].city,
-        },
-      });
-
-      matchId++;
-      await prisma.match.create({
-        data: {
-          matchId,
-          matchGroupId: newMatchGroup.id,
-          team1Id: newTeams[1].id,
-          team2Id: newTeams[3].id,
-        },
-      });
-
-      await prisma.matchInfo.create({
-        data: {
-          matchId,
-          championshipId: championship.id,
-          matchGroupId: newMatchGroup.id,
-          time: new Date(
-            `${matchInfo[matchId - 1].date}-${matchInfo[matchId - 1].time}`,
-          ),
-          arena: matchInfo[matchId - 1].arena,
-          city: matchInfo[matchId - 1].city,
-        },
-      });
-
-      matchId++;
-      await prisma.match.create({
-        data: {
-          matchId,
-          matchGroupId: newMatchGroup.id,
-          team1Id: newTeams[2].id,
-          team2Id: newTeams[0].id,
-        },
-      });
-
-      await prisma.matchInfo.create({
-        data: {
-          matchId,
-          championshipId: championship.id,
-          matchGroupId: newMatchGroup.id,
-          time: new Date(
-            `${matchInfo[matchId - 1].date}-${matchInfo[matchId - 1].time}`,
-          ),
-          arena: matchInfo[matchId - 1].arena,
-          city: matchInfo[matchId - 1].city,
+          time: new Date(`${matchInfo[index].date}-${matchInfo[index].time}`),
+          arena: matchInfo[index].arena,
+          city: matchInfo[index].city,
         },
       });
     }

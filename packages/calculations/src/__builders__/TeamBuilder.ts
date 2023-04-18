@@ -1,18 +1,18 @@
 import { Team } from "../types/team";
 
 class TeamBuilder {
-  private _id: string;
+  private id: string;
   private name: string;
   private group: string;
 
   constructor() {
-    this._id = "1";
+    this.id = "1";
     this.name = "Spain";
     this.group = "A";
   }
 
   withId(id: string) {
-    this._id = id;
+    this.id = id;
     return this;
   }
 
@@ -27,7 +27,7 @@ class TeamBuilder {
 
   build(): Team {
     return {
-      _id: this._id,
+      id: this.id,
       name: this.name,
       group: this.group,
     };

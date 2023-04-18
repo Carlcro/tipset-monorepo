@@ -74,7 +74,7 @@ const routesLoggedIn = (user: any, bettingAllowed: boolean) => [
   { name: "Hem", route: "/user-tournament" },
   {
     name: user && user.betSlip ? "Mitt tips" : "Gör ditt tips",
-    route: bettingAllowed ? "/bet-slip" : `/placed-bets/${user._id}`,
+    route: bettingAllowed ? "/bet-slip" : `/placed-bets/${user.id}`,
   },
   { name: "Poängsystem", route: "/point-system" },
   { name: "Facit", route: "/championship" },

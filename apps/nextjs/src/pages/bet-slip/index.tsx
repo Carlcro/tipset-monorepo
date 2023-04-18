@@ -44,15 +44,15 @@ const BetSlipContainer = () => {
 
 */
 
-  const { isLoading, data } = trpc.betslip.getBetSlip.useQuery();
+  const { isLoading, data: betSlipData } = trpc.betslip.getBetSlip.useQuery();
   const { data: championshipData } =
     trpc.championship.getOneChampionship.useQuery();
 
   useEffect(() => {
-    if (data) {
-      setFromBetslip(data);
+    if (betSlipData) {
+      setFromBetslip(betSlipData);
     }
-  }, [setFromBetslip, data]);
+  }, [setFromBetslip, betSlipData]);
 
   useEffect(() => {
     if (championshipData) {
@@ -94,16 +94,16 @@ const BetSlipContainer = () => {
     }
 
     if (
-      betslip[62].team1Score === betslip[62].team2Score &&
-      !betslip[62].penaltyWinner
+      betslip[62]?.team1Score === betslip[62]?.team2Score &&
+      !betslip[62]?.penaltyWinner
     ) {
       errorToast("Alla matcher måste vara ifyllda");
       return false;
     }
 
     if (
-      betslip[63].team1Score === betslip[63].team2Score &&
-      !betslip[63].penaltyWinner
+      betslip[63]?.team1Score === betslip[63]?.team2Score &&
+      !betslip[63]?.penaltyWinner
     ) {
       errorToast("Alla matcher måste vara ifyllda");
       return false;

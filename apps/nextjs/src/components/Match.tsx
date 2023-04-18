@@ -13,8 +13,6 @@ import { RouterInputs, RouterOutputs } from "../utils/trpc";
 
 polyfillCountryFlagEmojis();
 
-
-
 const StatsRow = ({ stats }) => (
   <>
     <div className={`flex justify-between px-2 text-xs`}>
@@ -52,7 +50,7 @@ const ResultRow = ({
         <input
           checked={
             matchScore.penaltyWinner
-              ? matchScore.penaltyWinner._id === team1._id
+              ? matchScore.penaltyWinner.id === team1.id
               : false
           }
           disabled={mode === "placedBet"}
@@ -83,7 +81,7 @@ const ResultRow = ({
         <input
           checked={
             matchScore.penaltyWinner
-              ? matchScore.penaltyWinner._id === team2._id
+              ? matchScore.penaltyWinner.id === team2.id
               : false
           }
           disabled={mode === "placedBet"}

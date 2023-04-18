@@ -16,8 +16,8 @@ export function calculateInnerTeamRanking(
       const team1 = tiedTeams[0];
       const team2 = tiedTeams[1];
       const matchResult = getMatchResultTwoTeams(
-        team1._id,
-        team2._id,
+        team1.id,
+        team2.id,
         matchResults,
       );
 
@@ -45,9 +45,9 @@ export function calculateInnerTeamRanking(
       const team3 = tiedTeams[2];
 
       const matchResult = getMatchResultForThreeTeams(
-        team1._id,
-        team2._id,
-        team3._id,
+        team1.id,
+        team2.id,
+        team3.id,
         matchResults,
       );
 
@@ -93,27 +93,27 @@ function SortTiebreaker(
           return a.goals - b.goals;
         } else {
           const matchResult = getMatchResultTwoTeams(
-            a.team._id,
-            b.team._id,
+            a.team.id,
+            b.team.id,
             matchResults,
           );
 
           if (matchResult) {
             const aScore =
-              matchResult.team1._id === a.team._id
+              matchResult.team1.id === a.team.id
                 ? matchResult.team1Score
                 : matchResult.team2Score;
 
             const bScore =
-              matchResult.team1._id === b.team._id
+              matchResult.team1.id === b.team.id
                 ? matchResult.team1Score
                 : matchResult.team2Score;
 
             if (aScore !== bScore) {
               return aScore - bScore;
             } else {
-              const aTot = results.find((x) => x.team._id === a.team._id);
-              const bTot = results.find((x) => x.team._id === b.team._id);
+              const aTot = results.find((x) => x.team.id === a.team.id);
+              const bTot = results.find((x) => x.team.id === b.team.id);
 
               if (aTot && bTot) {
                 if (aTot.diff !== bTot.diff) {
@@ -147,8 +147,8 @@ function SortTiebreaker(
         if (a.goals !== b.goals) {
           return a.goals - b.goals;
         } else {
-          const aTot = results.find((x) => x.team._id === a.team._id);
-          const bTot = results.find((x) => x.team._id === b.team._id);
+          const aTot = results.find((x) => x.team.id === a.team.id);
+          const bTot = results.find((x) => x.team.id === b.team.id);
 
           if (aTot && bTot) {
             if (aTot.diff !== bTot.diff) {
@@ -182,8 +182,8 @@ function getMatchResultTwoTeams(
 ): MatchResult {
   return matches.filter(
     (match) =>
-      (match.team1._id === teamId1 && match.team2._id === teamId2) ||
-      (match.team1._id === teamId2 && match.team2._id === teamId1),
+      (match.team1.id === teamId1 && match.team2.id === teamId2) ||
+      (match.team1.id === teamId2 && match.team2.id === teamId1),
   )[0];
 }
 
@@ -195,12 +195,12 @@ function getMatchResultForThreeTeams(
 ): MatchResult[] {
   return matches.filter(
     (match) =>
-      (match.team1._id === teamId1 && match.team2._id === teamId2) ||
-      (match.team1._id === teamId1 && match.team2._id === teamId3) ||
-      (match.team1._id === teamId2 && match.team2._id === teamId1) ||
-      (match.team1._id === teamId2 && match.team2._id === teamId3) ||
-      (match.team1._id === teamId3 && match.team2._id === teamId1) ||
-      (match.team1._id === teamId3 && match.team2._id === teamId2),
+      (match.team1.id === teamId1 && match.team2.id === teamId2) ||
+      (match.team1.id === teamId1 && match.team2.id === teamId3) ||
+      (match.team1.id === teamId2 && match.team2.id === teamId1) ||
+      (match.team1.id === teamId2 && match.team2.id === teamId3) ||
+      (match.team1.id === teamId3 && match.team2.id === teamId1) ||
+      (match.team1.id === teamId3 && match.team2.id === teamId2),
   );
 }
 

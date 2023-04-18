@@ -16,8 +16,8 @@ export function calculateInnerTeamRanking(
       const team1 = tiedTeams[0];
       const team2 = tiedTeams[1];
       const matchResult = getMatchResultTwoTeams(
-        team1._id,
-        team2._id,
+        team1.id,
+        team2.id,
         matchResults,
       );
 
@@ -35,9 +35,9 @@ export function calculateInnerTeamRanking(
       const team3 = tiedTeams[2];
 
       const matchResult = getMatchResultForThreeTeams(
-        team1._id,
-        team2._id,
-        team3._id,
+        team1.id,
+        team2.id,
+        team3.id,
         matchResults,
       );
 
@@ -79,8 +79,8 @@ function getMatchResultTwoTeams(
 ): MatchResult {
   return matches.filter(
     (match) =>
-      (match.team1._id === teamId1 && match.team2._id === teamId2) ||
-      (match.team1._id === teamId2 && match.team2._id === teamId1),
+      (match.team1.id === teamId1 && match.team2.id === teamId2) ||
+      (match.team1.id === teamId2 && match.team2.id === teamId1),
   )[0];
 }
 
@@ -92,12 +92,12 @@ function getMatchResultForThreeTeams(
 ): MatchResult[] {
   return matches.filter(
     (match) =>
-      (match.team1._id === teamId1 && match.team2._id === teamId2) ||
-      (match.team1._id === teamId1 && match.team2._id === teamId3) ||
-      (match.team1._id === teamId2 && match.team2._id === teamId1) ||
-      (match.team1._id === teamId2 && match.team2._id === teamId3) ||
-      (match.team1._id === teamId3 && match.team2._id === teamId1) ||
-      (match.team1._id === teamId3 && match.team2._id === teamId2),
+      (match.team1.id === teamId1 && match.team2.id === teamId2) ||
+      (match.team1.id === teamId1 && match.team2.id === teamId3) ||
+      (match.team1.id === teamId2 && match.team2.id === teamId1) ||
+      (match.team1.id === teamId2 && match.team2.id === teamId3) ||
+      (match.team1.id === teamId3 && match.team2.id === teamId1) ||
+      (match.team1.id === teamId3 && match.team2.id === teamId2),
   );
 }
 

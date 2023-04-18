@@ -95,6 +95,9 @@ const BetSlip = ({ mode, handleSave, setFinalsMatches, headerText }: Props) => {
         <div className="flex-1">
           <Container classNames="mx-auto w-[300px] md:w-[500px] flex flex-col space-y-3 items-center ">
             <h1 className="text-center text-xl">{headerText} </h1>
+            <button onClick={() => handleSetAllMatches()}>
+              Set all matches
+            </button>
           </Container>
         </div>
       </div>
