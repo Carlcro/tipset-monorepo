@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "name": "t3-turbo-and-clerk",
+    "slug": "t3-turbo-and-clerk",
+    "version": "1.0.0",
+    "sdkVersion": "47.0.0",
+    "platforms": [],
+    "ios": {
+      "bundleIdentifier": "1"
+    }
+  }
+}

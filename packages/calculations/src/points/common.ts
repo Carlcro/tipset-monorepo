@@ -416,7 +416,7 @@ export function calculateGoalScorer(
   betGoalScorerId: string | null,
   outcomeGoalScorer: GoalScorer | null,
 ) {
-  if (outcomeGoalScorer?.playerId === betGoalScorerId) {
+  if (outcomeGoalScorer?.id === betGoalScorerId) {
     return outcomeGoalScorer.goals * 10;
   }
 

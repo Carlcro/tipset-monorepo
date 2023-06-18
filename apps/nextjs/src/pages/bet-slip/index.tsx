@@ -32,18 +32,6 @@ const BetSlipContainer = () => {
     });
   };
 
-  /*
-
-    retry: false,
-    refetchOnWindowFocus: false,
-    onError: () => {
-      setBetslip([]);
-      setGoalscorer(null);
-    },
-  }
-
-*/
-
   const { isLoading, data: betSlipData } = trpc.betslip.getBetSlip.useQuery();
   const { data: championshipData } =
     trpc.championship.getOneChampionship.useQuery();
@@ -72,7 +60,9 @@ const BetSlipContainer = () => {
       return false;
     }
 
-    if (betslip.some((bet) => bet.team1Score === "" || bet.team2Score === "")) {
+    if (
+      betslip.some((bet) => bet.team1Score === null || bet.team2Score === null)
+    ) {
       errorToast("Alla matcher måste vara ifyllda");
       return false;
     }
@@ -131,7 +121,7 @@ const BetSlipContainer = () => {
               : undefined,
           };
         }),
-        goalScorerId: goalscorer ? goalscorer.playerId : undefined,
+        goalScorerId: goalscorer ? goalscorer.id : undefined,
       });
       toast.success("Spel sparat!", {
         position: "top-right",

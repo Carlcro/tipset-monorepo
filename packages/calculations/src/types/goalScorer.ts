@@ -1,4 +1,4 @@
 export interface GoalScorer {
-  playerId: string;
+  id: string;
   goals: number;
 }

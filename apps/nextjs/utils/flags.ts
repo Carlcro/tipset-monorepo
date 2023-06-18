@@ -1,4 +1,8 @@
-export const flags = {
+interface FlagsObject {
+  [key: string]: string;
+}
+
+export const flags: FlagsObject = {
   Qatar: "🇶🇦",
   Ecuador: "🇪🇨",
   Senegal: "🇸🇳",

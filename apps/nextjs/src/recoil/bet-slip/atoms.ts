@@ -2,14 +2,17 @@ import { GoalScorer } from "./../../../../../packages/calculations/src/types/goa
 import { Team } from "./../../../../../packages/calculations/src/types/team";
 import { atom } from "recoil";
 
-export type BetslipState = Array<{
+export type MatchBet = {
   matchId: number;
-  team1Score: string;
-  team2Score: string;
   team1: Team;
   team2: Team;
-  penaltyWinner?: Team;
-}>;
+  penaltyWinner?: Team | null;
+  team1Score: number;
+  team2Score: number;
+  points?: number;
+};
+
+export type BetslipState = Array<MatchBet>;
 
 export type PointsFromGroupState = Array<{
   group: string;

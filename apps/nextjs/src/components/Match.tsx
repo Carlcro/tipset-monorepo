@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { ChangeEventHandler, useState } from "react";
 import GoalInput from "./GoalInput";
 import { format, addHours } from "date-fns";
 import {
+  Match,
   getMatchDrawState,
   getMatchState,
   setMatchState,
@@ -9,7 +10,10 @@ import {
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { flags } from "../../utils/flags";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
-import { RouterInputs, RouterOutputs } from "../utils/trpc";
+import { MatchInfo } from "@acme/db";
+import { boolean } from "zod";
+import { MatchBet } from "../recoil/bet-slip/atoms";
+import { Team } from "calculations/src/types/team";
 
 polyfillCountryFlagEmojis();
 
@@ -29,6 +33,18 @@ const StatsRow = ({ stats }) => (
   </>
 );
 
+type ResultRowProps = {
+  finalsStage: boolean;
+  draw: boolean;
+  matchScore: MatchBet;
+  team1: Team;
+  team2: Team;
+  handleTeam1Score: (score: number) => void;
+  handleTeam2Score: (score: number) => void;
+  handlePenaltyWinner: (team: Team) => ChangeEventHandler<HTMLInputElement>;
+  mode: string;
+};
+
 const ResultRow = ({
   finalsStage,
   draw,
@@ -39,7 +55,7 @@ const ResultRow = ({
   handleTeam2Score,
   handlePenaltyWinner,
   mode,
-}) => (
+}: ResultRowProps) => (
   <>
     <div className={`flex justify-center ${finalsStage && "col-span-2"}`}>
       <div
@@ -93,7 +109,17 @@ const ResultRow = ({
   </>
 );
 
-const Match = ({ match, matchInfo, finalsStage, mode }) => {
+const Match = ({
+  match,
+  matchInfo,
+  finalsStage,
+  mode,
+}: {
+  match: Match;
+  matchInfo: MatchInfo;
+  finalsStage: boolean;
+  mode: string;
+}) => {
   const { team1, team2, matchId } = match;
   const { arena, city, time } = matchInfo;
 
@@ -101,23 +127,23 @@ const Match = ({ match, matchInfo, finalsStage, mode }) => {
   const draw = useRecoilValue(getMatchDrawState(matchId));
   const setScore = useSetRecoilState(setMatchState);
 
-  const handleTeam1Score = (score) => {
+  const handleTeam1Score = (score: string) => {
     setScore({
       matchId,
-      team1Score: score === "" ? "" : Number(score),
+      team1Score: score === "" ? 0 : Number(score),
       team2Score:
-        matchScore.team2Score === "" ? "" : Number(matchScore.team2Score),
+        matchScore.team2Score === "" ? 0 : Number(matchScore.team2Score),
       team1: team1,
       team2: team2,
     });
   };
 
-  const handleTeam2Score = (score) => {
+  const handleTeam2Score = (score: string) => {
     setScore({
       matchId,
       team1Score:
-        matchScore.team1Score === "" ? "" : Number(matchScore.team1Score),
-      team2Score: score === "" ? "" : Number(score),
+        matchScore.team1Score === "" ? 0 : Number(matchScore.team1Score),
+      team2Score: score === "" ? 0 : Number(score),
       team1: team1,
       team2: team2,
     });
@@ -136,7 +162,7 @@ const Match = ({ match, matchInfo, finalsStage, mode }) => {
       });
     };
 
-  const determineWinner = (team) => {
+  const determineWinner = (team: 1 | 2) => {
     const { team1Score, team2Score } = matchScore;
 
     if (team1Score === "" || team2Score === "") {

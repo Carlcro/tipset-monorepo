@@ -42,13 +42,15 @@ export const betslipRouter = router({
           });
         }
 
-        const newBetslip = await ctx.prisma.betSlip.create({
-          data: {
-            userId: ctx.auth.userId,
-            championshipId: championship.id,
-            goalscorerId: input?.goalScorerId,
-            points: 0,
-          },
+        const newBetSlip = {
+          userId: ctx.auth.userId,
+          championshipId: championship.id,
+          goalscorerId: input?.goalScorerId || undefined,
+          pointsFromGoalscorer: 0,
+          points: 0,
+        };
+        const createdBetslip = await ctx.prisma.betSlip.create({
+          data: newBetSlip,
         });
 
         await ctx.prisma.bet.createMany({
@@ -58,8 +60,8 @@ export const betslipRouter = router({
             team2Id: bet.team2Id,
             team1Score: bet.team1Score,
             team2Score: bet.team2Score,
-            penaltyWinnerId: bet.penaltyWinnerId,
-            betSlipId: newBetslip.id,
+            penaltyWinnerId: bet?.penaltyWinnerId,
+            betSlipId: createdBetslip.id,
           })),
         });
 
@@ -95,6 +97,7 @@ export const betslipRouter = router({
             team2: true,
           },
         },
+        goalscorer: true,
       },
     });
   }),

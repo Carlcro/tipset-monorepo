@@ -55,9 +55,9 @@ model Team {
 model BetSlip {
   id                    String                  @id @default(cuid())
   userId                String                  @unique
-  user                  User                    @relation(fields: [userId], references: [id])
+  user                  User                    @relation(fields: [userId], references: [userId])
   bets                  Bet[]
-  pointsFromGroup       PointsFromGroup[]
+  pointsFromGroup       PointsFromGroup[] 
   pointsFromAdvancement PointsFromAdvancement[]
   pointsFromGoalscorer  Int
   goalscorer            Player?                 @relation(fields: [goalscorerId], references: [id])
@@ -66,6 +66,7 @@ model BetSlip {
   pointsHistory         PointsHistory[]
   championship          Championship            @relation(fields: [championshipId], references: [id])
   championshipId        String                  @unique
+
 
   @@index([goalscorerId])
 }

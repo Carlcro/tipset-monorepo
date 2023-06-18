@@ -20,11 +20,12 @@ import {
 import { championshipState } from "../../recoil/championship/atoms";
 import Container from "../Container";
 import SubmitButton from "../SubmitButton";
+import { GoalScorer } from "calculations/src/types/goalScorer";
 
 type Props = {
   mode: string;
   handleSave: () => void;
-  setFinalsMatches: (matches: any[]) => void;
+  setFinalsMatches?: (matches: any[]) => void;
   headerText: string;
 };
 
@@ -71,18 +72,17 @@ const BetSlip = ({ mode, handleSave, setFinalsMatches, headerText }: Props) => {
   const resetAllMatches = useSetRecoilState(resetAllBets);
 
   const handleSetAllMatches = () => {
-    const matches = championship.matchGroups.flatMap((group) => group.matches);
+    const matches = championship?.matchGroups.flatMap((group) => group.matches);
 
+    // @ts-ignore
     setAllMatches(matches);
   };
 
   const reset = () => {
-    const matches = championship.matchGroups.flatMap((group) => group.matches);
-
-    resetAllMatches(matches);
+    resetAllMatches();
   };
 
-  const handleSetGoalscorer = (goalscorer) => {
+  const handleSetGoalscorer = (goalscorer: GoalScorer) => {
     setGoalscorer(goalscorer);
   };
   if (configLoading) {
