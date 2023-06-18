@@ -129,6 +129,7 @@ export const getMatchState = selectorFamily({
           team1Score: "",
           team2Score: "",
           points: null,
+          penaltyWinner: null,
         };
       return match;
     },

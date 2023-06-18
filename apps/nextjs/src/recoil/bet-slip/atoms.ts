@@ -12,6 +12,14 @@ export type MatchBet = {
   points?: number;
 };
 
+export type MatchBetBeforeInput = {
+  matchId: number;
+  team1Score: string;
+  team2Score: string;
+  points: null;
+  penaltyWinner: null;
+};
+
 export type BetslipState = Array<MatchBet>;
 
 export type PointsFromGroupState = Array<{

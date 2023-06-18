@@ -12,12 +12,18 @@ import { flags } from "../../utils/flags";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 import { MatchInfo } from "@acme/db";
 import { boolean } from "zod";
-import { MatchBet } from "../recoil/bet-slip/atoms";
+import { MatchBet, MatchBetBeforeInput } from "../recoil/bet-slip/atoms";
 import { Team } from "calculations/src/types/team";
 
 polyfillCountryFlagEmojis();
 
-const StatsRow = ({ stats }) => (
+type Stats = {
+  team1Percentage: number;
+  drawPercentage: number;
+  team2Percentage: number;
+};
+
+const StatsRow = ({ stats }: { stats: Stats }) => (
   <>
     <div className={`flex justify-between px-2 text-xs`}>
       <div className="flex items-center justify-center">
@@ -36,7 +42,7 @@ const StatsRow = ({ stats }) => (
 type ResultRowProps = {
   finalsStage: boolean;
   draw: boolean;
-  matchScore: MatchBet;
+  matchScore: MatchBet | MatchBetBeforeInput;
   team1: Team;
   team2: Team;
   handleTeam1Score: (score: number) => void;
@@ -123,44 +129,44 @@ const Match = ({
   const { team1, team2, matchId } = match;
   const { arena, city, time } = matchInfo;
 
-  const matchScore = useRecoilValue(getMatchState(matchId));
+  const matchScore = useRecoilValue(getMatchState(matchId)) as
+    | MatchBet
+    | MatchBetBeforeInput;
   const draw = useRecoilValue(getMatchDrawState(matchId));
   const setScore = useSetRecoilState(setMatchState);
 
-  const handleTeam1Score = (score: string) => {
+  const handleTeam1Score = (score: number) => {
     setScore({
       matchId,
-      team1Score: score === "" ? 0 : Number(score),
+      team1Score: score,
       team2Score:
-        matchScore.team2Score === "" ? 0 : Number(matchScore.team2Score),
+        typeof matchScore.team2Score === "string" ? 0 : matchScore.team2Score,
       team1: team1,
       team2: team2,
     });
   };
 
-  const handleTeam2Score = (score: string) => {
+  const handleTeam2Score = (score: number) => {
     setScore({
       matchId,
       team1Score:
-        matchScore.team1Score === "" ? 0 : Number(matchScore.team1Score),
-      team2Score: score === "" ? 0 : Number(score),
+        typeof matchScore.team1Score === "string" ? 0 : matchScore.team1Score,
+      team2Score: score,
       team1: team1,
       team2: team2,
     });
   };
 
-  const handlePenaltyWinner =
-    (team) =>
-    ({ target }) => {
-      setScore({
-        matchId,
-        team1Score: Number(matchScore.team1Score),
-        team2Score: Number(matchScore.team2Score),
-        team1: team1,
-        team2: team2,
-        penaltyWinner: team,
-      });
-    };
+  const handlePenaltyWinner = (team: Team) => () => {
+    setScore({
+      matchId,
+      team1Score: Number(matchScore.team1Score),
+      team2Score: Number(matchScore.team2Score),
+      team1: team1,
+      team2: team2,
+      penaltyWinner: team,
+    });
+  };
 
   const determineWinner = (team: 1 | 2) => {
     const { team1Score, team2Score } = matchScore;

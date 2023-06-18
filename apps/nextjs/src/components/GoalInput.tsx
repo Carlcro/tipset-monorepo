@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 
 type Props = {
-  teamScore: number;
+  teamScore: number | string;
   setTeamScore: (score: number) => void;
   mode: string;
 };
@@ -20,7 +20,7 @@ const GoalInput = (props: Props) => {
   };
 
   const handleOnBlur = () => {
-    if (props.teamScore > 9) {
+    if (typeof props.teamScore === "number" && props.teamScore > 9) {
       props.setTeamScore(9);
     }
   };
