@@ -30,7 +30,7 @@ const AddMemberInput = () => {
             value={memberInput}
             onChange={(e) => setMemberInput(e.target.value)}
           />
-          <SubmitButton>Lägg till</SubmitButton>
+          <SubmitButton type="submit">Lägg till</SubmitButton>
         </form>
       </div>
     </div>

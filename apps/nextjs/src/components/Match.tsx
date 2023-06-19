@@ -2,7 +2,6 @@ import React, { ChangeEventHandler, useState } from "react";
 import GoalInput from "./GoalInput";
 import { format, addHours } from "date-fns";
 import {
-  Match,
   getMatchDrawState,
   getMatchState,
   setMatchState,
@@ -11,9 +10,9 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { flags } from "../../utils/flags";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 import { MatchInfo } from "@acme/db";
-import { boolean } from "zod";
 import { MatchBet, MatchBetBeforeInput } from "../recoil/bet-slip/atoms";
 import { Team } from "calculations/src/types/team";
+import { Match } from "calculations/src/types/match";
 
 polyfillCountryFlagEmojis();
 
@@ -40,7 +39,7 @@ const StatsRow = ({ stats }: { stats: Stats }) => (
 );
 
 type ResultRowProps = {
-  finalsStage: boolean;
+  finalsStage?: boolean;
   draw: boolean;
   matchScore: MatchBet | MatchBetBeforeInput;
   team1: Team;
@@ -123,7 +122,7 @@ const Match = ({
 }: {
   match: Match;
   matchInfo: MatchInfo;
-  finalsStage: boolean;
+  finalsStage?: boolean;
   mode: string;
 }) => {
   const { team1, team2, matchId } = match;

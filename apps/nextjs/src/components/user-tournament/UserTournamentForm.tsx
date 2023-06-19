@@ -38,7 +38,7 @@ const UserTournamentForm = () => {
             value={userTournamentName}
             className="mb-3 w-full rounded-sm border border-polarNight px-2 py-1.5"
           ></input>
-          <SubmitButton>Skapa grupp</SubmitButton>
+          <SubmitButton type="submit">Skapa grupp</SubmitButton>
         </form>
       </Container>
     </motion.div>

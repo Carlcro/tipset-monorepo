@@ -35,6 +35,7 @@ export const getGroupOf16 = selector({
      */
 
     return {
+      id: "",
       name: "Åttondelsfinaler",
       matches: allGroupMatchesSet ? calculateGroupOf16(teamRankings) : [],
       finalsStage: true,

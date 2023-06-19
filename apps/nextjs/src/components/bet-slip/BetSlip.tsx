@@ -21,6 +21,7 @@ import { championshipState } from "../../recoil/championship/atoms";
 import Container from "../Container";
 import SubmitButton from "../SubmitButton";
 import { GoalScorer } from "calculations/src/types/goalScorer";
+import Spinner from "../Spinner";
 
 type Props = {
   mode: string;
@@ -89,80 +90,84 @@ const BetSlip = ({ mode, handleSave, setFinalsMatches, headerText }: Props) => {
     return null;
   }
 
-  return (
-    <div>
-      <div className=" flex flex-col-reverse items-center space-y-3 px-8 sm:space-y-0 md:flex-row">
-        <div className="flex-1">
-          <Container classNames="mx-auto w-[300px] md:w-[500px] flex flex-col space-y-3 items-center ">
-            <h1 className="text-center text-xl">{headerText} </h1>
-            <button onClick={() => handleSetAllMatches()}>
-              Set all matches
-            </button>
-          </Container>
+  if (championship) {
+    return (
+      <div>
+        <div className=" flex flex-col-reverse items-center space-y-3 px-8 sm:space-y-0 md:flex-row">
+          <div className="flex-1">
+            <Container classNames="mx-auto w-[300px] md:w-[500px] flex flex-col space-y-3 items-center ">
+              <h1 className="text-center text-xl">{headerText} </h1>
+              <button onClick={() => handleSetAllMatches()}>
+                Set all matches
+              </button>
+            </Container>
+          </div>
         </div>
-      </div>
 
-      <div className="mx-1 grid grid-cols-1 md:grid-cols-[2fr_1fr] lg:flex lg:justify-center">
-        <div className="lg:justify-end">
-          {championship?.matchGroups?.map((group) => (
+        <div className="mx-1 grid grid-cols-1 md:grid-cols-[2fr_1fr] lg:flex lg:justify-center">
+          <div className="lg:justify-end">
+            {championship?.matchGroups?.map((group) => (
+              <MatchGroup
+                group={group}
+                key={group.name}
+                matchInfos={championship.matchInfos}
+                mode={mode}
+              />
+            ))}
             <MatchGroup
-              group={group}
-              key={group.name}
+              group={groupOf16}
               matchInfos={championship.matchInfos}
               mode={mode}
             />
-          ))}
-          <MatchGroup
-            group={groupOf16}
-            matchInfos={championship?.matchInfos}
-            mode={mode}
-          />
-          <MatchGroup
-            group={groupOf8}
-            matchInfos={championship?.matchInfos}
-            mode={mode}
-          />
-          <MatchGroup
-            group={semiFinals}
-            matchInfos={championship?.matchInfos}
-            mode={mode}
-          />
-          <MatchGroup
-            group={thirdPlaceFinal}
-            matchInfos={championship?.matchInfos}
-            mode={mode}
-          />
-          <MatchGroup
-            group={final}
-            matchInfos={championship?.matchInfos}
-            mode={mode}
-          />
-          <GoalscorerInput
-            goalscorer={goalscorer}
-            handleSetGoalscorer={handleSetGoalscorer}
-            mode={mode}
-          />
-          {mode !== "placedBet" && (
-            <div className="mb-10 mt-4 flex">
-              {config?.bettingAllowed || mode === "answerSheet" ? (
-                <SubmitButton type="button" onClick={handleSave}>
-                  Spara tips
-                </SubmitButton>
-              ) : (
-                <div className="my-3 ml-3 rounded-lg py-1 px-2  font-bold text-red-500">
-                  Det är inte längre tillåtet att uppdatera ditt tips.
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-        <div className="max-w-[500px] lg:max-w-[450px] lg:justify-start ">
-          <GroupBoard mode={mode} />
-          {mode === "betslip" && <TiebreakerInfo />}
+            <MatchGroup
+              group={groupOf8}
+              matchInfos={championship.matchInfos}
+              mode={mode}
+            />
+            <MatchGroup
+              group={semiFinals}
+              matchInfos={championship.matchInfos}
+              mode={mode}
+            />
+            <MatchGroup
+              group={thirdPlaceFinal}
+              matchInfos={championship.matchInfos}
+              mode={mode}
+            />
+            <MatchGroup
+              group={final}
+              matchInfos={championship.matchInfos}
+              mode={mode}
+            />
+            <GoalscorerInput
+              goalscorer={goalscorer}
+              handleSetGoalscorer={handleSetGoalscorer}
+              mode={mode}
+            />
+            {mode !== "placedBet" && (
+              <div className="mb-10 mt-4 flex">
+                {config?.bettingAllowed || mode === "answerSheet" ? (
+                  <SubmitButton type="button" onClick={handleSave}>
+                    Spara tips
+                  </SubmitButton>
+                ) : (
+                  <div className="my-3 ml-3 rounded-lg py-1 px-2  font-bold text-red-500">
+                    Det är inte längre tillåtet att uppdatera ditt tips.
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+          <div className="max-w-[500px] lg:max-w-[450px] lg:justify-start ">
+            <GroupBoard mode={mode} />
+            {mode === "betslip" && <TiebreakerInfo />}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return <Spinner />;
+  }
 };
 
 export default BetSlip;

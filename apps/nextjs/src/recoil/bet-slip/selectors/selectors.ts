@@ -25,11 +25,11 @@ import { Team } from "calculations/src/types/team";
 
 export const setAllMatchesState = selector({
   key: "setAllMatches",
-  set: ({ set }, newValue: Match[] | DefaultValue) => {
+  set: ({ set }, newValue: MatchType[] | DefaultValue) => {
     const betSlip: BetslipState = [];
 
     if (!(newValue instanceof DefaultValue)) {
-      newValue.forEach((match: Match) => {
+      newValue.forEach((match: MatchType) => {
         betSlip.push({
           matchId: match.matchId,
           team1Score: Math.floor(10 * Math.random()),
@@ -150,31 +150,31 @@ export const getMatchDrawState = selectorFamily({
 
 function updateBetslip(
   betSlip: MatchBet[],
-  stage: Match[],
-  newMatch: Match,
+  matches: MatchType[],
+  newMatch: MatchType,
   newIndex: number,
   newValue: MatchBet,
 ): [MatchBet | null, number] {
   const index = betSlip.findIndex(
     (match) => match.matchId === newMatch.matchId,
   );
-  if (index > -1) {
+  if (index > -1 && matches[newIndex] && betSlip[index]) {
     const newResult = {
       ...betSlip[index],
-      team1: stage[newIndex]?.team1,
-      team2: stage[newIndex]?.team2,
+      team1: matches[newIndex]?.team1,
+      team2: matches[newIndex]?.team2,
     };
 
     if (
       betSlip[index]?.penaltyWinner &&
-      betSlip[index]?.penaltyWinner?.id !== stage[newIndex]?.team1.id &&
-      betSlip[index]?.penaltyWinner?.id !== stage[newIndex]?.team2.id &&
+      betSlip[index]?.penaltyWinner?.id !== matches[newIndex]?.team1.id &&
+      betSlip[index]?.penaltyWinner?.id !== matches[newIndex]?.team2.id &&
       betSlip[index]?.matchId !== newValue.matchId
     ) {
       const newPenaltyWinner =
         betSlip[index]?.penaltyWinner?.id === betSlip[index]?.team1?.id
-          ? stage[newIndex]?.team1
-          : stage[newIndex]?.team2;
+          ? matches[newIndex]?.team1
+          : matches[newIndex]?.team2;
       newResult.penaltyWinner = newPenaltyWinner;
     }
 
@@ -184,7 +184,8 @@ function updateBetslip(
   return [null, -1];
 }
 
-export interface Match {
+export interface MatchType {
+  id?: string;
   matchId: number;
   team1: Team;
   team2: Team;
@@ -192,7 +193,7 @@ export interface Match {
 
 function updateMatches(
   betSlip: MatchBet[],
-  stage: Match[],
+  stage: MatchType[],
   newValue: MatchBet,
 ) {
   stage.forEach((newMatch, newIndex) => {
@@ -203,7 +204,7 @@ function updateMatches(
       newIndex,
       newValue,
     );
-    if (index && index > -1) {
+    if (index && index > -1 && newResult) {
       betSlip.splice(index, 1);
       betSlip.push(newResult);
     }

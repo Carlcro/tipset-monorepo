@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Autosuggest from "react-autosuggest";
 import React, { useState, useEffect } from "react";
 import { trpc } from "../../utils/trpc";
@@ -90,7 +91,7 @@ const Auto = (props) => {
     }
   }, [props.goalscorer]);
 
-  const onChange = (event, { newValue }) => {
+  const onChange = (_, { newValue }: { newValue: any }) => {
     if (typeof newValue === "object") {
       props.setGoalscorer(newValue);
 
@@ -105,7 +106,7 @@ const Auto = (props) => {
 
   // Autosuggest will call this function every time you need to update suggestions.
   // You already implemented this logic above, so just use it.
-  const onSuggestionsFetchRequested = ({ value }) => {
+  const onSuggestionsFetchRequested = ({ value }: { value: string }) => {
     setSuggestions(getSuggestions(value, allPlayers));
   };
 

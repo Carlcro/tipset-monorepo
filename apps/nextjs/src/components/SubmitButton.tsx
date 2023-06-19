@@ -4,7 +4,7 @@ type Props = {
   className?: string;
   children: string;
   type: "submit" | "button" | "reset" | undefined;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 export default function SubmitButton({
