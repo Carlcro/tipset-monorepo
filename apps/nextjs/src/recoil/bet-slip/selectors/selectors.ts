@@ -178,6 +178,7 @@ function updateBetslip(
       newResult.penaltyWinner = newPenaltyWinner;
     }
 
+    // @ts-ignore
     return [newResult, index];
   }
 
