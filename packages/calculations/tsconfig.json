@@ -13,8 +13,8 @@
   },
   "exclude": [
     "node_modules",
-    "src/matchGroup/Euro/**",
-    "src/points/Euro/**",
-    "src/results/Euro/**"
+    "src/matchGroup/Euro/*",
+    "src/points/Euro/*",
+    "src/results/Euro/*"
   ]
 }
