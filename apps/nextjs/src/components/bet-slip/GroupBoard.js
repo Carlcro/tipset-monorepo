@@ -7,7 +7,7 @@ export default function GroupBoard({ mode }) {
   const groupResults = useRecoilValue(getSortedGroupResults);
 
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       {groupResults.map((groupResult) => (
         <Group
           mode={mode}

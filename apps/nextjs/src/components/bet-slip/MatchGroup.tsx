@@ -44,7 +44,7 @@ function MatchGroup({ group, matchInfos, mode }: MatchGroupProps) {
       transition={{ duration: 0.4 }}
       key={group.name}
     >
-      <Container classNames="lg:w-ful my-2">
+      <Container classNames="lg:w-full">
         <div className="flex justify-between">
           <h2 className="pl-2 pb-1 text-xl font-semibold">{`${
             group.finalsStage ? "" : "Grupp"
