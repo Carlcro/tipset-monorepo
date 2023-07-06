@@ -78,6 +78,7 @@ export const userTournamentRouter = router({
         });
       }
     }),
+
   leaveUserTournament: protectedProcedure
     .input(
       z.object({

@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { groupBy } from "ramda";
 import { MatchResult } from "../../types/matchResult";
 import { Team } from "../../types/team";

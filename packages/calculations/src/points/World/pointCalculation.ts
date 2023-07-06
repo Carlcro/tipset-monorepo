@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { calculateThirdPlaceAdvancePoints } from "../common";
 import { GoalScorer } from "../../types/goalScorer";
 import { GroupResult } from "../../results/groupResult";

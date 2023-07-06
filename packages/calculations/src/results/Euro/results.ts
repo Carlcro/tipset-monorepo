@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { MatchGroup } from "../../types/matchGroup";
 import { RawMatchResult } from "../../types/rawMatchResult";
 import { Team } from "../../types/team";

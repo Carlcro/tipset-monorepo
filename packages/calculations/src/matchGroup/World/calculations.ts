@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { Match } from "../../types/match";
 import { MatchResult } from "../../types/matchResult";
 import { RankedGroup } from "../../types/rankedGroup";

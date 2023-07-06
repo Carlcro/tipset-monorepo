@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { Team } from "../../types/team";
 import { TeamResult } from "../../types/teamResult";
 

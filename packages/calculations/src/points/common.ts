@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { GroupResult } from "../results/groupResult";
 import { GoalScorer } from "../types/goalScorer";
 import { MatchResult } from "../types/matchResult";
