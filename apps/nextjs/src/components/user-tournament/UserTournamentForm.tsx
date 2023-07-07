@@ -4,18 +4,16 @@ import Container from "../Container";
 import SubmitButton from "../SubmitButton";
 import { trpc } from "../../utils/trpc";
 
-const UserTournamentForm = () => {
-  const utils = trpc.useContext();
-
+const UserTournamentForm = ({
+  createUserTournament,
+}: {
+  createUserTournament: (input: { name: string }) => void;
+}) => {
   const [userTournamentName, setUserTournamentName] = useState("");
-
-  const { mutate } = trpc.userTournament.createUserTournament.useMutation({
-    onSuccess: () => utils.invalidate(),
-  });
 
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    mutate({ name: userTournamentName });
+    createUserTournament({ name: userTournamentName });
     setUserTournamentName("");
   };
   return (

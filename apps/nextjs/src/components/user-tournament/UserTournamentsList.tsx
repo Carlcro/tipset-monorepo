@@ -1,12 +1,11 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Container from "../Container";
+import { trpc } from "../../utils/trpc";
+import Spinner from "../Spinner";
 
-type Props = {
-  tournaments: { id: string; name: string }[] | undefined;
-};
-
-const UserTournamentsList = ({ tournaments }: Props) => {
+const UserTournamentsList = ({ addedLoading }: { addedLoading: boolean }) => {
+  const { data, isLoading } = trpc.userTournament.getUserTournaments.useQuery();
   return (
     <motion.div
       initial={{ opacity: 0, y: -10 }}
@@ -15,15 +14,19 @@ const UserTournamentsList = ({ tournaments }: Props) => {
     >
       <Container>
         <div className="font-bold">Dina grupper</div>
-        <ul>
-          {tournaments?.map((tournament) => (
-            <li key={tournament.id}>
-              <Link href={`/user-tournament-page/${tournament.id}`}>
-                {tournament.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {isLoading || addedLoading ? (
+          <Spinner />
+        ) : (
+          <ul>
+            {data?.map((tournament) => (
+              <li key={tournament.id}>
+                <Link href={`/user-tournament-page/${tournament.id}`}>
+                  {tournament.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </Container>
     </motion.div>
   );

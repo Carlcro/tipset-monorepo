@@ -4,13 +4,16 @@ import UserTournamentsList from "../../components/user-tournament/UserTournament
 import { trpc } from "../../utils/trpc";
 
 const UserTournamentContainer = () => {
-  const myUserTournaments = trpc.userTournament.getUserTournaments.useQuery();
-
+  const utils = trpc.useContext();
+  const { mutate, isLoading } =
+    trpc.userTournament.createUserTournament.useMutation({
+      onSuccess: () => utils.invalidate(),
+    });
   return (
     <div className="flex flex-col-reverse items-center px-5 md:flex-row md:items-start md:justify-center md:space-x-8">
       <div className="mt-5  w-full max-w-[400px] space-y-5 md:mt-0">
-        <UserTournamentsList tournaments={myUserTournaments.data} />
-        <UserTournamentForm />
+        <UserTournamentsList addedLoading={isLoading} />
+        <UserTournamentForm createUserTournament={mutate} />
       </div>
       {/*       <HighScoreTable highscoreData={highscoreData} />
        */}{" "}
