@@ -25,7 +25,7 @@ import Spinner from "../Spinner";
 
 type Props = {
   mode: string;
-  handleSave: () => void;
+  handleSave?: () => void;
   setFinalsMatches?: (matches: any[]) => void;
   headerText: string;
 };

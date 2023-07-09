@@ -5,6 +5,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { RecoilRoot } from "recoil";
 import { trpc } from "../utils/trpc";
 import Navbar from "../components/Navbar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MyApp: AppType = ({ Component, pageProps: { ...pageProps } }) => {
   return (
@@ -12,6 +14,7 @@ const MyApp: AppType = ({ Component, pageProps: { ...pageProps } }) => {
       <RecoilRoot>
         <Navbar />
         <Component {...pageProps} />
+        <ToastContainer />
       </RecoilRoot>
     </ClerkProvider>
   );

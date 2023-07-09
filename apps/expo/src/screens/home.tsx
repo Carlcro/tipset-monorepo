@@ -54,12 +54,6 @@ export const HomeScreen = () => {
 
   const tournaments = trpc.userTournament.getUserTournaments.useQuery();
 
-  const addUsertournament = () => {
-    utMutation.mutate({
-      name: "Cool!",
-    });
-  };
-
   return (
     <SafeAreaView className="bg-[#2e026d] bg-gradient-to-b from-[#2e026d] to-[#15162c]">
       <View className="h-full w-full p-4">
@@ -73,7 +67,7 @@ export const HomeScreen = () => {
         ))}
 
         <TouchableOpacity
-          onPress={addUsertournament}
+          onPress={createUserTournament}
           className="rounded bg-[#cc66ff] p-2"
         >
           <Text className="text-white font-semibold">Publish post</Text>

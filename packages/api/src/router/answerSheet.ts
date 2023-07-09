@@ -1,3 +1,5 @@
+import { prisma } from "./../../../db/index";
+import { GoalScorer } from "./../../../calculations/src/types/goalScorer";
 import {
   calculateGroupResults,
   calculatePointsFromGroup,
@@ -6,7 +8,6 @@ import {
 } from "calculations";
 import { calculateGoalScorer } from "calculations/src/points/common";
 import { z } from "zod";
-
 import { router, protectedProcedure } from "../trpc";
 
 export const answerSheetRouter = router({
@@ -23,7 +24,12 @@ export const answerSheetRouter = router({
             penaltyWinnerId: z.optional(z.string()),
           }),
         ),
-        goalScorerId: z.optional(z.string()),
+        goalScorer: z.optional(
+          z.object({
+            id: z.string(),
+            goals: z.number(),
+          }),
+        ),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -47,14 +53,37 @@ export const answerSheetRouter = router({
               championshipId: championship.id,
             },
           });
+
+          await ctx.prisma.goalScorer.deleteMany();
+        }
+
+        let newGoalScorer;
+        if (input.goalScorer) {
+          newGoalScorer = await ctx.prisma.goalScorer.create({
+            data: {
+              playerId: input.goalScorer.id,
+              goals: input.goalScorer.goals,
+            },
+          });
         }
 
         const newAnswerSheet = await ctx.prisma.answerSheet.create({
           data: {
             championshipId: championship.id,
-            goalscorerId: input?.goalScorerId,
+            goalscorerId: newGoalScorer ? newGoalScorer.id : undefined,
           },
         });
+
+        if (newGoalScorer) {
+          await ctx.prisma.goalScorer.update({
+            where: {
+              id: newGoalScorer.id,
+            },
+            data: {
+              goals: input.goalScorer?.goals,
+            },
+          });
+        }
 
         await ctx.prisma.result.createMany({
           data: input.bets.map((bet) => ({
@@ -80,6 +109,11 @@ export const answerSheetRouter = router({
                 team2: true,
               },
             },
+            goalscorer: {
+              include: {
+                player: true,
+              },
+            },
           },
         });
       } catch (error) {
@@ -95,6 +129,11 @@ export const answerSheetRouter = router({
             penaltyWinner: true,
             team1: true,
             team2: true,
+          },
+        },
+        goalscorer: {
+          include: {
+            player: true,
           },
         },
       },

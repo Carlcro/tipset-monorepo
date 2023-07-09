@@ -125,6 +125,16 @@ const Navbar = () => {
               </Link>
               <Link
                 className={
+                  router.pathname === "/answer-sheet"
+                    ? "underline underline-offset-4"
+                    : ""
+                }
+                href="/answer-sheet"
+              >
+                Admin
+              </Link>
+              <Link
+                className={
                   router.pathname === "/bet-slip"
                     ? "underline underline-offset-4"
                     : ""

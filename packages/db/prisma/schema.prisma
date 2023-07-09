@@ -92,6 +92,33 @@ model Bet {
   @@index([betSlipId])
 }
 
+
+model PointsFromGroup {
+  id        String   @id @default(cuid())
+  group     String
+  points    Int
+  betSlip   BetSlip? @relation(fields: [betSlipId], references: [id])
+  betSlipId String?
+
+  @@index([betSlipId])
+}
+
+model PointsFromAdvancement {
+  id        String   @id @default(cuid())
+  final     String
+  points    Int
+  betSlip   BetSlip? @relation(fields: [betSlipId], references: [id])
+  betSlipId String?  @unique
+}
+
+model PointsHistory {
+  id          String   @id @default(cuid())
+  matchNumber Int      @unique
+  points      Int
+  betSlip     BetSlip? @relation(fields: [betSlipId], references: [id])
+  betSlipId   String?  @unique
+}
+
 model AnswerSheet {
   id             String       @id @default(cuid())
   results        Result[]
@@ -124,31 +151,6 @@ model Result {
   @@index([answerSheetId])
 }
 
-model PointsFromGroup {
-  id        String   @id @default(cuid())
-  group     String
-  points    Int
-  betSlip   BetSlip? @relation(fields: [betSlipId], references: [id])
-  betSlipId String?
-
-  @@index([betSlipId])
-}
-
-model PointsFromAdvancement {
-  id        String   @id @default(cuid())
-  final     String
-  points    Int
-  betSlip   BetSlip? @relation(fields: [betSlipId], references: [id])
-  betSlipId String?  @unique
-}
-
-model PointsHistory {
-  id          String   @id @default(cuid())
-  matchNumber Int      @unique
-  points      Int
-  betSlip     BetSlip? @relation(fields: [betSlipId], references: [id])
-  betSlipId   String?  @unique
-}
 
 model Player {
   id         String       @id @default(cuid())
@@ -163,6 +165,7 @@ model GoalScorer {
   goals       Int
   playerId    String
   AnswerSheet AnswerSheet[]
+
 
   @@index([playerId])
 }
