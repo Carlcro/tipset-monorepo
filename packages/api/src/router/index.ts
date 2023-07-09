@@ -7,6 +7,7 @@ import { teamRouter } from "./team";
 import { answerSheetRouter } from "./answerSheet";
 import { userRouter } from "./user";
 import { playerRouter } from "./player";
+import { configRouter } from "./config";
 
 export const appRouter = router({
   auth: authRouter,
@@ -17,6 +18,7 @@ export const appRouter = router({
   answerSheet: answerSheetRouter,
   user: userRouter,
   player: playerRouter,
+  config: configRouter,
 });
 
 // export type definition of API

@@ -84,7 +84,7 @@ const routesLoggedIn = (user: any, bettingAllowed: boolean) => [
 const Navbar = () => {
   const { isSignedIn } = useAuth();
   const router = useRouter();
-  const { data: config } = trpc.championship.getConfig.useQuery();
+  const { data: config } = trpc.config.getConfig.useQuery();
   const { data: user } = trpc.user.getUser.useQuery(undefined, {
     enabled: !!isSignedIn,
   });

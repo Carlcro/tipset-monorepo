@@ -109,6 +109,7 @@ export const betslipRouter = router({
           userId: input.userId,
         },
         include: {
+          user: true,
           goalscorer: true,
           bets: {
             include: {

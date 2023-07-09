@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 import { betSlipState, goalscorerState } from "../../recoil/bet-slip/atoms";
@@ -16,6 +16,8 @@ const DynamicBetslip = dynamic(
 );
 
 const AnswerSheet = () => {
+  const utils = trpc.useContext();
+
   const setFromBetslip = useSetRecoilState(setFromBetslipState);
   const [password, setPassword] = useState("");
   const [goals, setGoals] = useState(0);
@@ -33,6 +35,22 @@ const AnswerSheet = () => {
   };
 
   const { data: betSlipData } = trpc.answerSheet.getAnswerSheet.useQuery();
+
+  const { mutate: createConfig } = trpc.config.createConfig.useMutation();
+  const { mutate: setBettingAllowed } = trpc.config.bettingAllowed.useMutation({
+    onSuccess: () => {
+      utils.invalidate();
+    },
+  });
+
+  const { data: config, isError } = trpc.config.getConfig.useQuery();
+
+  useEffect(() => {
+    if (isError) {
+      toast("Config not found, creating one");
+      createConfig();
+    }
+  }, [createConfig, isError]);
 
   const { data: championshipData } =
     trpc.championship.getOneChampionship.useQuery();
@@ -97,6 +115,19 @@ const AnswerSheet = () => {
     <>
       <div className="mb-4 flex justify-center">
         <h1 className="text-3xl font-bold">Answer Sheet</h1>
+      </div>
+      <div>
+        <h1>Config</h1>
+        <div>
+          <label>Allow Betting</label>
+          <input
+            type="checkbox"
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setBettingAllowed(e.target.checked)
+            }
+            checked={config ? config.bettingAllowed : false}
+          />
+        </div>
       </div>
       <DynamicBetslip
         headerText="Admin"

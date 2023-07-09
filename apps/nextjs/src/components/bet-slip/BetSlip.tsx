@@ -42,7 +42,7 @@ const BetSlip = ({ mode, handleSave, setFinalsMatches, headerText }: Props) => {
   const [showStatistics, setShowStatistics] = useState(false);
 
   const { data: config, isLoading: configLoading } =
-    trpc.championship.getConfig.useQuery();
+    trpc.config.getConfig.useQuery();
 
   /*  const { data: matchStats, isLoading: matchStatisticsLoading } = useQuery(
     ["matchStatistics"],
