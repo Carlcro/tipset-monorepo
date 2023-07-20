@@ -3,17 +3,10 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 import { betSlipState, goalscorerState } from "../../recoil/bet-slip/atoms";
 import { setFromBetslipState } from "../../recoil/bet-slip/selectors/selectors";
-import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
 import { trpc } from "../../utils/trpc";
 import { championshipState } from "../../recoil/championship/atoms";
-
-const DynamicBetslip = dynamic(
-  () => import("../../components/bet-slip/BetSlip"),
-  {
-    ssr: false,
-  },
-);
+import BetSlip from "../../components/bet-slip/BetSlip";
 
 const AnswerSheet = () => {
   const utils = trpc.useContext();
@@ -129,12 +122,12 @@ const AnswerSheet = () => {
           />
         </div>
       </div>
-      <DynamicBetslip
+      <BetSlip
         headerText="Admin"
         setFinalsMatches={setFinalsMatches}
         handleSave={submitAnswer}
         mode={"answerSheet"}
-      ></DynamicBetslip>
+      />
       <div className="flex space-x-4 pb-10 pl-20 ">
         <input
           className="rounded-sm px-2 py-2"

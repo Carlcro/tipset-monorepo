@@ -1,5 +1,3 @@
-import { prisma } from "./../../../db/index";
-import { GoalScorer } from "./../../../calculations/src/types/goalScorer";
 import {
   calculateGroupResults,
   calculatePointsFromGroup,
@@ -102,7 +100,7 @@ export const answerSheetRouter = router({
             championshipId: championship.id,
           },
           include: {
-            results: {
+            bets: {
               include: {
                 penaltyWinner: true,
                 team1: true,
@@ -161,7 +159,7 @@ export const answerSheetRouter = router({
       const answerSheet = await ctx.prisma.answerSheet.findFirstOrThrow({
         include: {
           goalscorer: true,
-          results: {
+          bets: {
             include: {
               penaltyWinner: true,
               team1: true,
@@ -171,7 +169,7 @@ export const answerSheetRouter = router({
         },
       });
 
-      const matchNumber = answerSheet.results.length;
+      const matchNumber = answerSheet.bets.length;
 
       const allBetSlips = await ctx.prisma.betSlip.findMany({
         include: {
@@ -188,7 +186,7 @@ export const answerSheetRouter = router({
       });
 
       const answerSheetGroupResult = calculateGroupResults(
-        answerSheet.results,
+        answerSheet.bets,
         championship.matchGroups,
       );
 
@@ -201,7 +199,7 @@ export const answerSheetRouter = router({
         let totalPointsFromMatches = 0;
 
         betSlip.bets.forEach(async (bet) => {
-          const outcomeResult = answerSheet.results.find(
+          const outcomeResult = answerSheet.bets.find(
             (x) => x.matchId === bet.matchId,
           );
 
@@ -245,7 +243,7 @@ export const answerSheetRouter = router({
                 groupResult,
                 oneAnswerSheet,
                 betSlip.bets,
-                answerSheet.results,
+                answerSheet.bets,
               ),
             };
           }
@@ -257,7 +255,7 @@ export const answerSheetRouter = router({
 
         const pointsFromAdvancement = calculateCorrectAdvanceTeam(
           betSlip.bets,
-          answerSheet.results,
+          answerSheet.bets,
         );
 
         const goalScorerPoints = calculateGoalScorer(

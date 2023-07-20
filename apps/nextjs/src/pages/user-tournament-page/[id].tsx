@@ -1,14 +1,7 @@
 import React, { useState } from "react";
-import dynamic from "next/dynamic";
 import HighScoreTable from "../../components/user-tournament-page/HighScoreTable";
 import KickMemberDialog from "../../components/user-tournament-page/KickMemberDialog";
-
-const DynamicUserTournamentPanel = dynamic(
-  () => import("../../components/user-tournament-page/UserTournamentPanel"),
-  {
-    ssr: false,
-  },
-);
+import UserTournamentPanel from "../../components/user-tournament-page/UserTournamentPanel";
 
 const UserTournamentPage = () => {
   const [kickMemberDialogOpen, setKickMemberDialogOpen] = useState(false);
@@ -23,7 +16,7 @@ const UserTournamentPage = () => {
 
   return (
     <div className="flex flex-col-reverse items-center px-5 md:flex-row md:items-start md:justify-center md:space-x-8">
-      {<DynamicUserTournamentPanel />}
+      <UserTournamentPanel />
       <HighScoreTable showKickDialog={showKickDialog} />
       {
         <KickMemberDialog

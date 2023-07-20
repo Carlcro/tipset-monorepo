@@ -3,16 +3,9 @@ import { toast } from "react-toastify";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { setFromBetslipState } from "../../recoil/bet-slip/selectors/selectors";
 import { betSlipState, goalscorerState } from "../../recoil/bet-slip/atoms";
-import dynamic from "next/dynamic";
 import { trpc } from "../../utils/trpc";
 import { championshipState } from "../../recoil/championship/atoms";
-
-const DynamicBetslip = dynamic(
-  () => import("../../components/bet-slip/BetSlip"),
-  {
-    ssr: false,
-  },
-);
+import BetSlip from "../../components/bet-slip/BetSlip";
 
 const BetSlipContainer = () => {
   const setFromBetslip = useSetRecoilState(setFromBetslipState);
@@ -140,7 +133,7 @@ const BetSlipContainer = () => {
   }
 
   return (
-    <DynamicBetslip
+    <BetSlip
       headerText={"Lägg ditt tips för Bröderna Duhlins VM-tips 2022"}
       handleSave={submitBet}
       mode={"betslip"}

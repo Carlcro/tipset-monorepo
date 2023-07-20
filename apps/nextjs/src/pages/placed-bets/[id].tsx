@@ -4,16 +4,9 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-import dynamic from "next/dynamic";
 import Container from "../../components/Container";
 import { trpc } from "../../utils/trpc";
-
-const DynamicBetslip = dynamic(
-  () => import("../../components/bet-slip/BetSlip"),
-  {
-    ssr: false,
-  },
-);
+import BetSlip from "../../components/bet-slip/BetSlip";
 
 const PlacedBets = () => {
   const setFromBetslip = useSetRecoilState(setFromBetslipState);
@@ -90,7 +83,7 @@ const PlacedBets = () => {
 
   return (
     <div className="pb-10">
-      <DynamicBetslip headerText={name} mode={"placedBet"}></DynamicBetslip>
+      <BetSlip headerText={name} mode={"placedBet"} />
     </div>
   );
 };
