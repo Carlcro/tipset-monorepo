@@ -121,7 +121,7 @@ model PointsHistory {
 
 model AnswerSheet {
   id             String       @id @default(cuid())
-  results        Result[]
+  bets        Result[]
   goalscorer     GoalScorer?  @relation(fields: [goalscorerId], references: [id])
   goalscorerId   String?
   championship   Championship @relation(fields: [championshipId], references: [id])

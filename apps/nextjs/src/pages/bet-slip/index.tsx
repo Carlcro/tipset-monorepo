@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { toast } from "react-toastify";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { setFromBetslipState } from "../../recoil/bet-slip/selectors/selectors";
 import { betSlipState, goalscorerState } from "../../recoil/bet-slip/atoms";
 import dynamic from "next/dynamic";

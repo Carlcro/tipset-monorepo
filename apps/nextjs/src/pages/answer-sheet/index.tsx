@@ -67,7 +67,7 @@ const AnswerSheet = () => {
         goalscorer: betSlipData.goalscorer
           ? betSlipData.goalscorer?.player
           : undefined,
-        bets: [...betSlipData.results],
+        bets: [...betSlipData.bets],
       });
       if (betSlipData.goalscorer) {
         setGoals(betSlipData.goalscorer.goals);

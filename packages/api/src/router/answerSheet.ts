@@ -124,7 +124,7 @@ export const answerSheetRouter = router({
   getAnswerSheet: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.answerSheet.findFirst({
       include: {
-        results: {
+        bets: {
           include: {
             penaltyWinner: true,
             team1: true,
