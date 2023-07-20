@@ -3,8 +3,15 @@ import { useRecoilValue } from "recoil";
 import { getPointsFromGroup } from "../../recoil/bet-slip/selectors/selectors";
 import { motion } from "framer-motion";
 import Container from "../Container";
+import { TeamResult } from "calculations/src/types/teamResult";
 
-export default function Group({ groupResult, groupName, mode }) {
+type Props = {
+  groupResult: TeamResult[];
+  groupName: string;
+  mode: string;
+};
+
+export default function Group({ groupResult, groupName, mode }: Props) {
   const points = useRecoilValue(getPointsFromGroup(groupName));
 
   return (
@@ -13,11 +20,11 @@ export default function Group({ groupResult, groupName, mode }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      <Container classNames="m-2">
+      <Container>
         <table className="table-fixed">
           <thead>
             <tr>
-              <th className="text-left pl-2">{groupName}</th>
+              <th className="pl-2 text-left">{groupName}</th>
               <th>S</th>
               <th>V</th>
               <th>F</th>
@@ -31,13 +38,13 @@ export default function Group({ groupResult, groupName, mode }) {
           <tbody>
             {groupResult.map((gr) => (
               <tr key={gr.team.name}>
-                <td className="w-40 px-2">{gr.team.name}</td>
+                <td className="w-full px-2">{gr.team.name}</td>
                 <td className="px-2">{gr.played}</td>
                 <td className="px-2">{gr.won}</td>
                 <td className="px-2">{gr.lost}</td>
                 <td className="px-2">{gr.draw}</td>
-                <td className="px-2 hidden md:table-cell">{gr.goals}</td>
-                <td className="px-2 hidden md:table-cell">{gr.conceded}</td>
+                <td className="hidden px-2 md:table-cell">{gr.goals}</td>
+                <td className="hidden px-2 md:table-cell">{gr.conceded}</td>
                 <td className="px-2">{gr.diff}</td>
                 <td className="px-2">{gr.points}</td>
               </tr>
@@ -45,7 +52,7 @@ export default function Group({ groupResult, groupName, mode }) {
           </tbody>
         </table>
         {points !== null && mode === "placedBet" ? (
-          <div className="border-t border-black mx-2 flex justify-between">
+          <div className="border-black mx-2 flex justify-between border-t">
             <span>Poäng från grupp</span>
             <span>{points}</span>
           </div>

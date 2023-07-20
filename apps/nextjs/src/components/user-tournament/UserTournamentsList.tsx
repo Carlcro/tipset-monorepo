@@ -15,7 +15,9 @@ const UserTournamentsList = ({ addedLoading }: { addedLoading: boolean }) => {
       <Container>
         <div className="font-bold">Dina grupper</div>
         {isLoading || addedLoading ? (
-          <Spinner />
+          <div className="flex items-center justify-center">
+            <Spinner />
+          </div>
         ) : (
           <ul>
             {data?.map((tournament) => (

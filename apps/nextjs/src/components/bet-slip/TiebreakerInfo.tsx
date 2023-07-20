@@ -13,7 +13,7 @@ function TiebreakerInfo() {
 
   return (
     <Container classNames="px-10 py-2 m-2">
-      <h1 className="font-bold text-lg mb-2 -ml-5 ">
+      <h1 className="mb-2 -ml-5 text-lg font-bold ">
         Tiebreakers i gruppspelet
       </h1>
       <ol className="list-decimal space-y-2">

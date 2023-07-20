@@ -6,13 +6,20 @@ import {
 } from "../../recoil/bet-slip/atoms";
 import Container from "../Container";
 import Auto from "./Auto";
+import { GoalScorer } from "calculations/src/types/goalScorer";
 
-function GoalscorerInput({ goalscorer, handleSetGoalscorer, mode }) {
+type Props = {
+  goalscorer: GoalScorer;
+  handleSetGoalscorer: () => void;
+  mode: string;
+};
+
+function GoalscorerInput({ goalscorer, handleSetGoalscorer, mode }: Props) {
   const points = useRecoilValue(pointsFromGoalscorerState);
 
   return (
     <Container>
-      <h2 className="font-semibold mb-1">Skyttekung</h2>
+      <h2 className="mb-1 font-semibold">Skyttekung</h2>
       {mode !== "placedBet" ? (
         <Auto
           mode={mode}

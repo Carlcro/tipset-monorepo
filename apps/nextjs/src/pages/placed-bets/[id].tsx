@@ -7,9 +7,12 @@ import { motion } from "framer-motion";
 import Container from "../../components/Container";
 import { trpc } from "../../utils/trpc";
 import BetSlip from "../../components/bet-slip/BetSlip";
+import { championshipState } from "../../recoil/championship/atoms";
 
 const PlacedBets = () => {
   const setFromBetslip = useSetRecoilState(setFromBetslipState);
+  const setChampionship = useSetRecoilState(championshipState);
+
   const [placedBet, setPlacedBet] = useState(true);
   const [name, setName] = useState("");
   const router = useRouter();
@@ -18,7 +21,7 @@ const PlacedBets = () => {
   const { data: betSlipData, isLoading: placedBetLoading } =
     trpc.betslip.getPlacedBet.useQuery(
       {
-        userId: id,
+        id,
       },
       {
         enabled: Boolean(id),
@@ -38,6 +41,15 @@ const PlacedBets = () => {
       setName(betSlipData.user.fullName);
     }
   }, [setFromBetslip, betSlipData]);
+
+  const { data: championshipData } =
+    trpc.championship.getOneChampionship.useQuery();
+
+  useEffect(() => {
+    if (championshipData) {
+      setChampionship(championshipData);
+    }
+  }, [championshipData, setChampionship]);
 
   if (!config || placedBetLoading || configLoading) {
     return null;

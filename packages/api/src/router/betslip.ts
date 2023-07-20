@@ -102,11 +102,19 @@ export const betslipRouter = router({
     });
   }),
   getPlacedBet: protectedProcedure
-    .input(z.object({ userId: z.string() }))
-    .query(({ ctx, input }) => {
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const hej = await ctx.prisma.betSlip.findUnique({
+        where: {
+          id: input.id,
+        },
+      });
+
+      console.log("hej", hej);
+
       return ctx.prisma.betSlip.findUnique({
         where: {
-          userId: input.userId,
+          id: input.id,
         },
         include: {
           user: true,

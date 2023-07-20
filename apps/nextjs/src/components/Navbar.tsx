@@ -141,7 +141,7 @@ const Navbar = () => {
                 }
                 href={
                   config?.bettingAllowed === false && user && user
-                    ? `/placed-bets/${user.id}`
+                    ? `/placed-bets/${user.betSlip?.id}`
                     : "/bet-slip"
                 }
               >

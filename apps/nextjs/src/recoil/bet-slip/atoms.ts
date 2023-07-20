@@ -1,5 +1,5 @@
-import { GoalScorer } from "./../../../../../packages/calculations/src/types/goalScorer";
-import { Team } from "./../../../../../packages/calculations/src/types/team";
+import { GoalScorer } from "calculations/src/types/goalScorer";
+import { Team } from "calculations/src/types/team";
 import { atom } from "recoil";
 
 export type MatchBet = {
