@@ -1,16 +1,13 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
-import {
-  goalscorerState,
-  pointsFromGoalscorerState,
-} from "../../recoil/bet-slip/atoms";
+import { pointsFromGoalscorerState } from "../../recoil/bet-slip/atoms";
 import Container from "../Container";
 import Auto from "./Auto";
 import { GoalScorer } from "calculations/src/types/goalScorer";
 
 type Props = {
-  goalscorer: GoalScorer;
-  handleSetGoalscorer: () => void;
+  goalscorer: GoalScorer | null;
+  handleSetGoalscorer: (goalscorer: GoalScorer) => void;
   mode: string;
 };
 
