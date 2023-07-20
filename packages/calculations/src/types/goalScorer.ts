@@ -1,5 +1,5 @@
 export interface GoalScorer {
-  name: string;
+  name?: string;
   id: string;
   goals: number;
 }
