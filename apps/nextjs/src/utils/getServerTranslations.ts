@@ -1,7 +1,7 @@
 import type { Namespace } from "i18next";
 import type { SSRConfig, UserConfig } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { i18n } from "../../next-i18next.config.mjs"; // <- mjs
+import i18n from "../../next-i18next.config.mjs"; // <- mjs
 
 type ArrayElementOrSelf<T> = T extends Array<infer U> ? U[] : T[];
 
