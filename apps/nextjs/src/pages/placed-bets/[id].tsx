@@ -8,6 +8,8 @@ import Container from "../../components/Container";
 import { trpc } from "../../utils/trpc";
 import BetSlip from "../../components/bet-slip/BetSlip";
 import { championshipState } from "../../recoil/championship/atoms";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nConfig from "../../../next-i18next.config.mjs";
 
 const PlacedBets = () => {
   const setFromBetslip = useSetRecoilState(setFromBetslipState);
@@ -99,5 +101,16 @@ const PlacedBets = () => {
     </div>
   );
 };
+
+export const getServerSideProps = async ({ locale }: { locale: string }) => ({
+  props: {
+    ...(await serverSideTranslations(
+      locale,
+      ["countries", "bet-slip", "common"],
+      nextI18nConfig,
+      ["en", "sv"],
+    )),
+  },
+});
 
 export default PlacedBets;

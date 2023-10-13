@@ -4,8 +4,11 @@ import { trpc } from "../../utils/trpc";
 import Container from "../Container";
 import AddMemberInput from "./AddMemberInput";
 import DeleteUserTournamentDialog from "./DeleteUserTournamentDialog";
+import { useTranslation } from "next-i18next";
 
 const UserTournamentPanel = () => {
+  const { t } = useTranslation("user-tournament-page");
+
   const [dialogIsOpen, setIsDialogOpen] = useState(false);
   const router = useRouter();
 
@@ -34,15 +37,8 @@ const UserTournamentPanel = () => {
             </div>
           </Container>
           <Container>
-            För att bjuda in familj och vänner till den här gruppen behöver de
-            klicka på länken du ser här nedanför. Klicka helt enkelt på länken
-            för att kopiera den, och skicka den sedan till dem du vill bjuda in.
-            T.ex. via SMS, mail eller Messenger.
-            <span className="font-bold">
-              {
-                " OBS! Tänk på att de måste ha skapat ett konto innan de använder länken."
-              }
-            </span>
+            {t("invite-to-group-info")}
+            <span className="font-bold">{t("invite-warning")}</span>
           </Container>
 
           <Container classNames="flex flex-col">
@@ -53,7 +49,7 @@ const UserTournamentPanel = () => {
                 navigator.clipboard.writeText(window.location.href + "/join");
               }}
             >
-              Klicka här för att kopiera
+              {t("click-to-copy")}
             </button>
           </Container>
           <div className="mb-5">
@@ -61,7 +57,7 @@ const UserTournamentPanel = () => {
               className="border-black rounded-sm border border-polarNight bg-auroraRed py-1 px-2 text-snowStorm3"
               onClick={() => setIsDialogOpen(true)}
             >
-              {`${data.isOwner ? "Radera grupp" : "Lämna grupp"}`}
+              {`${data.isOwner ? t("delete-group") : t("leave-group")}`}
             </button>
           </div>
         </div>

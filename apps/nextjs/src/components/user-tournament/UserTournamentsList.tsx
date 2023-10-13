@@ -3,8 +3,11 @@ import Link from "next/link";
 import Container from "../Container";
 import { trpc } from "../../utils/trpc";
 import Spinner from "../Spinner";
+import { useTranslation } from "next-i18next";
 
 const UserTournamentsList = ({ addedLoading }: { addedLoading: boolean }) => {
+  const { t } = useTranslation("user-tournament");
+
   const { data, isLoading } = trpc.userTournament.getUserTournaments.useQuery();
   return (
     <motion.div
@@ -13,7 +16,7 @@ const UserTournamentsList = ({ addedLoading }: { addedLoading: boolean }) => {
       transition={{ duration: 0.4 }}
     >
       <Container>
-        <div className="font-bold">Dina grupper</div>
+        <div className="font-bold">{t("your-groups")}</div>
         {isLoading || addedLoading ? (
           <div className="flex items-center justify-center">
             <Spinner />

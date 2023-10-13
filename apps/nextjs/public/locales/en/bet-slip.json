@@ -1,0 +1,20 @@
+{
+  "bet-slip-header": "Place your bet",
+  "group": "Group {{groupName}}",
+  "played-abbr": "P",
+  "won-abbr": "W",
+  "lost-abbr": "L",
+  "draw-abbr": "D",
+  "goals-scored-abbr": "GS",
+  "goals-conceded-abbr": "GC",
+  "difference-abbr": "Diff",
+  "points-abbr": "P",
+  "points-from-group": "Points from group",
+  "points": "Points",
+  "points-correct-team-advancing": "Points correct team advancing",
+  "points-correct-bronze-winner": "Points correct bronze medalist",
+  "points-correct-euro-champion": "Points correct european champion",
+  "goal-scorer": "Goal scorer",
+  "save-bet": "Save bet",
+  "not-allowed-to-place-bet": "You can no longer place a bet"
+}

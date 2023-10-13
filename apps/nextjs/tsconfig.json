@@ -1,5 +1,13 @@
 {
   "extends": "../../tsconfig.json",
   "exclude": [],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cjs",
+    "**/*.mjs",
+    "next-i18next.config.mjs",
+    "next.config.mjs"
+  ]
 }

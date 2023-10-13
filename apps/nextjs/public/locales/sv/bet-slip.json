@@ -1,0 +1,20 @@
+{
+  "bet-slip-header": "Lägg ditt spel",
+  "group": "Grupp {{groupName}}",
+  "played-abbr": "S",
+  "won-abbr": "V",
+  "lost-abbr": "F",
+  "draw-abbr": "O",
+  "goals-scored-abbr": "GM",
+  "goals-conceded-abbr": "IM",
+  "difference-abbr": "Diff",
+  "points-abbr": "P",
+  "points-from-group": "Poäng från grupp",
+  "points": "Poäng",
+  "points-correct-team-advancing": "Poäng rätt lag vidare",
+  "points-correct-bronze-winner": "Poäng rätt bronsmedaljör",
+  "points-correct-euro-champion": "Poäng rätt europamästare",
+  "goal-scorer": "Skyttekung",
+  "save-bet": "Spara tips",
+  "not-allowed-to-place-bet": "Det är inte längre tillåtet att uppdatera ditt tips."
+}

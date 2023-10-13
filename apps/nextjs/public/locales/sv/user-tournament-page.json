@@ -1,0 +1,17 @@
+{
+  "invite-to-group-info": "För att bjuda in familj och vänner till den här gruppen behöver de klicka på länken du ser här nedanför. Klicka helt enkelt på länken för att kopiera den, och skicka den sedan till dem du vill bjuda in. T.ex. via SMS, mail eller Messenger.",
+  "invite-warning": " OBS! Tänk på att de måste ha skapat ett konto innan de använder länken.",
+  "click-to-copy": "Klicka här för att kopiera",
+  "delete-group": "Radera grupp",
+  "leave-group": "Lämna grupp",
+  "highscore": "Topplistan",
+  "name": "Namn",
+  "rank": "Rank",
+  "points": "Poäng",
+  "sure-you-want-to-remove-member": "Är du säker på att du vill ta bort {{memberName}}?",
+  "remove": "Ta bort",
+  "cancel": "Avbryt",
+  "add-member": "Lägg till ny medlem",
+  "e-mail": "e-mailadress",
+  "add": "Lägg till"
+}

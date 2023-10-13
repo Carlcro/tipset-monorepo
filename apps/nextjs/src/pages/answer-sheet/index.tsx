@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { trpc } from "../../utils/trpc";
 import { championshipState } from "../../recoil/championship/atoms";
 import BetSlip from "../../components/bet-slip/BetSlip";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nConfig from "../../../next-i18next.config.mjs";
 
 const AnswerSheet = () => {
   const utils = trpc.useContext();
@@ -14,8 +16,8 @@ const AnswerSheet = () => {
   const setFromBetslip = useSetRecoilState(setFromBetslipState);
   const [password, setPassword] = useState("");
   const [goals, setGoals] = useState(0);
-  const [betslip, setBetslip] = useRecoilState(betSlipState);
-  const [goalScorer, setGoalscorer] = useRecoilState(goalscorerState);
+  const betslip = useRecoilValue(betSlipState);
+  const goalScorer = useRecoilValue(goalscorerState);
 
   const setChampionship = useSetRecoilState(championshipState);
 
@@ -151,4 +153,15 @@ const AnswerSheet = () => {
     </>
   );
 };
+
+export const getServerSideProps = async ({ locale }: { locale: string }) => ({
+  props: {
+    ...(await serverSideTranslations(
+      locale,
+      ["countries", "bet-slip", "common"],
+      nextI18nConfig,
+      ["en", "sv"],
+    )),
+  },
+});
 export default AnswerSheet;

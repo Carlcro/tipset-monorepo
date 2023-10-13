@@ -27,10 +27,13 @@
     "country-flag-emoji-polyfill": "^0.1.4",
     "date-fns": "^2.29.3",
     "framer-motion": "^10.10.0",
+    "i18next": "^23.5.1",
     "next": "^13.1.6",
+    "next-i18next": "^14.0.3",
     "react": "18.2.0",
     "react-autosuggest": "^10.1.0",
     "react-dom": "18.2.0",
+    "react-i18next": "^13.2.2",
     "react-toastify": "^9.1.2",
     "recoil": "^0.7.7",
     "zod": "^3.18.0"

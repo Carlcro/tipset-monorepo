@@ -1,10 +1,9 @@
 import React from "react";
-import { Dialog, Transition } from "@headlessui/react";
-
+import { Dialog } from "@headlessui/react";
 import { useRouter } from "next/router";
 import Container from "../Container";
-
 import { trpc } from "../../utils/trpc";
+import { useTranslation } from "next-i18next";
 
 type Props = {
   memberId: string;
@@ -21,6 +20,7 @@ export default function KickMemberDialog({
 }: Props) {
   const router = useRouter();
   const id = router.query.id as string;
+  const { t } = useTranslation("user-tournament-page");
 
   const { mutate } = trpc.userTournament.kickMember.useMutation();
 
@@ -43,20 +43,20 @@ export default function KickMemberDialog({
         <Dialog.Overlay className="bg-black fixed inset-0 opacity-20" />
         <Container classNames="z-10 border border-black max-w-sm mx-auto">
           <Dialog.Description>
-            {`Är du säker på att du vill ta bort ${memberName}`}
+            {t("sure-you-want-to-remove-member", { memberName })}
           </Dialog.Description>
           <div className="mt-3 flex justify-between">
             <button
               className="border-black rounded-sm border border-polarNight bg-auroraRed py-1 px-2 text-snowStorm3"
               onClick={handleKickMember}
             >
-              {`Ta bort`}
+              {t("remove")}
             </button>
             <button
               className="rounded border px-2 py-1"
               onClick={() => setIsOpen(false)}
             >
-              Avbryt
+              {t("cancel")}
             </button>
           </div>
         </Container>

@@ -20,11 +20,13 @@ import {
 import { championshipState } from "../../recoil/championship/atoms";
 import Container from "../Container";
 import SubmitButton from "../SubmitButton";
-import { GoalScorer } from "calculations/src/types/goalScorer";
 import Spinner from "../Spinner";
+import { Player } from "@acme/db";
+import { Mode } from "../../types";
+import { useTranslation } from "next-i18next";
 
 type Props = {
-  mode: string;
+  mode: Mode;
   handleSave?: () => void;
   setFinalsMatches?: (matches: any[]) => void;
   headerText: string;
@@ -38,6 +40,7 @@ const BetSlip = ({ mode, handleSave, setFinalsMatches, headerText }: Props) => {
   const thirdPlaceFinal = useRecoilValue(getThirdPlaceFinal);
   const final = useRecoilValue(getFinal);
   const [goalscorer, setGoalscorer] = useRecoilState(goalscorerState);
+  const { t } = useTranslation("bet-slip");
 
   const [showStatistics, setShowStatistics] = useState(false);
 
@@ -83,7 +86,7 @@ const BetSlip = ({ mode, handleSave, setFinalsMatches, headerText }: Props) => {
     resetAllMatches();
   };
 
-  const handleSetGoalscorer = (goalscorer: GoalScorer) => {
+  const handleSetGoalscorer = (goalscorer: Player) => {
     setGoalscorer(goalscorer);
   };
   if (configLoading) {
@@ -140,18 +143,19 @@ const BetSlip = ({ mode, handleSave, setFinalsMatches, headerText }: Props) => {
               mode={mode}
             />
             <GoalscorerInput
+              mode={mode}
               goalscorer={goalscorer}
               handleSetGoalscorer={handleSetGoalscorer}
-              mode={mode}
             />
             {mode !== "placedBet" && (
               <div className="mb-10 mt-4 flex">
                 {config?.bettingAllowed || mode === "answerSheet" ? (
                   <SubmitButton type="button" onClick={handleSave}>
-                    Spara tips
+                    {t("save-bet")}
                   </SubmitButton>
                 ) : (
                   <div className="my-3 ml-3 rounded-lg py-1 px-2  font-bold text-red-500">
+                    {t("not-allowed-to-place-bet")}
                     Det är inte längre tillåtet att uppdatera ditt tips.
                   </div>
                 )}

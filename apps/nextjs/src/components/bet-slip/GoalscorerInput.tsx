@@ -2,31 +2,33 @@ import React from "react";
 import { useRecoilValue } from "recoil";
 import { pointsFromGoalscorerState } from "../../recoil/bet-slip/atoms";
 import Container from "../Container";
-import Auto from "./Auto";
-import { GoalScorer } from "calculations/src/types/goalScorer";
+import AutoComplete from "./AutoComplete";
+import { Player } from "@acme/db";
+import { Mode } from "../../types";
+import { useTranslation } from "next-i18next";
 
 type Props = {
-  goalscorer: GoalScorer | null;
-  handleSetGoalscorer: (goalscorer: GoalScorer) => void;
-  mode: string;
+  goalscorer: Player | null;
+  handleSetGoalscorer: (goalscorer: Player) => void;
+  mode: Mode;
 };
 
 function GoalscorerInput({ goalscorer, handleSetGoalscorer, mode }: Props) {
   const points = useRecoilValue(pointsFromGoalscorerState);
+  const { t } = useTranslation("bet-slip");
 
   return (
     <Container>
-      <h2 className="mb-1 font-semibold">Skyttekung</h2>
+      <h2 className="mb-1 font-semibold">{t("goal-scorer")}</h2>
       {mode !== "placedBet" ? (
-        <Auto
-          mode={mode}
+        <AutoComplete
           goalscorer={goalscorer}
-          setGoalscorer={handleSetGoalscorer}
+          handleSetGoalscorer={handleSetGoalscorer}
         />
       ) : (
         <div className="flex justify-between">
           <span>{goalscorer?.name}</span>
-          {points !== undefined && <span>{`Poäng: ${points}`}</span>}
+          {points !== undefined && <span>{`${t("points")}: ${points}`}</span>}
         </div>
       )}
     </Container>

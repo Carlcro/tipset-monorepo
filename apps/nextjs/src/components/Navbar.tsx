@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { trpc } from "../utils/trpc";
 import { useAuth, SignOutButton } from "@clerk/nextjs";
+import { useTranslation } from "next-i18next";
 
 /* const MyLink = forwardRef((props, ref) => {
   const { href, children, ...rest } = props;
@@ -82,6 +83,7 @@ const routesLoggedIn = (user: any, bettingAllowed: boolean) => [
 ];
 
 const Navbar = () => {
+  const { t } = useTranslation("common");
   const { isSignedIn } = useAuth();
   const router = useRouter();
   const { data: config } = trpc.config.getConfig.useQuery();
@@ -121,7 +123,7 @@ const Navbar = () => {
                 }
                 href="/user-tournament"
               >
-                Hem
+                {t("home")}
               </Link>
               <Link
                 className={
@@ -145,7 +147,7 @@ const Navbar = () => {
                     : "/bet-slip"
                 }
               >
-                {user && user.betSlip ? "Mitt tips" : "Gör ditt tips"}
+                {user && user.betSlip ? t("my-bet") : t("make-your-bet")}
               </Link>
             </>
             <Link
@@ -156,7 +158,7 @@ const Navbar = () => {
               }
               href="/championship"
             >
-              Facit
+              {t("facit")}
             </Link>
             <Link
               className={
@@ -166,7 +168,7 @@ const Navbar = () => {
               }
               href="/point-system"
             >
-              Poängsystem
+              {t("point-system")}
             </Link>
 
             <div className="mr-5 flex flex-1 items-center justify-end space-x-7 text-right">

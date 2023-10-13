@@ -2,6 +2,8 @@ import React from "react";
 import UserTournamentForm from "../../components/user-tournament/UserTournamentForm";
 import UserTournamentsList from "../../components/user-tournament/UserTournamentsList";
 import { trpc } from "../../utils/trpc";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nConfig from "../../../next-i18next.config.mjs";
 
 const UserTournamentContainer = () => {
   const utils = trpc.useContext();
@@ -20,5 +22,16 @@ const UserTournamentContainer = () => {
     </div>
   );
 };
+
+export const getServerSideProps = async ({ locale }: { locale: string }) => ({
+  props: {
+    ...(await serverSideTranslations(
+      locale,
+      ["user-tournament", "common"],
+      nextI18nConfig,
+      ["en", "sv"],
+    )),
+  },
+});
 
 export default UserTournamentContainer;

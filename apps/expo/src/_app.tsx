@@ -9,6 +9,7 @@ import { ClerkProvider, SignedIn, SignedOut } from "@clerk/clerk-expo";
 import { tokenCache } from "./utils/cache";
 import Constants from "expo-constants";
 
+
 export const App = () => {
   return (
     <ClerkProvider

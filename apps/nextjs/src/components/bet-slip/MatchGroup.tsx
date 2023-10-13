@@ -8,11 +8,7 @@ import {
 import Container from "../Container";
 import Match from "../Match";
 import { MatchInfo } from "@acme/db";
-
-const LabelMap: { [key: string]: string } = {
-  Bronsmatch: "Poäng rätt bronsmedaljör",
-  Final: "Poäng rätt världsmästare",
-};
+import { useTranslation } from "next-i18next";
 
 type MatchGroupProps = {
   group: {
@@ -26,6 +22,12 @@ type MatchGroupProps = {
 
 function MatchGroup({ group, matchInfos, mode }: MatchGroupProps) {
   const points = useRecoilValue(getPointsFromAdvancement(group.name));
+  const { t } = useTranslation("bet-slip");
+
+  const LabelMap: { [key: string]: string } = {
+    Bronsmatch: t("points-correct-bronze-winner"),
+    Final: t("points-correct-euro-champion"),
+  };
 
   const matchIds = group?.matches?.map((m) => m.matchId);
 
@@ -47,8 +49,8 @@ function MatchGroup({ group, matchInfos, mode }: MatchGroupProps) {
       <Container classNames="lg:w-full">
         <div className="flex justify-between">
           <h2 className="pl-2 pb-1 text-xl font-semibold">{`${
-            group.finalsStage ? "" : "Grupp"
-          } ${group.name}`}</h2>
+            group.finalsStage ? "" : t("group", { groupName: group.name })
+          }`}</h2>
         </div>
         {matchInfosForGroup.map((matchInfo) => {
           const match = group.matches.find(

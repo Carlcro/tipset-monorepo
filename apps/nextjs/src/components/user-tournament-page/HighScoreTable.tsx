@@ -4,12 +4,15 @@ import DiffIndicator from "../DiffIndicator";
 import Container from "../Container";
 import { trpc } from "../../utils/trpc";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 type Props = {
   showKickDialog: (id: string, fullName: string) => void;
 };
 
 const HighScoreTable = ({ showKickDialog }: Props) => {
+  const { t } = useTranslation("user-tournament-page");
+
   const router = useRouter();
 
   const id = router.query.id as string;
@@ -29,15 +32,15 @@ const HighScoreTable = ({ showKickDialog }: Props) => {
     >
       <Container classNames="sm:w-[400px]">
         <h2 className="text-center text-xl font-semibold">
-          {data.name ? data.name : "Topplistan"}
+          {data.name ? data.name : t("highscore")}
         </h2>
         <table className="mx-1 w-full">
           <thead>
             <tr>
               {data.isOwner && <th />}
-              <th>Rank</th>
-              <th className="text-center md:text-left">Namn</th>
-              <th>Poäng</th>
+              <th>{t("rank")}</th>
+              <th className="text-center md:text-left">{t("name")}</th>
+              <th>{t("points")}</th>
               <th className="w-12"></th>
             </tr>
           </thead>

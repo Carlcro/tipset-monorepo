@@ -2,7 +2,7 @@ import React, { SyntheticEvent, useState } from "react";
 import { motion } from "framer-motion";
 import Container from "../Container";
 import SubmitButton from "../SubmitButton";
-import { trpc } from "../../utils/trpc";
+import { useTranslation } from "next-i18next";
 
 const UserTournamentForm = ({
   createUserTournament,
@@ -10,6 +10,7 @@ const UserTournamentForm = ({
   createUserTournament: (input: { name: string }) => void;
 }) => {
   const [userTournamentName, setUserTournamentName] = useState("");
+  const { t } = useTranslation("user-tournament");
 
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,12 +24,8 @@ const UserTournamentForm = ({
       transition={{ duration: 0.4 }}
     >
       <Container classNames="mb-5">
-        <div className="mb-3 text-sm">
-          {`För att göra det lättare att följa ställningen mellan familj och
-          vänner kan du skapa en grupp för just er. Det gör du genom att skriva
-          in ett gruppnamn här och sedan och klicka på 'skapa grupp'.`}
-        </div>
-        <div className="mb-1 font-bold">Namnge din grupp</div>
+        <div className="mb-3 text-sm">{t("create-group-info")}</div>
+        <div className="mb-1 font-bold">{t("give-your-group-a-name")}</div>
         <form className="flex flex-col items-center" onSubmit={handleSubmit}>
           <input
             onChange={({ target }) => setUserTournamentName(target.value)}
@@ -36,7 +33,7 @@ const UserTournamentForm = ({
             value={userTournamentName}
             className="mb-3 w-full rounded-sm border border-polarNight px-2 py-1.5"
           ></input>
-          <SubmitButton type="submit">Skapa grupp</SubmitButton>
+          <SubmitButton type="submit">{t("create-group")}</SubmitButton>
         </form>
       </Container>
     </motion.div>

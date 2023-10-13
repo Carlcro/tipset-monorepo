@@ -72,7 +72,7 @@ function scoreExists(): (score: MatchResult | undefined) => boolean {
 export function getGroupResults(): (group: MatchGroupScores) => GroupResult {
   return (mgs) => {
     return {
-      name: "Grupp " + mgs.matchGroup.name,
+      name: mgs.matchGroup.name,
       results: calculateTeamResults(mgs.scores, mgs.matchGroup.teams),
     };
   };

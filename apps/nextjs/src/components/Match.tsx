@@ -13,6 +13,7 @@ import { MatchInfo } from "@acme/db";
 import { MatchBet, MatchBetBeforeInput } from "../recoil/bet-slip/atoms";
 import { Team } from "calculations/src/types/team";
 import { Match } from "calculations/src/types/match";
+import { useTranslation } from "next-i18next";
 
 polyfillCountryFlagEmojis();
 
@@ -125,6 +126,8 @@ const Match = ({
   finalsStage?: boolean;
   mode: string;
 }) => {
+  const { t } = useTranslation("countries");
+
   const { team1, team2, matchId } = match;
   const { arena, city, time } = matchInfo;
 
@@ -216,7 +219,7 @@ const Match = ({
       <div
         className={`flex items-center justify-end truncate px-2 text-sm md:text-base`}
       >
-        <span className={`truncate ${team1Style}`}>{team1.name}</span>
+        <span className={`truncate ${team1Style}`}>{t(team1.name)}</span>
         <span className="ml-2 text-xl xs:flex">{flags[team1.name]}</span>
       </div>
 
@@ -237,7 +240,7 @@ const Match = ({
       >
         <span className="mr-2 text-xl xs:flex">{flags[team2.name]}</span>
 
-        <span className={`truncate ${team2Style}`}>{team2.name}</span>
+        <span className={`truncate ${team2Style}`}>{t(team2.name)}</span>
       </div>
       {mode === "placedBet" && (
         <div className="text-center">{matchScore.points}</div>

@@ -1,0 +1,17 @@
+{
+  "invite-to-group-info": "To invite family and friends to this group, they need to click the link you see below. Simply click the link to copy it, then send it to whoever you want invite. E.g. via SMS, email or Messenger.",
+  "invite-warning": " NOTE! Please note that they must have created an account before using the link.",
+  "click-to-copy": "Click here to copy",
+  "delete-group": "Delete group",
+  "leave-group": "Leave group",
+  "highscore": "Highscore",
+  "name": "Name",
+  "rank": "Rank",
+  "points": "Points",
+  "sure-you-want-to-remove-member": "Are you sure you want to remove {{memberName}}?",
+  "remove": "Remove",
+  "cancel": "Cancel",
+  "add-member": "Add new member",
+  "e-mail": "e-mail",
+  "add": "Add"
+}

@@ -3,37 +3,36 @@ interface FlagsObject {
 }
 
 export const flags: FlagsObject = {
-  Qatar: "🇶🇦",
-  Ecuador: "🇪🇨",
-  Senegal: "🇸🇳",
-  Nederländerna: "🇳🇱",
-  England: "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
-  Iran: "🇮🇷",
-  USA: "🇺🇸",
-  Wales: "🏴󠁧󠁢󠁷󠁬󠁳󠁿",
-  Mexiko: "🇲🇽",
-  Polen: "🇵🇱",
-  Argentina: "🇦🇷",
-  Saudiarabien: "🇸🇦",
-  Frankrike: "🇫🇷",
-  Australien: "🇦🇺",
-  Danmark: "🇩🇰",
-  Tunisien: "🇹🇳",
-  Tyskland: "🇩🇪",
-  Japan: "🇯🇵",
-  Spanien: "🇪🇸",
-  CostaRica: "🇨🇷",
-  "Costa Rica": "🇨🇷",
-  Belgien: "🇧🇪",
-  Kanada: "🇨🇦",
-  Marocko: "🇲🇦",
-  Kroatien: "🇭🇷",
-  Brasilien: "🇧🇷",
-  Serbien: "🇷🇸",
-  Schweiz: "🇨🇭",
-  Kamerun: "🇨🇲",
-  Portugal: "🇵🇹",
-  Ghana: "🇬🇭",
-  Uruguay: "🇺🇾",
-  Sydkorea: "🇰🇷",
+  qatar: "🇶🇦",
+  ecuador: "🇪🇨",
+  senegal: "🇸🇳",
+  netherlands: "🇳🇱", // Nederländerna
+  england: "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+  iran: "🇮🇷",
+  usa: "🇺🇸",
+  wales: "🏴󠁧󠁢󠁷󠁬󠁳󠁿",
+  mexico: "🇲🇽", // Mexiko
+  poland: "🇵🇱", // Polen
+  argentina: "🇦🇷",
+  saudi_arabia: "🇸🇦", // Saudiarabien
+  france: "🇫🇷", // Frankrike
+  australia: "🇦🇺", // Australien
+  denmark: "🇩🇰", // Danmark
+  tunisia: "🇹🇳", // Tunisien
+  germany: "🇩🇪", // Tyskland
+  japan: "🇯🇵",
+  spain: "🇪🇸", // Spanien
+  costa_rica: "🇨🇷", // CostaRica
+  belgium: "🇧🇪", // Belgien
+  canada: "🇨🇦", // Kanada
+  morocco: "🇲🇦", // Marocko
+  croatia: "🇭🇷", // Kroatien
+  brazil: "🇧🇷", // Brasilien
+  serbia: "🇷🇸", // Serbien
+  switzerland: "🇨🇭", // Schweiz
+  cameroon: "🇨🇲", // Kamerun
+  portugal: "🇵🇹",
+  ghana: "🇬🇭",
+  uruguay: "🇺🇾",
+  south_korea: "🇰🇷", // Sydkorea
 };

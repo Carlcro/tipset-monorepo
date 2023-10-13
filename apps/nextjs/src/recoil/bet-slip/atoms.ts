@@ -1,3 +1,4 @@
+import { Player } from "@acme/db";
 import { GoalScorer } from "calculations/src/types/goalScorer";
 import { Team } from "calculations/src/types/team";
 import { atom } from "recoil";
@@ -54,5 +55,5 @@ export const pointsFromGoalscorerState = atom({
 
 export const goalscorerState = atom({
   key: "goalsScorerState",
-  default: null as null | GoalScorer,
+  default: null as null | Player,
 });
