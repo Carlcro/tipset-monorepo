@@ -4,5 +4,6 @@ const config = {
     locales: ["en", "sv"],
     defaultLocale: "en",
   },
+  localePath: path.resolve("./public/locales"),
 };
 export default config;
