@@ -14,6 +14,7 @@ import { MatchBet, MatchBetBeforeInput } from "../recoil/bet-slip/atoms";
 import { Team } from "calculations/src/types/team";
 import { Match } from "calculations/src/types/match";
 import { useTranslation } from "next-i18next";
+import { Mode } from "../types";
 
 polyfillCountryFlagEmojis();
 
@@ -48,7 +49,7 @@ type ResultRowProps = {
   handleTeam1Score: (score: number | string) => void;
   handleTeam2Score: (score: number | string) => void;
   handlePenaltyWinner: (team: Team) => ChangeEventHandler<HTMLInputElement>;
-  mode: string;
+  mode: Mode;
 };
 
 const ResultRow = ({
@@ -119,7 +120,7 @@ type MatchProps = {
   match: Match;
   matchInfo: MatchInfo;
   finalsStage?: boolean;
-  mode: string;
+  mode: Mode;
 };
 
 const Match: React.FC<MatchProps> = ({
