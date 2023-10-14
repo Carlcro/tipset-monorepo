@@ -17,6 +17,7 @@ import {
   getSemiFinalsResults,
   getSemiFinalsLosers,
 } from "./results";
+import { MatchResult } from "calculations/src/types/matchResult";
 
 export const getGroupOf16 = selector({
   key: "getGroupOf16State",
@@ -25,11 +26,14 @@ export const getGroupOf16 = selector({
 
     const betSlip = get(betSlipState);
 
-    const allGroupMatchesSet =
-      betSlip.filter((match) => match.matchId <= 48).length >= 48;
+    const allGroupMatchesSet = !betSlip.some(
+      (x) =>
+        (!Number.isInteger(x.team1Score) || !Number.isInteger(x.team2Score)) &&
+        x.matchId <= 48,
+    );
 
     const teamRankings = groupResults
-      .map((gr) => calculateTeamRanking(gr.results, betSlip))
+      .map((gr) => calculateTeamRanking(gr.results, betSlip as MatchResult[]))
       .map((results) => ({ teams: results.map((result) => result.team) }));
     /*     const bestOfThirds = getBestOfThirds(groupResults, betSlip);
      */
