@@ -1,9 +1,10 @@
 import React, { useRef } from "react";
+import { Mode } from "../types";
 
 type Props = {
   teamScore: number | string;
-  setTeamScore: (score: number) => void;
-  mode: string;
+  setTeamScore: (score: number | string) => void;
+  mode: Mode;
 };
 
 const GoalInput = (props: Props) => {
@@ -30,11 +31,13 @@ const GoalInput = (props: Props) => {
   }
 
   function handleChange({ target }: React.ChangeEvent<HTMLInputElement>) {
+    if (target.value === "") {
+      return props.setTeamScore(target.value);
+    }
     if (target.value.length > 1) {
       return;
-    } else {
-      props.setTeamScore(Number(target.value));
     }
+    return props.setTeamScore(Number(target.value));
   }
 
   return (

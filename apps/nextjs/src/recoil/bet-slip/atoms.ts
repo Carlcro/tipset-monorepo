@@ -8,8 +8,8 @@ export type MatchBet = {
   team1: Team;
   team2: Team;
   penaltyWinner?: Team | null;
-  team1Score: number;
-  team2Score: number;
+  team1Score: number | string;
+  team2Score: number | string;
   points?: number;
 };
 

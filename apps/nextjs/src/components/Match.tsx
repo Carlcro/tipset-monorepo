@@ -45,8 +45,8 @@ type ResultRowProps = {
   matchScore: MatchBet | MatchBetBeforeInput;
   team1: Team;
   team2: Team;
-  handleTeam1Score: (score: number) => void;
-  handleTeam2Score: (score: number) => void;
+  handleTeam1Score: (score: number | string) => void;
+  handleTeam2Score: (score: number | string) => void;
   handlePenaltyWinner: (team: Team) => ChangeEventHandler<HTMLInputElement>;
   mode: string;
 };
@@ -139,22 +139,20 @@ const Match: React.FC<MatchProps> = ({
   const draw = useRecoilValue(getMatchDrawState(matchId));
   const setScore = useSetRecoilState(setMatchState);
 
-  const handleTeam1Score = (score: number) => {
+  const handleTeam1Score = (score: number | string) => {
     setScore({
       matchId,
       team1Score: score,
-      team2Score:
-        typeof matchScore.team2Score === "string" ? 0 : matchScore.team2Score,
+      team2Score: matchScore.team2Score,
       team1: team1,
       team2: team2,
     });
   };
 
-  const handleTeam2Score = (score: number) => {
+  const handleTeam2Score = (score: number | string) => {
     setScore({
       matchId,
-      team1Score:
-        typeof matchScore.team1Score === "string" ? 0 : matchScore.team1Score,
+      team1Score: matchScore.team1Score,
       team2Score: score,
       team1: team1,
       team2: team2,
