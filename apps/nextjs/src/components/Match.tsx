@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useState } from "react";
+import React, { ChangeEventHandler } from "react";
 import GoalInput from "./GoalInput";
 import { format, addHours } from "date-fns";
 import {
@@ -115,16 +115,18 @@ const ResultRow = ({
   </>
 );
 
-const Match = ({
-  match,
-  matchInfo,
-  finalsStage,
-  mode,
-}: {
+type MatchProps = {
   match: Match;
   matchInfo: MatchInfo;
   finalsStage?: boolean;
   mode: string;
+};
+
+const Match: React.FC<MatchProps> = ({
+  match,
+  matchInfo,
+  finalsStage,
+  mode,
 }) => {
   const { t } = useTranslation("countries");
 

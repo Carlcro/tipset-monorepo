@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { trpc } from "../utils/trpc";
-import { useAuth, UserButton } from "@clerk/nextjs";
+import { SignIn, useAuth, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../next-i18next.config.mjs";
@@ -45,11 +44,7 @@ const AuthShowcase: React.FC = () => {
           </div>
         </>
       )}
-      {!isSignedIn && (
-        <p className="text-white text-center text-2xl">
-          <Link href="/sign-in">Sign In</Link>
-        </p>
-      )}
+      {!isSignedIn && <SignIn signUpUrl="/sign-up" />}
     </div>
   );
 };

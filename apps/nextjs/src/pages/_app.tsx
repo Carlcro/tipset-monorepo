@@ -9,14 +9,18 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { appWithTranslation, useTranslation } from "next-i18next";
 import nextI18nConfig from "../../next-i18next.config.mjs";
+import "@radix-ui/themes/styles.css";
+import { Theme } from "@radix-ui/themes";
 
 const MyApp: AppType = ({ Component, pageProps: { ...pageProps } }) => {
   return (
     <ClerkProvider {...pageProps}>
       <RecoilRoot>
-        <Navbar />
-        <Component {...pageProps} />
-        <ToastContainer />
+        <Theme>
+          <Navbar />
+          <Component {...pageProps} />
+          <ToastContainer />
+        </Theme>
       </RecoilRoot>
     </ClerkProvider>
   );

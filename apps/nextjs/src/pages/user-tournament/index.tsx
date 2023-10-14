@@ -4,6 +4,7 @@ import UserTournamentsList from "../../components/user-tournament/UserTournament
 import { trpc } from "../../utils/trpc";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
+import { Flex, Text, Button } from "@radix-ui/themes";
 
 const UserTournamentContainer = () => {
   const utils = trpc.useContext();
