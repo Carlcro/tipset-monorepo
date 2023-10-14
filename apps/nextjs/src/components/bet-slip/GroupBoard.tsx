@@ -2,9 +2,10 @@ import React from "react";
 import Group from "./Group";
 import { useRecoilValue } from "recoil";
 import { getSortedGroupResults } from "../../recoil/bet-slip/selectors/results";
+import { Mode } from "../../types";
 
 type Props = {
-  mode: string;
+  mode: Mode;
 };
 
 export default function GroupBoard({ mode }: Props) {

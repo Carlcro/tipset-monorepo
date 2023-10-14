@@ -9,6 +9,7 @@ import Container from "../Container";
 import Match from "../Match";
 import { MatchInfo } from "@acme/db";
 import { useTranslation } from "next-i18next";
+import { Mode } from "../../types";
 
 type MatchGroupProps = {
   group: {
@@ -17,7 +18,7 @@ type MatchGroupProps = {
     finalsStage?: boolean;
   };
   matchInfos: MatchInfo[];
-  mode: string;
+  mode: Mode;
 };
 
 function MatchGroup({ group, matchInfos, mode }: MatchGroupProps) {

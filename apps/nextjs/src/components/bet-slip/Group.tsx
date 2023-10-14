@@ -5,11 +5,12 @@ import { motion } from "framer-motion";
 import Container from "../Container";
 import { TeamResult } from "calculations/src/types/teamResult";
 import { useTranslation } from "next-i18next";
+import { Mode } from "../../types";
 
 type Props = {
   groupResult: TeamResult[];
   groupName: string;
-  mode: string;
+  mode: Mode;
 };
 
 export default function Group({ groupResult, groupName, mode }: Props) {
