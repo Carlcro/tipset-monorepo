@@ -5,6 +5,6 @@ export interface RawMatchResult {
   team1: Team;
   team2: Team;
   penaltyWinner?: Team | null;
-  team1Score: number | null;
-  team2Score: number | null;
+  team1Score: number;
+  team2Score: number;
 }

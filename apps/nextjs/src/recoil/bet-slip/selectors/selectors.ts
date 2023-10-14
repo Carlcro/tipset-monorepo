@@ -22,6 +22,8 @@ import {
 } from "calculations";
 import { championshipState } from "../../championship/atoms";
 import { Team } from "calculations/src/types/team";
+import { RawMatchResult } from "calculations/src/types/rawMatchResult";
+import { MatchResult } from "calculations/src/types/matchResult";
 
 export const setAllMatchesState = selector({
   key: "setAllMatches",
@@ -237,26 +239,30 @@ export const setMatchState = selector({
       betSlip.push(newValue);
 
       const groupResults = calculateGroupResults(
-        betSlip,
+        betSlip as RawMatchResult[],
         championship.matchGroups,
       );
 
       const teamRankings = groupResults
-        .map((gr) => calculateTeamRanking(gr.results, betSlip))
+        .map((gr) => calculateTeamRanking(gr.results, betSlip as MatchResult[]))
         .map((results) => ({ teams: results.map((result) => result.team) }));
 
       const newGroupOf16 = calculateGroupOf16(teamRankings);
       updateMatches(betSlip, newGroupOf16, newValue);
 
-      const groupOf16Result = calculateGroupOf16Results(betSlip);
+      const groupOf16Result = calculateGroupOf16Results(
+        betSlip as RawMatchResult[],
+      );
       const newGroupOf8 = calculateGroupOf8(groupOf16Result);
       updateMatches(betSlip, newGroupOf8, newValue);
 
-      const groupOf8Result = calculateGroupOf8Results(betSlip);
+      const groupOf8Result = calculateGroupOf8Results(
+        betSlip as RawMatchResult[],
+      );
       const newSemiFinals = calculateSemiFinals(groupOf8Result);
       updateMatches(betSlip, newSemiFinals, newValue);
 
-      const semiFinal = calculateSemiFinalsResults(betSlip);
+      const semiFinal = calculateSemiFinalsResults(betSlip as RawMatchResult[]);
       const newThirdPlaceFinal = calculateThirdPlaceMatch(semiFinal);
       updateMatches(betSlip, newThirdPlaceFinal, newValue);
 
