@@ -1,6 +1,11 @@
 {
   "bet-slip-header": "Lägg ditt spel",
   "group": "Grupp {{groupName}}",
+  "round-of-16": "Åttondelsfinaler",
+  "quarter-finals": "Kvartsfinaler",
+  "semi-finals": "Semifinaler",
+  "third-place-final": "Bronsmatch",
+  "final": "Final",
   "played-abbr": "S",
   "won-abbr": "V",
   "lost-abbr": "F",

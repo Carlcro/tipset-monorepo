@@ -1,6 +1,11 @@
 {
   "bet-slip-header": "Place your bet",
   "group": "Group {{groupName}}",
+  "round-of-16": "Round of 16",
+  "quarter-finals": "Quarter-finals",
+  "semi-finals": "Semi-finals",
+  "third-place-final": "Bronze Match",
+  "final": "Final",
   "played-abbr": "P",
   "won-abbr": "W",
   "lost-abbr": "L",

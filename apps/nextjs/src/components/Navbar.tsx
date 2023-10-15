@@ -28,13 +28,19 @@ const BurgerMenu = ({
   bettingAllowed?: boolean;
 }) => {
   const { signOut } = useClerk();
-  const router = useRouter();
+  const { pathname, query, asPath, push } = useRouter();
 
   const { i18n } = useTranslation();
 
   const currentLanguage = i18n.language;
-  const switchLanguage = (language: string) => {
-    i18n.changeLanguage(language);
+  const switchLanguage = (locale: string) => {
+    // Change the language in i18next
+    i18n.changeLanguage(locale);
+    push({ pathname, query }, asPath, {
+      locale,
+      scroll: false,
+      shallow: true,
+    });
   };
 
   const flag: FlagsObject = { sv: "🇸🇪", en: "🇬🇧" };
@@ -84,7 +90,7 @@ const BurgerMenu = ({
           <DropdownMenu.Separator />
 
           <DropdownMenu.Item
-            onClick={() => signOut(() => router.push("/"))}
+            onClick={() => signOut(() => push("/"))}
             color="red"
           >
             {t("sign-out")}

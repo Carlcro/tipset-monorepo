@@ -156,7 +156,6 @@ const BetSlip = ({ mode, handleSave, setFinalsMatches, headerText }: Props) => {
                 ) : (
                   <div className="my-3 ml-3 rounded-lg py-1 px-2  font-bold text-red-500">
                     {t("not-allowed-to-place-bet")}
-                    Det är inte längre tillåtet att uppdatera ditt tips.
                   </div>
                 )}
               </div>

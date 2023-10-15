@@ -40,7 +40,7 @@ export const getGroupOf16 = selector({
 
     return {
       id: "",
-      name: "Åttondelsfinaler",
+      name: "round-of-16",
       matches: allGroupMatchesSet ? calculateGroupOf16(teamRankings) : [],
       finalsStage: true,
     };
@@ -65,7 +65,7 @@ export const getGroupOf8 = selector({
     const groupOf16 = get(selectGroupOf16Results);
 
     return {
-      name: "Kvartsfinaler",
+      name: "quarter-finals",
       matches: calculateGroupOf8(groupOf16),
       finalsStage: true,
     };
@@ -78,7 +78,7 @@ export const getSemifinals = selector({
     const groupOf8 = get(selectGroupOf8Results);
 
     return {
-      name: "Semifinaler",
+      name: "semi-finals",
       matches: calculateSemiFinals(groupOf8),
       finalsStage: true,
     };
@@ -91,7 +91,7 @@ export const getThirdPlaceFinal = selector({
     const semiFinalsLosers = get(getSemiFinalsLosers);
 
     return {
-      name: "Bronsmatch",
+      name: "third-place-final",
       matches: calculateThirdPlaceMatch(semiFinalsLosers),
       finalsStage: true,
     };
@@ -104,7 +104,7 @@ export const getFinal = selector({
     const semiFinals = get(getSemiFinalsResults);
 
     return {
-      name: "Final",
+      name: "final",
       matches: calculateFinal(semiFinals),
       finalsStage: true,
     };

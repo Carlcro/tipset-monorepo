@@ -50,7 +50,9 @@ function MatchGroup({ group, matchInfos, mode }: MatchGroupProps) {
       <Container classNames="lg:w-full">
         <div className="flex justify-between">
           <h2 className="pl-2 pb-1 text-xl font-semibold">{`${
-            group.finalsStage ? "" : t("group", { groupName: group.name })
+            group.finalsStage
+              ? t(group.name)
+              : t("group", { groupName: group.name })
           }`}</h2>
         </div>
         {matchInfosForGroup.map((matchInfo) => {

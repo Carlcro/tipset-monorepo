@@ -3,6 +3,8 @@ import { setFromBetslipState } from "../../recoil/bet-slip/selectors/selectors";
 import { useEffect } from "react";
 import { trpc } from "../../utils/trpc";
 import BetSlip from "../../components/bet-slip/BetSlip";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nConfig from "../../../next-i18next.config.mjs";
 
 const Championship = () => {
   const setFromBetslip = useSetRecoilState(setFromBetslipState);
@@ -21,5 +23,16 @@ const Championship = () => {
     </div>
   );
 };
+
+export const getServerSideProps = async ({ locale }: { locale: string }) => ({
+  props: {
+    ...(await serverSideTranslations(
+      locale,
+      ["countries", "bet-slip", "common"],
+      nextI18nConfig,
+      ["en", "sv"],
+    )),
+  },
+});
 
 export default Championship;

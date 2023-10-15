@@ -1,6 +1,5 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-
+import { ChangeEvent,  useEffect, useState } from "react";
+import {  useRecoilValue, useSetRecoilState } from "recoil";
 import { betSlipState, goalscorerState } from "../../recoil/bet-slip/atoms";
 import { setFromBetslipState } from "../../recoil/bet-slip/selectors/selectors";
 import { toast } from "react-toastify";
