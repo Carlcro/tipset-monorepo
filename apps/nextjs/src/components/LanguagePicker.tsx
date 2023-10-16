@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next";
 import React from "react";
 import { Button, DropdownMenu } from "@radix-ui/themes";
 
-interface FlagsObject {
+export interface FlagsObject {
   [key: string]: string;
 }
 

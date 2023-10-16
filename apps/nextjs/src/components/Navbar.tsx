@@ -49,7 +49,7 @@ const BurgerMenu = ({
     <div className="md:hidden">
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>
-          <Button variant="soft">
+          <Button variant="soft" size="2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -66,7 +66,7 @@ const BurgerMenu = ({
             </svg>
           </Button>
         </DropdownMenu.Trigger>
-        <DropdownMenu.Content>
+        <DropdownMenu.Content size="2">
           {routesLoggedIn(user, bettingAllowed).map((route) => (
             <DropdownMenu.Item key={route.name}>
               <Link href={route.route}>{t(route.name)}</Link>
