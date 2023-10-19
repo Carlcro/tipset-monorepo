@@ -121,97 +121,86 @@ const Navbar = () => {
       role="navigation"
       aria-label="main navigation"
     >
-      {user && (
-        <>
-          <div className="mr-5 flex-1 space-x-5 md:hidden">
-            <Link href="/user-tournament">{user.fullName}</Link>
-          </div>
-          <BurgerMenu
-            user={user}
-            bettingAllowed={config?.bettingAllowed}
-            t={t}
-          />
-        </>
-      )}
-
+      <>
+        <div className="mr-5 flex-1 space-x-5 md:hidden">
+          <Link href="/user-tournament">{user.fullName}</Link>
+        </div>
+        <BurgerMenu user={user} bettingAllowed={config?.bettingAllowed} t={t} />
+      </>
       <div className="hidden w-full items-center md:flex md:justify-between">
-        {true ? (
-          <div className="flex flex-1 items-center gap-4">
-            <>
-              <Link
-                className={
-                  router.pathname === "/user-tournament"
-                    ? "underline underline-offset-4"
-                    : ""
-                }
-                href="/user-tournament"
-              >
-                {t("home")}
-              </Link>
-              <Link
-                className={
-                  router.pathname === "/answer-sheet"
-                    ? "underline underline-offset-4"
-                    : ""
-                }
-                href="/answer-sheet"
-              >
-                Admin
-              </Link>
-              <Link
-                className={
-                  router.pathname === "/bet-slip"
-                    ? "underline underline-offset-4"
-                    : ""
-                }
-                href={
-                  config?.bettingAllowed === false && user && user
-                    ? `/placed-bets/${user.betSlip?.id}`
-                    : "/bet-slip"
-                }
-              >
-                {user && user.betSlip ? t("my-bet") : t("make-your-bet")}
-              </Link>
-            </>
+        <div className="flex flex-1 items-center gap-4">
+          <>
             <Link
               className={
-                router.pathname === "/championship"
+                router.pathname === "/user-tournament"
                   ? "underline underline-offset-4"
                   : ""
               }
-              href="/championship"
+              href="/user-tournament"
             >
-              {t("facit")}
+              {t("home")}
             </Link>
             <Link
               className={
-                router.pathname === "/point-system"
+                router.pathname === "/answer-sheet"
                   ? "underline underline-offset-4"
                   : ""
               }
-              href="/point-system"
+              href="/answer-sheet"
             >
-              {t("point-system")}
+              Admin
             </Link>
+            <Link
+              className={
+                router.pathname === "/bet-slip"
+                  ? "underline underline-offset-4"
+                  : ""
+              }
+              href={
+                config?.bettingAllowed === false && user && user
+                  ? `/placed-bets/${user.betSlip?.id}`
+                  : "/bet-slip"
+              }
+            >
+              {user && user.betSlip ? t("my-bet") : t("make-your-bet")}
+            </Link>
+          </>
+          <Link
+            className={
+              router.pathname === "/championship"
+                ? "underline underline-offset-4"
+                : ""
+            }
+            href="/championship"
+          >
+            {t("facit")}
+          </Link>
+          <Link
+            className={
+              router.pathname === "/point-system"
+                ? "underline underline-offset-4"
+                : ""
+            }
+            href="/point-system"
+          >
+            {t("point-system")}
+          </Link>
 
-            <div className="mr-5 flex flex-1 items-center justify-end space-x-7 text-right">
-              <LanguageSwitcher />
-              <Link
-                className={
-                  router.pathname === "/user"
-                    ? "underline underline-offset-4 "
-                    : ""
-                }
-                href="/user"
-              >
-                {user.fullName}
-              </Link>
-              <SignOutButton />
-            </div>
+          <div className="mr-5 flex flex-1 items-center justify-end space-x-7 text-right">
+            <LanguageSwitcher />
+            <Link
+              className={
+                router.pathname === "/user"
+                  ? "underline underline-offset-4 "
+                  : ""
+              }
+              href="/user"
+            >
+              {user.fullName}
+            </Link>
+            <SignOutButton>{t("sign-out")}</SignOutButton>
           </div>
-        ) : (
-          <div></div>
-        )}
+        </div>
       </div>
     </nav>
   );
