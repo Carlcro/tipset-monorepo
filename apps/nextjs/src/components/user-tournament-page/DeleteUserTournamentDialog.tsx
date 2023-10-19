@@ -1,24 +1,23 @@
 import React from "react";
-import { Dialog, Transition } from "@headlessui/react";
-
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
-import Container from "../Container";
 import { trpc } from "../../utils/trpc";
+import { Flex, Dialog, Button } from "@radix-ui/themes";
+import { useTranslation } from "next-i18next";
 
 type Props = {
   isOpen: boolean;
   setIsOpen: (arg: boolean) => void;
   isOwner: boolean;
+  buttonText: string;
 };
 
 export default function DeleteUserTournamentDialog({
-  isOpen,
-  setIsOpen,
   isOwner,
+  buttonText,
 }: Props) {
   const router = useRouter();
   const id = router.query.id as string;
+  const { t } = useTranslation("user-tournament-page");
 
   const { mutate: leaveUserTournament } =
     trpc.userTournament.leaveUserTournament.useMutation();
@@ -41,37 +40,39 @@ export default function DeleteUserTournamentDialog({
   };
 
   return (
-    <Dialog
-      className="relative z-50"
-      open={isOpen}
-      onClose={() => setIsOpen(false)}
-    >
-      <div className="bg-black/30 fixed inset-0" aria-hidden="true" />
-      <div className="fixed inset-0 flex items-center justify-center p-4">
-        <Container classNames="border border-black max-w-sm mx-auto">
-          <Dialog.Description>
-            {`Är du säker på att du vill ${
-              isOwner ? "radera gruppen?" : "lämna gruppen?"
-            }`}
-          </Dialog.Description>
-          <div className="mt-3 flex justify-between">
-            <button
-              className="border-black rounded-sm border border-polarNight bg-auroraRed py-1 px-2 text-snowStorm3"
+    <Dialog.Root>
+      <Dialog.Trigger>
+        <Button color="red">{buttonText}</Button>
+      </Dialog.Trigger>
+
+      <Dialog.Content style={{ maxWidth: 450 }}>
+        <Dialog.Description size="2" mb="4">
+          {isOwner
+            ? t("are-you-sure-delete-group")
+            : t("are-you-sure-delete-leave-group")}
+        </Dialog.Description>
+        <Flex gap="3" mt="4" justify="end">
+          <Dialog.Close>
+            <Button
+              variant="soft"
+              color="gray"
+              className="rounded border px-2 py-1"
+            >
+              {t("cancel")}
+            </Button>
+          </Dialog.Close>
+          <Dialog.Close>
+            <Button
+              color="red"
               onClick={() =>
                 isOwner ? removeUserTournament() : exitUserTournament()
               }
             >
-              {`${isOwner ? "Radera" : "Lämna"}`}
-            </button>
-            <button
-              className="rounded border px-2 py-1"
-              onClick={() => setIsOpen(false)}
-            >
-              Avbryt
-            </button>
-          </div>
-        </Container>
-      </div>
-    </Dialog>
+              {`${isOwner ? t("delete-group") : t("leave-group")}`}
+            </Button>
+          </Dialog.Close>
+        </Flex>
+      </Dialog.Content>
+    </Dialog.Root>
   );
 }

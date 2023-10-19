@@ -5,6 +5,7 @@ import Container from "../Container";
 import { trpc } from "../../utils/trpc";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
+import KickMemberDialog from "./KickMemberDialog";
 
 type Props = {
   showKickDialog: (id: string, fullName: string) => void;
@@ -61,7 +62,10 @@ const HighScoreTable = ({ showKickDialog }: Props) => {
                       showKickDialog(betslip.email, betslip.fullName)
                     }
                   >
-                    ❌
+                    <KickMemberDialog
+                      memberId={betslip.id}
+                      memberName={betslip.fullName}
+                    />
                   </td>
                 )}
                 <td className="text-center">{index + 1}</td>

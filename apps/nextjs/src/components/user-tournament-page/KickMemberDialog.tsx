@@ -1,23 +1,15 @@
 import React from "react";
-import { Dialog } from "@headlessui/react";
 import { useRouter } from "next/router";
-import Container from "../Container";
 import { trpc } from "../../utils/trpc";
 import { useTranslation } from "next-i18next";
+import { Button, Dialog, Flex, Text } from "@radix-ui/themes";
 
 type Props = {
   memberId: string;
   memberName: string;
-  isOpen: boolean;
-  setIsOpen: (arg: boolean) => void;
 };
 
-export default function KickMemberDialog({
-  isOpen,
-  setIsOpen,
-  memberId,
-  memberName,
-}: Props) {
+export default function KickMemberDialog({ memberId, memberName }: Props) {
   const router = useRouter();
   const id = router.query.id as string;
   const { t } = useTranslation("user-tournament-page");
@@ -29,11 +21,35 @@ export default function KickMemberDialog({
       userTournamentId: id,
       userIdToKick: memberId,
     });
-
-    setIsOpen(false);
   };
 
   return (
+    <Dialog.Root>
+      <Dialog.Trigger>
+        <Text>❌</Text>
+      </Dialog.Trigger>
+
+      <Dialog.Content style={{ maxWidth: 450 }}>
+        <Dialog.Description size="2" mb="4">
+          {t("sure-you-want-to-remove-member", { memberName })}
+        </Dialog.Description>
+        <Flex gap="3" mt="4" justify="end">
+          <Dialog.Close>
+            <Button variant="soft" color="gray">
+              {t("cancel")}
+            </Button>
+          </Dialog.Close>
+          <Dialog.Close>
+            <Button color="red" onClick={handleKickMember}>
+              {t("remove")}
+            </Button>
+          </Dialog.Close>
+        </Flex>
+      </Dialog.Content>
+    </Dialog.Root>
+  );
+
+  /*  return (
     <Dialog
       className="fixed inset-0 z-10 overflow-y-auto"
       open={isOpen}
@@ -62,5 +78,5 @@ export default function KickMemberDialog({
         </Container>
       </div>
     </Dialog>
-  );
+  ); */
 }

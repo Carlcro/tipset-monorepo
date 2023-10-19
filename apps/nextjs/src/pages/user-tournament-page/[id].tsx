@@ -20,12 +20,6 @@ const UserTournamentPage = () => {
     <div className="flex flex-col-reverse items-center px-5 md:flex-row md:items-start md:justify-center md:space-x-8">
       <UserTournamentPanel />
       <HighScoreTable showKickDialog={showKickDialog} />
-      <KickMemberDialog
-        isOpen={kickMemberDialogOpen}
-        setIsOpen={setKickMemberDialogOpen}
-        memberId={memberId}
-        memberName={memberName}
-      />
     </div>
   );
 };

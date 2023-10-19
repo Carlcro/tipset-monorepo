@@ -22,7 +22,6 @@ const BetSlipContainer = () => {
   const [betslip] = useRecoilState(betSlipState);
   const { t } = useTranslation("bet-slip");
 
-
   const errorToast = useCallback((message: string) => {
     toast.error(message, {
       position: "top-right",
@@ -130,7 +129,11 @@ const BetSlipContainer = () => {
   }, [isValidBet, mutate, betslip, goalscorer]);
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <div className="mt-32 flex w-full items-center justify-center">
+        <Spinner width={50} height={50} />
+      </div>
+    );
   }
 
   return (

@@ -13,5 +13,7 @@
   "cancel": "Avbryt",
   "add-member": "Lägg till ny medlem",
   "e-mail": "e-mailadress",
-  "add": "Lägg till"
+  "add": "Lägg till",
+  "are-you-sure-delete-group": "Är du säker på att du vill radera gruppen?",
+  "are-you-sure-delete-leave-group": "Är du säker på att du vill lämna gruppen?"
 }
