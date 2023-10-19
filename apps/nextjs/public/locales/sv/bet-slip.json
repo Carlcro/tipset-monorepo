@@ -21,5 +21,13 @@
   "points-correct-euro-champion": "Poäng rätt europamästare",
   "goal-scorer": "Skyttekung",
   "save-bet": "Spara tips",
-  "not-allowed-to-place-bet": "Det är inte längre tillåtet att uppdatera ditt tips."
+  "not-allowed-to-place-bet": "Det är inte längre tillåtet att uppdatera ditt tips.",
+  "tiebreaker-header": "Tiebreakers i gruppspelet",
+  "tiebreaker-1": "Antal inspelade poäng sett till samtliga spelade gruppspelsmatcher",
+  "tiebreaker-2": "Målskillnad sett till samtliga spelade gruppspelsmatcher",
+  "tiebreaker-3": "Antal gjorda mål sett till samtliga spelade gruppspelsmatcher",
+  "tiebreaker-4": "Antal inspelade poäng sett till matcherna mellan lagen i fråga",
+  "tiebreaker-5": "Målskillnad sett till matcherna mellan lagen i fråga",
+  "tiebreaker-6": "Antal gjorda mål sett till matcherna mellan lagen i fråga",
+  "tiebreaker-obs": "! Tipset tar inte hänsyn till rangordning utöver ovanstående kriterier. Vid tippning där lag fortfarande inte kan särskiljas efter kriterier 1-6 kommer alfabetisk ordning avgöra."
 }

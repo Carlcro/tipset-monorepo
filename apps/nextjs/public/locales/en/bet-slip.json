@@ -21,5 +21,13 @@
   "points-correct-euro-champion": "Points correct european champion",
   "goal-scorer": "Goal scorer",
   "save-bet": "Save bet",
-  "not-allowed-to-place-bet": "You can no longer place a bet"
+  "not-allowed-to-place-bet": "You can no longer place a bet",
+  "tiebreaker-header": "Tiebreakers in the group stage",
+  "tiebreaker-1": "Number of points recorded for all group stage matches played",
+  "tiebreaker-2": "Goal difference for all group stage matches played",
+  "tiebreaker-3": "Number of goals scored for all group stage matches played",
+  "tiebreaker-4": "Number of points recorded for the matches between the teams in question",
+  "tiebreaker-5": "Goal difference in terms of matches between the teams in question",
+  "tiebreaker-6": "Number of goals scored in the matches between the teams in question",
+  "tiebreaker-obs": "The tip does not take into account ranking in addition to the above criteria. In betting where teams still cannot be distinguished according to criteria 1-6, alphabetical order will decide."
 }
