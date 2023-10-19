@@ -1,10 +1,5 @@
 lockfileVersion: 5.4
 
-patchedDependencies:
-  react-native@0.70.5:
-    hash: rnbco5eodjkfp6ucueusre3z4i
-    path: patches/react-native@0.70.5.patch
-
 importers:
 
   .:
@@ -98,7 +93,6 @@ importers:
       '@acme/db': '*'
       '@acme/tailwind-config': '*'
       '@clerk/nextjs': ^4.11.0
-      '@headlessui/react': ^1.7.13
       '@prisma/nextjs-monorepo-workaround-plugin': ^4.11.0
       '@radix-ui/react-navigation-menu': ^1.1.4
       '@radix-ui/themes': ^2.0.0
@@ -136,7 +130,6 @@ importers:
       '@acme/db': link:../../packages/db
       '@acme/tailwind-config': link:../../packages/config/tailwind
       '@clerk/nextjs': 4.11.0_3vryta7zmbcsw4rrqf4axjqggm
-      '@headlessui/react': 1.7.13_biqbaboplfbrettd7655fr4n2y
       '@radix-ui/react-navigation-menu': 1.1.4_yqqa5ithnjtlkxisuaub7c4kpa
       '@radix-ui/themes': 2.0.0_yqqa5ithnjtlkxisuaub7c4kpa
       '@tanstack/react-query': 4.19.1_biqbaboplfbrettd7655fr4n2y
@@ -198,7 +191,7 @@ importers:
       typescript: latest
     dependencies:
       ramda: 0.28.0
-      typescript: 5.0.3
+      typescript: 5.2.2
 
   packages/config/tailwind:
     specifiers:
@@ -2459,18 +2452,6 @@ packages:
     resolution: {integrity: sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg==}
     dependencies:
       '@hapi/hoek': 9.3.0
-    dev: false
-
-  /@headlessui/react/1.7.13_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-9n+EQKRtD9266xIHXdY5MfiXPDfYwl7zBM7KOx2Ae3Gdgxy8QML1FkCMjq6AsOf0l6N9uvI4HcFtuFlenaldKg==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      react: ^16 || ^17 || ^18
-      react-dom: ^16 || ^17 || ^18
-    dependencies:
-      client-only: 0.0.1
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /@humanwhocodes/config-array/0.11.7:
@@ -11473,9 +11454,9 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.3:
-    resolution: {integrity: sha512-xv8mOEDnigb/tN9PSMTwSEqAnUvkoXMQlicOb0IUVDBSQCgBSaAAROUZYy2IcUy5qU6XajK5jjjO7TMWqBTKZA==}
-    engines: {node: '>=12.20'}
+  /typescript/5.2.2:
+    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
+    engines: {node: '>=14.17'}
     hasBin: true
     dev: false
 
