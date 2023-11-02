@@ -26,6 +26,19 @@ const load = async () => {
       },
     });
 
+    const mainUserTournament = await prisma.userTournament.create({
+      data: {
+        name: "main-tournament",
+      },
+    });
+
+    await prisma.config.create({
+      data: {
+        bettingAllowed: true,
+        mainTournament: mainUserTournament.id,
+      },
+    });
+
     await prisma.player.createMany({
       data: players.map((player) => ({
         name: player.name,
@@ -85,12 +98,6 @@ const load = async () => {
         },
       });
     }
-
-    await prisma.config.create({
-      data: {
-        bettingAllowed: true,
-      },
-    });
 
     console.log("Added data!");
   } catch (e) {

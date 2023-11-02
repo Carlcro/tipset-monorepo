@@ -57,13 +57,28 @@ export default async function handler(req: NextRequest, res: NextResponse) {
   if (event.type === "user.created") {
     const data = userSchema.parse(event.data);
 
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         email: data.email_addresses[0]?.email_address || "",
         firstName: data.first_name,
         lastName: data.last_name,
         fullName: `${data.first_name} ${data.last_name}`,
         userId: data.id,
+      },
+    });
+
+    const config = await prisma.config.findFirstOrThrow();
+
+    await prisma.userTournament.update({
+      where: {
+        id: config.mainTournament,
+      },
+      data: {
+        members: {
+          connect: {
+            email: user.email,
+          },
+        },
       },
     });
   }

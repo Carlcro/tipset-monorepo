@@ -3,23 +3,18 @@ import { motion } from "framer-motion";
 import DiffIndicator from "../DiffIndicator";
 import Container from "../Container";
 import { trpc } from "../../utils/trpc";
-import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import KickMemberDialog from "./KickMemberDialog";
 
 type Props = {
-  showKickDialog: (id: string, fullName: string) => void;
+  userTournamentId: string;
 };
 
-const HighScoreTable = ({ showKickDialog }: Props) => {
+const HighScoreTable = ({ userTournamentId }: Props) => {
   const { t } = useTranslation("user-tournament-page");
 
-  const router = useRouter();
-
-  const id = router.query.id as string;
-
   const { data } = trpc.userTournament.getHighscore.useQuery({
-    userTournamentId: id,
+    userTournamentId: userTournamentId,
   });
 
   if (data === undefined) {
@@ -33,12 +28,11 @@ const HighScoreTable = ({ showKickDialog }: Props) => {
     >
       <Container classNames="sm:w-[400px]">
         <h2 className="text-center text-xl font-semibold">
-          {data.name ? data.name : t("highscore")}
+          {data.name === "main-tournament" ? t("highscore") : data.name}
         </h2>
         <table className="mx-1 w-full">
           <thead>
             <tr>
-              {data.isOwner && <th />}
               <th>{t("rank")}</th>
               <th className="text-center md:text-left">{t("name")}</th>
               <th>{t("points")}</th>
@@ -56,12 +50,7 @@ const HighScoreTable = ({ showKickDialog }: Props) => {
                 key={betslip.id}
               >
                 {data.isOwner && (
-                  <td
-                    className="cursor-pointer text-sm"
-                    onClick={() =>
-                      showKickDialog(betslip.email, betslip.fullName)
-                    }
-                  >
+                  <td className="cursor-pointer text-sm">
                     <KickMemberDialog
                       memberId={betslip.id}
                       memberName={betslip.fullName}

@@ -28,7 +28,7 @@ model User {
 model UserTournament {
   id        String   @id @default(cuid())
   name      String
-  ownerId   String
+  ownerId   String?
   members   User[]
   createdAt DateTime @default(now())
 }
@@ -219,5 +219,6 @@ model MatchInfo {
 
 model Config {
   id             String  @id @default(cuid())
+  mainTournament String
   bettingAllowed Boolean
 }
