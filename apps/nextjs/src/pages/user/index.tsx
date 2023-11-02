@@ -47,7 +47,7 @@ const User = () => {
   }
 
   return (
-    <div className="ml-10 flex flex-col justify-center space-y-8">
+    <div className="ml-10 flex flex-col justify-center space-y-9">
       <UserButton></UserButton>
       <Text as="label" size="2">
         <Flex gap="2">
