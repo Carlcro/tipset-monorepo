@@ -30,10 +30,10 @@ const LanguageSwitcher: React.FC = () => {
         <Button variant="soft">{flag[currentLanguage]}</Button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
-        <DropdownMenu.Item onClick={() => switchLanguage("sv")} shortcut="⌘ E">
+        <DropdownMenu.Item onClick={() => switchLanguage("sv")}>
           🇸🇪
         </DropdownMenu.Item>
-        <DropdownMenu.Item onClick={() => switchLanguage("en")} shortcut="⌘ E">
+        <DropdownMenu.Item onClick={() => switchLanguage("en")}>
           🇬🇧
         </DropdownMenu.Item>
       </DropdownMenu.Content>
