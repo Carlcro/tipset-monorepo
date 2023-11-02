@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { BetslipState, MatchBet } from "./../atoms";
 import {
   betSlipState,

@@ -30,21 +30,13 @@ const AnswerSheet = () => {
 
   const { data: betSlipData } = trpc.answerSheet.getAnswerSheet.useQuery();
 
-  const { mutate: createConfig } = trpc.config.createConfig.useMutation();
   const { mutate: setBettingAllowed } = trpc.config.bettingAllowed.useMutation({
     onSuccess: () => {
       utils.invalidate();
     },
   });
 
-  const { data: config, isError } = trpc.config.getConfig.useQuery();
-
-  useEffect(() => {
-    if (isError) {
-      toast("Config not found, creating one");
-      createConfig();
-    }
-  }, [createConfig, isError]);
+  const { data: config } = trpc.config.getConfig.useQuery();
 
   const { data: championshipData } =
     trpc.championship.getOneChampionship.useQuery();

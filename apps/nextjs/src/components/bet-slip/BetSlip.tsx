@@ -78,6 +78,7 @@ const BetSlip = ({ mode, handleSave, setFinalsMatches, headerText }: Props) => {
   const handleSetAllMatches = () => {
     const matches = championship?.matchGroups.flatMap((group) => group.matches);
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     setAllMatches(matches);
   };
