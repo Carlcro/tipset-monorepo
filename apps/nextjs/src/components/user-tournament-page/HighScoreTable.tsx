@@ -17,8 +17,8 @@ const HighScoreTable = ({ userTournamentId }: Props) => {
     userTournamentId: userTournamentId,
   });
 
-  if (data === undefined) {
-    return <div></div>;
+  if (!data) {
+    return <div className="sm:w-[400px]"></div>;
   }
   return (
     <motion.div

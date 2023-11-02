@@ -1,59 +1,43 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import { SignIn, useAuth, UserButton } from "@clerk/nextjs";
-import Link from "next/link";
+import React from "react";
+import UserTournamentForm from "../components/user-tournament/UserTournamentForm";
+import UserTournamentsList from "../components/user-tournament/UserTournamentsList";
+import { trpc } from "../utils/trpc";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../next-i18next.config.mjs";
+import HighScoreTable from "../components/user-tournament-page/HighScoreTable";
 
-const Home: NextPage = () => {
-  return (
-    <>
-      <Head>
-        <title>Tipset</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main className="text-black flex h-screen flex-col">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-8">
-          <AuthShowcase />
-        </div>
-      </main>
-    </>
-  );
-};
+const Index = () => {
+  const utils = trpc.useContext();
+  const { mutate, isLoading } =
+    trpc.userTournament.createUserTournament.useMutation({
+      onSuccess: () => utils.invalidate(),
+    });
+  const { data } = trpc.config.getConfig.useQuery();
 
-export default Home;
-
-const AuthShowcase: React.FC = () => {
-  const { isSignedIn } = useAuth();
+  if (!data) {
+    return null;
+  }
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      {isSignedIn && (
-        <>
-          <div className="flex items-center justify-center">
-            <UserButton
-              appearance={{
-                elements: {
-                  userButtonAvatarBox: {
-                    width: "3rem",
-                    height: "3rem",
-                  },
-                },
-              }}
-            />
-          </div>
-        </>
-      )}
-      {!isSignedIn && <SignIn signUpUrl="/sign-up" />}
+    <div className="flex flex-col-reverse items-center px-5 md:flex-row md:items-start md:justify-center md:space-x-8">
+      <div className="mt-5  w-full max-w-[400px] space-y-5 md:mt-0">
+        <UserTournamentsList addedLoading={isLoading} />
+        <UserTournamentForm createUserTournament={mutate} />
+      </div>
+      <HighScoreTable userTournamentId={data.mainTournament} />
     </div>
   );
 };
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
-    ...(await serverSideTranslations(locale, ["common"], nextI18nConfig, [
-      "en",
-      "sv",
-    ])),
+    ...(await serverSideTranslations(
+      locale,
+      ["user-tournament", "common", "user-tournament-page"],
+      nextI18nConfig,
+      ["en", "sv"],
+    )),
   },
 });
+
+export default Index;

@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-
 import { router, protectedProcedure } from "../trpc";
 
 export const userTournamentRouter = router({
@@ -32,9 +31,16 @@ export const userTournamentRouter = router({
         });
       }
     }),
-  getUserTournaments: protectedProcedure.query(({ ctx }) => {
+  getUserTournaments: protectedProcedure.query(async ({ ctx }) => {
+    const config = await ctx.prisma.config.findFirstOrThrow();
+
     return ctx.prisma.userTournament.findMany({
       where: {
+        NOT: [
+          {
+            id: config.mainTournament,
+          },
+        ],
         members: {
           some: {
             userId: ctx.auth.userId,
