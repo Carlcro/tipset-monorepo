@@ -84,6 +84,55 @@ export const userTournamentRouter = router({
         });
       }
     }),
+  updateMainTournamentParticipation: protectedProcedure
+    .input(
+      z.object({
+        join: z.boolean(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const config = await ctx.prisma.config.findFirstOrThrow();
+      if (input.join) {
+        await ctx.prisma.userTournament.update({
+          where: {
+            id: config.mainTournament,
+          },
+          data: {
+            members: {
+              connect: { userId: ctx.auth.userId },
+            },
+          },
+        });
+      } else {
+        await ctx.prisma.userTournament.update({
+          where: {
+            id: config.mainTournament,
+          },
+          data: {
+            members: {
+              disconnect: { userId: ctx.auth.userId },
+            },
+          },
+        });
+      }
+    }),
+  isParticipationInMainTournament: protectedProcedure.query(async ({ ctx }) => {
+    const config = await ctx.prisma.config.findFirstOrThrow();
+    const userTournament = await ctx.prisma.userTournament.findUniqueOrThrow({
+      where: {
+        id: config.mainTournament,
+      },
+      include: {
+        members: true,
+      },
+    });
+
+    const isMember = userTournament.members.some(
+      (member) => member.userId === ctx.auth.userId,
+    );
+
+    return isMember;
+  }),
 
   leaveUserTournament: protectedProcedure
     .input(

@@ -8,7 +8,7 @@ import LanguageSwitcher, { FlagsObject } from "./LanguagePicker";
 import { Button, DropdownMenu } from "@radix-ui/themes";
 
 const routesLoggedIn = (user: any, bettingAllowed?: boolean) => [
-  { name: "home", route: "/user-tournament" },
+  { name: "home", route: "/" },
   {
     name: user && user.betSlip ? "my-bet" : "make-your-bet",
     route: bettingAllowed ? "/bet-slip" : `/placed-bets/${user.id}`,
@@ -123,7 +123,7 @@ const Navbar = () => {
     >
       <>
         <div className="mr-5 flex-1 space-x-5 md:hidden">
-          <Link href="/user-tournament">{user.fullName}</Link>
+          <Link href="/">{user.fullName}</Link>
         </div>
         <BurgerMenu user={user} bettingAllowed={config?.bettingAllowed} t={t} />
       </>
@@ -132,11 +132,9 @@ const Navbar = () => {
           <>
             <Link
               className={
-                router.pathname === "/user-tournament"
-                  ? "underline underline-offset-4"
-                  : ""
+                router.pathname === "/" ? "underline underline-offset-4" : ""
               }
-              href="/user-tournament"
+              href="/"
             >
               {t("home")}
             </Link>
