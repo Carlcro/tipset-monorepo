@@ -56,7 +56,9 @@ export const resetAllBets = selector({
 
     set(betSlipState, betSlip);
   },
-  get: () => {},
+  get: () => {
+    console.log("hej");
+  },
 });
 
 export const setFromBetslipState = selector({
@@ -85,7 +87,9 @@ export const setFromBetslipState = selector({
     set(betSlipState, betSlip);
     set(goalscorerState, newValue.goalscorer);
   },
-  get: () => {},
+  get: () => {
+    console.log("hej");
+  },
 });
 
 export const getPointsFromAdvancement = selectorFamily({

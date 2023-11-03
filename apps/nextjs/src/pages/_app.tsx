@@ -16,10 +16,13 @@ import { appWithTranslation } from "next-i18next";
 import nextI18nConfig from "../../next-i18next.config.mjs";
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
+import { env } from "../env/client.mjs";
 
 const MyApp: AppType = ({ Component, pageProps: { ...pageProps } }) => {
+  const cpk = env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
   return (
-    <ClerkProvider {...pageProps}>
+    <ClerkProvider {...pageProps} publishableKey={cpk}>
       <RecoilRoot>
         <Theme>
           <SignedIn>
