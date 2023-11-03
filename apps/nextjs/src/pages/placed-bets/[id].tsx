@@ -10,8 +10,11 @@ import BetSlip from "../../components/bet-slip/BetSlip";
 import { championshipState } from "../../recoil/championship/atoms";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
+import { useTranslation } from "react-i18next";
 
 const PlacedBets = () => {
+  const { t } = useTranslation("bet-slip");
+
   const setFromBetslip = useSetRecoilState(setFromBetslipState);
   const setChampionship = useSetRecoilState(championshipState);
 
@@ -66,9 +69,9 @@ const PlacedBets = () => {
           transition={{ duration: 0.4 }}
         >
           <Container classNames="p-6 mt-10 flex flex-col justify-center space-y-5">
-            <h2>När VM startar kommer du kunna se andras tips</h2>
+            <h2>{t("when-tournament-starts-you-can-see")}</h2>
             <button className="font-bold" onClick={() => router.back()}>
-              Gå tillbaka
+              {t("go-back")}
             </button>
           </Container>
         </motion.div>
@@ -85,9 +88,9 @@ const PlacedBets = () => {
           transition={{ duration: 0.4 }}
         >
           <Container classNames="p-6 mt-10 flex flex-col justify-center space-y-5">
-            <h2>Användaren har inte lagt något tips</h2>
+            <h2>{t("user-not-placed-bet")}</h2>
             <button className="font-bold" onClick={() => router.back()}>
-              Gå tillbaka
+              {t("go-back")}
             </button>
           </Container>
         </motion.div>

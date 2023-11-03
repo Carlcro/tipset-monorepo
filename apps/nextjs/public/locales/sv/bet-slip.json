@@ -29,5 +29,8 @@
   "tiebreaker-4": "Antal inspelade poäng sett till matcherna mellan lagen i fråga",
   "tiebreaker-5": "Målskillnad sett till matcherna mellan lagen i fråga",
   "tiebreaker-6": "Antal gjorda mål sett till matcherna mellan lagen i fråga",
-  "tiebreaker-obs": "! Tipset tar inte hänsyn till rangordning utöver ovanstående kriterier. Vid tippning där lag fortfarande inte kan särskiljas efter kriterier 1-6 kommer alfabetisk ordning avgöra."
+  "tiebreaker-obs": "! Tipset tar inte hänsyn till rangordning utöver ovanstående kriterier. Vid tippning där lag fortfarande inte kan särskiljas efter kriterier 1-6 kommer alfabetisk ordning avgöra.",
+  "go-back": "Gå tillbaka",
+  "user-not-placed-bet": "Användaren har inte lagt något tips",
+  "when-tournament-starts-you-can-see": "När turneringen startar kommer du kunna se andras tips"
 }

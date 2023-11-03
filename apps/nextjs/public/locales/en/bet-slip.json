@@ -29,5 +29,8 @@
   "tiebreaker-4": "Number of points recorded for the matches between the teams in question",
   "tiebreaker-5": "Goal difference in terms of matches between the teams in question",
   "tiebreaker-6": "Number of goals scored in the matches between the teams in question",
-  "tiebreaker-obs": "The tip does not take into account ranking in addition to the above criteria. In betting where teams still cannot be distinguished according to criteria 1-6, alphabetical order will decide."
+  "tiebreaker-obs": "The tip does not take into account ranking in addition to the above criteria. In betting where teams still cannot be distinguished according to criteria 1-6, alphabetical order will decide.",
+  "go-back": "Go back",
+  "user-not-placed-bet": "The user has not placed a bet",
+  "when-tournament-starts-you-can-see": "You can see other peoples bets when the tournament starts"
 }
