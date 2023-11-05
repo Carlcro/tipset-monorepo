@@ -79,7 +79,7 @@ const PlacedBets = () => {
     );
   }
 
-  if (!placedBet) {
+  if (!placedBet || id === "undefined") {
     return (
       <div className=" grid place-content-center">
         <motion.div

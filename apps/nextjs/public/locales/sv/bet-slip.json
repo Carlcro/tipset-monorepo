@@ -32,5 +32,7 @@
   "tiebreaker-obs": "! Tipset tar inte hänsyn till rangordning utöver ovanstående kriterier. Vid tippning där lag fortfarande inte kan särskiljas efter kriterier 1-6 kommer alfabetisk ordning avgöra.",
   "go-back": "Gå tillbaka",
   "user-not-placed-bet": "Användaren har inte lagt något tips",
-  "when-tournament-starts-you-can-see": "När turneringen startar kommer du kunna se andras tips"
+  "when-tournament-starts-you-can-see": "När turneringen startar kommer du kunna se andras tips",
+  "bet-saved": "Spel sparat!",
+  "error-saving": "Det gick inte att spara tipset, försök gärna igen"
 }

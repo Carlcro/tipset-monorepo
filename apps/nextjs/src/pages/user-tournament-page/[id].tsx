@@ -12,8 +12,12 @@ const UserTournamentPage = () => {
 
   return (
     <div className="flex flex-col-reverse items-center px-5 md:flex-row md:items-start md:justify-center md:space-x-8">
-      <UserTournamentPanel />
-      <HighScoreTable userTournamentId={id} />
+      <div className="w-full max-w-[400px]">
+        <UserTournamentPanel />
+      </div>
+      <div className="w-full max-w-[400px]">
+        <HighScoreTable userTournamentId={id} />
+      </div>
     </div>
   );
 };

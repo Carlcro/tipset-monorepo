@@ -114,7 +114,6 @@ const Navbar = () => {
   if (!user?.fullName) {
     return <div className="h-[60px]"></div>;
   }
-
   return (
     <nav
       className="mb-10 flex items-center justify-between border-b border-polarNight bg-slate p-2 md:justify-start"
@@ -129,40 +128,48 @@ const Navbar = () => {
       </>
       <div className="hidden w-full items-center md:flex md:justify-between">
         <div className="flex flex-1 items-center gap-4">
-          <>
+          <Link
+            className={
+              router.pathname === "/" ? "underline underline-offset-4" : ""
+            }
+            href="/"
+          >
+            {t("home")}
+          </Link>
+          <Link
+            className={
+              router.pathname === "/answer-sheet"
+                ? "underline underline-offset-4"
+                : ""
+            }
+            href="/answer-sheet"
+          >
+            Admin
+          </Link>
+          {config?.bettingAllowed === false && user.betSlip && (
             <Link
               className={
-                router.pathname === "/" ? "underline underline-offset-4" : ""
-              }
-              href="/"
-            >
-              {t("home")}
-            </Link>
-            <Link
-              className={
-                router.pathname === "/answer-sheet"
+                router.asPath == `/placed-bets/${user.betSlip?.id}`
                   ? "underline underline-offset-4"
                   : ""
               }
-              href="/answer-sheet"
+              href={`/placed-bets/${user.betSlip?.id}`}
             >
-              Admin
+              {t("my-bet")}
             </Link>
+          )}
+          {config?.bettingAllowed === true && (
             <Link
               className={
                 router.pathname === "/bet-slip"
                   ? "underline underline-offset-4"
                   : ""
               }
-              href={
-                config?.bettingAllowed === false && user && user
-                  ? `/placed-bets/${user.betSlip?.id}`
-                  : "/bet-slip"
-              }
+              href={"/bet-slip"}
             >
-              {user && user.betSlip ? t("my-bet") : t("make-your-bet")}
+              {user.betSlip ? t("my-bet") : t("make-your-bet")}
             </Link>
-          </>
+          )}
           <Link
             className={
               router.pathname === "/championship"
