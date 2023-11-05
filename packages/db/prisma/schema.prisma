@@ -65,10 +65,11 @@ model BetSlip {
   points                Int
   pointsHistory         PointsHistory[]
   championship          Championship            @relation(fields: [championshipId], references: [id])
-  championshipId        String                  @unique
+  championshipId        String                  
 
 
   @@index([goalscorerId])
+  @@index([championshipId])
 }
 
 model Bet {

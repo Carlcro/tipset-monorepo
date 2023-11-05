@@ -32,5 +32,7 @@
   "tiebreaker-obs": "The tip does not take into account ranking in addition to the above criteria. In betting where teams still cannot be distinguished according to criteria 1-6, alphabetical order will decide.",
   "go-back": "Go back",
   "user-not-placed-bet": "The user has not placed a bet",
-  "when-tournament-starts-you-can-see": "You can see other peoples bets when the tournament starts"
+  "when-tournament-starts-you-can-see": "You can see other peoples bets when the tournament starts",
+  "bet-saved": "Bet saved!",
+  "error-saving": "Could not save bet, please try again"
 }

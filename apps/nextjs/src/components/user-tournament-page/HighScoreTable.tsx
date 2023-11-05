@@ -18,7 +18,7 @@ const HighScoreTable = ({ userTournamentId }: Props) => {
   });
 
   if (!data) {
-    return <div className="sm:w-[400px]"></div>;
+    return <div className="sm:w-[500px]"></div>;
   }
   return (
     <motion.div
@@ -26,7 +26,7 @@ const HighScoreTable = ({ userTournamentId }: Props) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      <Container classNames="sm:w-[400px]">
+      <Container>
         <h2 className="text-center text-xl font-semibold">
           {data.name === "main-tournament" ? t("highscore") : data.name}
         </h2>

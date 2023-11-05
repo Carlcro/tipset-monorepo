@@ -48,8 +48,27 @@ const BetSlipContainer = () => {
   }, [setFromBetslip, betSlipData, championshipData, setChampionship]);
 
   const { mutate } = trpc.betslip.createBetSlip.useMutation({
-    onError: (error) => {
-      toast.error(error.message);
+    onSuccess: () => {
+      toast.success(t("bet-saved"), {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    },
+    onError: () => {
+      toast.error(t("error-saving"), {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     },
   });
 
@@ -114,16 +133,6 @@ const BetSlipContainer = () => {
           penaltyWinnerId: matchResult.penaltyWinner?.id,
         })),
         goalScorerId: goalscorer?.id,
-      });
-
-      toast.success("Spel sparat!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
       });
     }
   }, [isValidBet, mutate, betslip, goalscorer]);

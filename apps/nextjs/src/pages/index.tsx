@@ -20,11 +20,13 @@ const Index = () => {
 
   return (
     <div className="flex flex-col-reverse items-center px-5 md:flex-row md:items-start md:justify-center md:space-x-8">
-      <div className="mt-5  w-full max-w-[400px] space-y-5 md:mt-0">
+      <div className="mt-5 w-full max-w-[400px] space-y-5 md:mt-0">
         <UserTournamentsList addedLoading={isLoading} />
         <UserTournamentForm createUserTournament={mutate} />
       </div>
-      <HighScoreTable userTournamentId={data.mainTournament} />
+      <div className="w-full max-w-[400px]">
+        <HighScoreTable userTournamentId={data.mainTournament} />
+      </div>
     </div>
   );
 };
