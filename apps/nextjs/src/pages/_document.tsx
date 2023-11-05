@@ -6,11 +6,14 @@ export default function Document() {
       <Head>
         <link rel="preconnect" href="https://rsms.me/" />
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-        <meta name="application-name" content="PWA App" />
+        <meta name="application-name" content="Tipset" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="PWA App" />
-        <meta name="description" content="Best PWA App in the world" />
+        <meta name="apple-mobile-web-app-title" content="Tipset" />
+        <meta
+          name="description"
+          content="Predict the outcome of football tournaments"
+        />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="msapplication-config" content="/icons/browserconfig.xml" />
@@ -61,17 +64,22 @@ export default function Document() {
 
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:url" content="https://yourdomain.com" />
-        <meta name="twitter:title" content="PWA App" />
-        <meta name="twitter:description" content="Best PWA App in the world" />
+        <meta name="twitter:title" content="Tipset" />
+        <meta
+          name="twitter:description"
+          content="Predict the outcome of football tournaments"
+        />
         <meta
           name="twitter:image"
           content="https://yourdomain.com/icons/android-chrome-192x192.png"
         />
-        <meta name="twitter:creator" content="@DavidWShadow" />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="PWA App" />
-        <meta property="og:description" content="Best PWA App in the world" />
-        <meta property="og:site_name" content="PWA App" />
+        <meta property="og:title" content="Tipset" />
+        <meta
+          property="og:description"
+          content="Predict the outcome of football tournaments"
+        />
+        <meta property="og:site_name" content="Tipset" />
         <meta property="og:url" content="https://yourdomain.com" />
         <meta
           property="og:image"
