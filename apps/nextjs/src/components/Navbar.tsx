@@ -45,10 +45,6 @@ const BurgerMenu = ({
 
   const flag: FlagsObject = { sv: "🇸🇪", en: "🇬🇧" };
 
-  function onClick() {
-    document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
-  }
-
   return (
     <div className="md:hidden">
       <DropdownMenu.Root>
@@ -72,10 +68,8 @@ const BurgerMenu = ({
         </DropdownMenu.Trigger>
         <DropdownMenu.Content size="2">
           {routesLoggedIn(user, bettingAllowed).map((route) => (
-            <DropdownMenu.Item key={route.name}>
-              <Link onClick={onClick} href={route.route}>
-                {t(route.name)}
-              </Link>
+            <DropdownMenu.Item asChild key={route.name}>
+              <Link href={route.route}>{t(route.name)}</Link>
             </DropdownMenu.Item>
           ))}
 
