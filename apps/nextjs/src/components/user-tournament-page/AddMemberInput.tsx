@@ -6,6 +6,7 @@ import { useTranslation } from "next-i18next";
 
 const AddMemberInput = () => {
   const { t } = useTranslation("user-tournament-page");
+  const utils = trpc.useContext();
 
   const router = useRouter();
 
@@ -13,7 +14,9 @@ const AddMemberInput = () => {
 
   const [memberInput, setMemberInput] = useState("");
 
-  const { mutate } = trpc.userTournament.addMember.useMutation();
+  const { mutate, isLoading } = trpc.userTournament.addMember.useMutation({
+    onSuccess: () => utils.invalidate(),
+  });
 
   const handleAddMember = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -33,7 +36,9 @@ const AddMemberInput = () => {
             value={memberInput}
             onChange={(e) => setMemberInput(e.target.value)}
           />
-          <SubmitButton type="submit">{t("add")}</SubmitButton>
+          <SubmitButton isLoading={isLoading} type="submit">
+            {t("add")}
+          </SubmitButton>
         </form>
       </div>
     </div>

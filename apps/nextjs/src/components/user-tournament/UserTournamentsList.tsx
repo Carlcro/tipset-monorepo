@@ -5,7 +5,7 @@ import { trpc } from "../../utils/trpc";
 import Spinner from "../Spinner";
 import { useTranslation } from "next-i18next";
 
-const UserTournamentsList = ({ addedLoading }: { addedLoading: boolean }) => {
+const UserTournamentsList = () => {
   const { t } = useTranslation("user-tournament");
 
   const { data, isLoading } = trpc.userTournament.getUserTournaments.useQuery();
@@ -17,7 +17,7 @@ const UserTournamentsList = ({ addedLoading }: { addedLoading: boolean }) => {
     >
       <Container>
         <div className="font-bold">{t("your-groups")}</div>
-        {isLoading || addedLoading ? (
+        {isLoading ? (
           <div className="flex items-center justify-center">
             <Spinner />
           </div>

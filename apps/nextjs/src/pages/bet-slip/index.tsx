@@ -47,30 +47,31 @@ const BetSlipContainer = () => {
     }
   }, [setFromBetslip, betSlipData, championshipData, setChampionship]);
 
-  const { mutate } = trpc.betslip.createBetSlip.useMutation({
-    onSuccess: () => {
-      toast.success(t("bet-saved"), {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    },
-    onError: () => {
-      toast.error(t("error-saving"), {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    },
-  });
+  const { mutate, isLoading: placingBetLoading } =
+    trpc.betslip.createBetSlip.useMutation({
+      onSuccess: () => {
+        toast.success(t("bet-saved"), {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      },
+      onError: () => {
+        toast.error(t("error-saving"), {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      },
+    });
 
   const isMatchIncomplete = (bet: MatchBet | undefined, matchId: number) => {
     return (
@@ -86,11 +87,13 @@ const BetSlipContainer = () => {
     );
 
     if (!allMatchesFilled || betslip.length !== 64) {
-      errorToast("Alla matcher måste vara ifyllda");
+      errorToast(t("all-games-must-be-filled-in"));
       return false;
     }
 
-    const playoffMatches = [49, 50, 51, 52, 53, 54, 55, 56];
+    const playoffMatches = [
+      49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65,
+    ];
     const missingPenaltyWinner = betslip.some(
       (bet) =>
         playoffMatches.includes(bet.matchId) &&
@@ -99,9 +102,7 @@ const BetSlipContainer = () => {
     );
 
     if (missingPenaltyWinner) {
-      errorToast(
-        "En match i slutspelet som slutar oavgjort saknar straffvinnare",
-      );
+      errorToast(t("missing-penalty-winner"));
       return false;
     }
 
@@ -109,17 +110,17 @@ const BetSlipContainer = () => {
       isMatchIncomplete(betslip[62], 62) ||
       isMatchIncomplete(betslip[63], 63)
     ) {
-      errorToast("Alla matcher måste vara ifyllda");
+      errorToast(t("all-games-must-be-filled-in"));
       return false;
     }
 
     if (!goalscorer) {
-      errorToast("Skyttekung saknas");
+      errorToast(t("goal-scorer-missing"));
       return false;
     }
 
     return true;
-  }, [betslip, goalscorer, errorToast]);
+  }, [betslip, goalscorer, errorToast, t]);
 
   const submitBet = useCallback(() => {
     if (isValidBet()) {
@@ -150,6 +151,7 @@ const BetSlipContainer = () => {
       headerText={t("bet-slip-header")}
       handleSave={submitBet}
       mode={"betslip"}
+      placingBetLoading={placingBetLoading}
     />
   );
 };

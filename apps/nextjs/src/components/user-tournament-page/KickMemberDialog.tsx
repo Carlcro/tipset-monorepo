@@ -12,12 +12,35 @@ type Props = {
 export default function KickMemberDialog({ memberId, memberName }: Props) {
   const router = useRouter();
   const id = router.query.id as string;
+  const utils = trpc.useContext();
+
   const { t } = useTranslation("user-tournament-page");
 
-  const { mutate } = trpc.userTournament.kickMember.useMutation();
+  const { mutate } = trpc.userTournament.kickMember.useMutation({
+    onMutate: async (newState) => {
+      const previousData = utils.userTournament.getHighscore.getData({
+        userTournamentId: id,
+      });
+      if (previousData) {
+        const newHighScore = previousData.highScoreData.filter(
+          (member) => member.userId !== newState.userIdToKick,
+        );
+
+        const optimisticReturn = {
+          ...previousData,
+          highScoreData: newHighScore,
+        };
+        utils.userTournament.getHighscore.setData(
+          { userTournamentId: id },
+          optimisticReturn,
+        );
+        return { optimisticReturn };
+      }
+    },
+  });
 
   const handleKickMember = async () => {
-    await mutate({
+    mutate({
       userTournamentId: id,
       userIdToKick: memberId,
     });

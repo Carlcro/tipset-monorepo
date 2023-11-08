@@ -1,22 +1,49 @@
 // TODO this file
 
-import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import Container from "../../../components/Container";
+import { trpc } from "../../../utils/trpc";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nConfig from "../../../../next-i18next.config.mjs";
+import { useTranslation } from "react-i18next";
 
 export default function Join() {
   const router = useRouter();
-  const { id } = router.query;
+  const { t } = useTranslation("user-tournament-page");
+
+  const id = router.query.id as string;
+
+  const { mutate } = trpc.userTournament.addMember.useMutation({
+    onSuccess: () => router.push(`/user-tournament-page/${id}`),
+  });
+  const { data: user } = trpc.user.getUser.useQuery();
+
+  useEffect(() => {
+    if (user) {
+      mutate({
+        userTournamentId: id,
+        email: user.email,
+      });
+    }
+  }, [id, user, mutate]);
 
   return (
     <div className="flex justify-center">
       <Container classNames="px-12 py-5 flex flex-col">
-        <span>Du skickas snart till din grupp...</span>
-        <Link href={`/user-tournament-page/${id}`}>
-          <a className="mt-6 text-blue-700">Klicka här om du inte blir det</a>
-        </Link>
+        <span>{t("you-are-being-sent-to-group")}</span>
       </Container>
     </div>
   );
 }
+
+export const getServerSideProps = async ({ locale }: { locale: string }) => ({
+  props: {
+    ...(await serverSideTranslations(
+      locale,
+      ["common", "user-tournament-page"],
+      nextI18nConfig,
+      ["en", "sv"],
+    )),
+  },
+});

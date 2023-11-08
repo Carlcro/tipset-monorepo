@@ -289,6 +289,7 @@ export const userTournamentRouter = router({
       });
 
       return {
+        ownerId: ctx.auth.userId,
         isOwner: userTournament.ownerId === ctx.auth.userId,
         name: userTournament.name,
         highScoreData: betSlips.map((betSlip) => ({
@@ -296,6 +297,7 @@ export const userTournamentRouter = router({
           points: betSlip.points,
           fullName: betSlip.user.fullName,
           email: betSlip.user.email,
+          userId: betSlip.user.userId,
           difference: 0,
         })),
       };

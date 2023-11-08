@@ -34,5 +34,8 @@
   "user-not-placed-bet": "The user has not placed a bet",
   "when-tournament-starts-you-can-see": "You can see other peoples bets when the tournament starts",
   "bet-saved": "Bet saved!",
-  "error-saving": "Could not save bet, please try again"
+  "error-saving": "Could not save bet, please try again",
+  "all-games-must-be-filled-in": "All games must be filled in",
+  "missing-penalty-winner": "A match in the playoffs that ends in a draw is missing a penalty winner",
+  "goal-scorer-missing": "Goal scorer is missing"
 }

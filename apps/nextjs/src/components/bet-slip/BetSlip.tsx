@@ -30,9 +30,16 @@ type Props = {
   handleSave?: () => void;
   setFinalsMatches?: (matches: any[]) => void;
   headerText: string;
+  placingBetLoading?: boolean;
 };
 
-const BetSlip = ({ mode, handleSave, setFinalsMatches, headerText }: Props) => {
+const BetSlip = ({
+  mode,
+  handleSave,
+  setFinalsMatches,
+  headerText,
+  placingBetLoading,
+}: Props) => {
   const championship = useRecoilValue(championshipState);
   const groupOf16 = useRecoilValue(getGroupOf16);
   const groupOf8 = useRecoilValue(getGroupOf8);
@@ -149,9 +156,13 @@ const BetSlip = ({ mode, handleSave, setFinalsMatches, headerText }: Props) => {
               handleSetGoalscorer={handleSetGoalscorer}
             />
             {mode !== "placedBet" && (
-              <div className="mb-10 mt-4 flex">
+              <div className="mb-10 flex">
                 {config?.bettingAllowed || mode === "answerSheet" ? (
-                  <SubmitButton type="button" onClick={handleSave}>
+                  <SubmitButton
+                    isLoading={placingBetLoading}
+                    type="button"
+                    onClick={handleSave}
+                  >
                     {t("save-bet")}
                   </SubmitButton>
                 ) : (

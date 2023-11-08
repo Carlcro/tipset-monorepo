@@ -5,11 +5,23 @@ import { trpc } from "../../utils/trpc";
 import BetSlip from "../../components/bet-slip/BetSlip";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
+import Spinner from "../../components/Spinner";
+import { championshipState } from "../../recoil/championship/atoms";
 
 const Championship = () => {
   const setFromBetslip = useSetRecoilState(setFromBetslipState);
+  const setChampionship = useSetRecoilState(championshipState);
 
-  const { data: betSlipData } = trpc.answerSheet.getAnswerSheet.useQuery();
+  const { data: betSlipData, isLoading } =
+    trpc.answerSheet.getAnswerSheet.useQuery();
+  const { data: championshipData } =
+    trpc.championship.getOneChampionship.useQuery();
+
+  useEffect(() => {
+    if (championshipData) {
+      setChampionship(championshipData);
+    }
+  }, [championshipData, setChampionship]);
 
   useEffect(() => {
     if (betSlipData) {
@@ -17,9 +29,17 @@ const Championship = () => {
     }
   }, [setFromBetslip, betSlipData]);
 
+  if (isLoading) {
+    return (
+      <div className="mt-32 flex w-full items-center justify-center">
+        <Spinner width={50} height={50} />
+      </div>
+    );
+  }
+
   return (
     <div className="pb-10">
-      <BetSlip headerText={"Facit"} mode={"placedBet"} />;
+      <BetSlip headerText={"Facit"} mode={"facit"} />;
     </div>
   );
 };

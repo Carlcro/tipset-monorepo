@@ -1,1 +1,1 @@
-export type Mode = "placedBet" | "betslip" | "answerSheet";
+export type Mode = "placedBet" | "betslip" | "answerSheet" | "facit";

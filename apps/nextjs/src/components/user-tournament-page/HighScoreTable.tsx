@@ -33,6 +33,7 @@ const HighScoreTable = ({ userTournamentId }: Props) => {
         <table className="mx-1 w-full">
           <thead>
             <tr>
+              <th></th>
               <th>{t("rank")}</th>
               <th className="text-center md:text-left">{t("name")}</th>
               <th>{t("points")}</th>
@@ -49,13 +50,15 @@ const HighScoreTable = ({ userTournamentId }: Props) => {
                 }
                 key={betslip.id}
               >
-                {data.isOwner && (
+                {data.isOwner && betslip.userId !== data.ownerId ? (
                   <td className="cursor-pointer text-sm">
                     <KickMemberDialog
-                      memberId={betslip.id}
+                      memberId={betslip.userId}
                       memberName={betslip.fullName}
                     />
                   </td>
+                ) : (
+                  <td></td>
                 )}
                 <td className="text-center">{index + 1}</td>
                 <td className="text-center md:text-left">

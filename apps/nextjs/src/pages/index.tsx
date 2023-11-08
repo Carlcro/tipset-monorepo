@@ -7,11 +7,6 @@ import nextI18nConfig from "../../next-i18next.config.mjs";
 import HighScoreTable from "../components/user-tournament-page/HighScoreTable";
 
 const Index = () => {
-  const utils = trpc.useContext();
-  const { mutate, isLoading } =
-    trpc.userTournament.createUserTournament.useMutation({
-      onSuccess: () => utils.invalidate(),
-    });
   const { data } = trpc.config.getConfig.useQuery();
 
   if (!data) {
@@ -21,8 +16,8 @@ const Index = () => {
   return (
     <div className="flex flex-col-reverse items-center px-5 md:flex-row md:items-start md:justify-center md:space-x-8">
       <div className="mt-5 w-full max-w-[400px] space-y-5 md:mt-0">
-        <UserTournamentsList addedLoading={isLoading} />
-        <UserTournamentForm createUserTournament={mutate} />
+        <UserTournamentsList />
+        <UserTournamentForm />
       </div>
       <div className="w-full max-w-[400px]">
         <HighScoreTable userTournamentId={data.mainTournament} />

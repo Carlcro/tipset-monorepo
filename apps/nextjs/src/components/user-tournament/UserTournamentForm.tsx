@@ -3,18 +3,21 @@ import { motion } from "framer-motion";
 import Container from "../Container";
 import SubmitButton from "../SubmitButton";
 import { useTranslation } from "next-i18next";
+import { trpc } from "../../utils/trpc";
 
-const UserTournamentForm = ({
-  createUserTournament,
-}: {
-  createUserTournament: (input: { name: string }) => void;
-}) => {
+const UserTournamentForm = () => {
   const [userTournamentName, setUserTournamentName] = useState("");
   const { t } = useTranslation("user-tournament");
+  const utils = trpc.useContext();
+
+  const { mutate, isLoading } =
+    trpc.userTournament.createUserTournament.useMutation({
+      onSuccess: () => utils.userTournament.getUserTournaments.invalidate(),
+    });
 
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createUserTournament({ name: userTournamentName });
+    mutate({ name: userTournamentName });
     setUserTournamentName("");
   };
   return (
@@ -33,7 +36,13 @@ const UserTournamentForm = ({
             value={userTournamentName}
             className="mb-3 w-full rounded-sm border border-polarNight px-2 py-1.5"
           ></input>
-          <SubmitButton type="submit">{t("create-group")}</SubmitButton>
+          <SubmitButton
+            isLoading={isLoading}
+            type="submit"
+            className="w-[130px]"
+          >
+            {t("create-group")}
+          </SubmitButton>
         </form>
       </Container>
     </motion.div>
