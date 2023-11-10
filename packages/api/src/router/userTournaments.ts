@@ -6,30 +6,22 @@ export const userTournamentRouter = router({
   createUserTournament: protectedProcedure
     .input(z.object({ name: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      try {
-        const newTournament = await ctx.prisma.userTournament.create({
-          data: {
-            name: input.name,
-            ownerId: ctx.auth.userId,
-            members: {
-              connect: {
-                userId: ctx.auth.userId,
-              },
+      const newTournament = await ctx.prisma.userTournament.create({
+        data: {
+          name: input.name,
+          ownerId: ctx.auth.userId,
+          members: {
+            connect: {
+              userId: ctx.auth.userId,
             },
           },
-          include: {
-            members: true,
-          },
-        });
+        },
+        include: {
+          members: true,
+        },
+      });
 
-        return newTournament;
-      } catch (error) {
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "Could not user.",
-          cause: error,
-        });
-      }
+      return newTournament;
     }),
   getUserTournaments: protectedProcedure.query(async ({ ctx }) => {
     const config = await ctx.prisma.config.findFirstOrThrow();

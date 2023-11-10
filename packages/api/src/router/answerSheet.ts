@@ -69,6 +69,7 @@ export const answerSheetRouter = router({
           data: {
             championshipId: championship.id,
             goalscorerId: newGoalScorer ? newGoalScorer.id : undefined,
+            timeUpdated: new Date(),
           },
         });
 
@@ -118,6 +119,14 @@ export const answerSheetRouter = router({
         console.log(error);
       }
     }),
+
+  lastUpdated: protectedProcedure.query(({ ctx }) => {
+    return ctx.prisma.answerSheet.findFirstOrThrow({
+      select: {
+        timeUpdated: true,
+      },
+    });
+  }),
 
   getAnswerSheet: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.answerSheet.findFirst({

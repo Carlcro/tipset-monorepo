@@ -5,10 +5,15 @@ import Container from "../Container";
 import { trpc } from "../../utils/trpc";
 import { useTranslation } from "next-i18next";
 import KickMemberDialog from "./KickMemberDialog";
+import { format } from "date-fns";
 
 type Props = {
   userTournamentId: string;
 };
+
+function isDate(obj: any): obj is Date {
+  return obj instanceof Date && !isNaN(obj.getTime());
+}
 
 const HighScoreTable = ({ userTournamentId }: Props) => {
   const { t } = useTranslation("user-tournament-page");
@@ -16,6 +21,8 @@ const HighScoreTable = ({ userTournamentId }: Props) => {
   const { data } = trpc.userTournament.getHighscore.useQuery({
     userTournamentId: userTournamentId,
   });
+
+  const { data: lastUpdated } = trpc.answerSheet.lastUpdated.useQuery();
 
   if (!data) {
     return <div className="sm:w-[500px]"></div>;
@@ -30,6 +37,11 @@ const HighScoreTable = ({ userTournamentId }: Props) => {
         <h2 className="text-center text-xl font-semibold">
           {data.name === "main-tournament" ? t("highscore") : data.name}
         </h2>
+        <div className="flex justify-center text-sm">
+          {isDate(lastUpdated?.timeUpdated) && (
+            <span>{format(lastUpdated?.timeUpdated || 0, "dd/M H:mm")}</span>
+          )}
+        </div>
         <table className="mx-1 w-full">
           <thead>
             <tr>

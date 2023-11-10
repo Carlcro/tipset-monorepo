@@ -57,7 +57,7 @@ model BetSlip {
   userId                String                  @unique
   user                  User                    @relation(fields: [userId], references: [userId])
   bets                  Bet[]
-  pointsFromGroup       PointsFromGroup[] 
+  pointsFromGroup       PointsFromGroup[]
   pointsFromAdvancement PointsFromAdvancement[]
   pointsFromGoalscorer  Int
   goalscorer            Player?                 @relation(fields: [goalscorerId], references: [id])
@@ -65,8 +65,7 @@ model BetSlip {
   points                Int
   pointsHistory         PointsHistory[]
   championship          Championship            @relation(fields: [championshipId], references: [id])
-  championshipId        String                  
-
+  championshipId        String
 
   @@index([goalscorerId])
   @@index([championshipId])
@@ -92,7 +91,6 @@ model Bet {
   @@index([penaltyWinnerId])
   @@index([betSlipId])
 }
-
 
 model PointsFromGroup {
   id        String   @id @default(cuid())
@@ -122,11 +120,12 @@ model PointsHistory {
 
 model AnswerSheet {
   id             String       @id @default(cuid())
-  bets        Result[]
+  bets           Result[]
   goalscorer     GoalScorer?  @relation(fields: [goalscorerId], references: [id])
   goalscorerId   String?
   championship   Championship @relation(fields: [championshipId], references: [id])
   championshipId String       @unique
+  timeUpdated    DateTime     
 
   @@index([goalscorerId])
 }
@@ -152,7 +151,6 @@ model Result {
   @@index([answerSheetId])
 }
 
-
 model Player {
   id         String       @id @default(cuid())
   name       String
@@ -166,7 +164,6 @@ model GoalScorer {
   goals       Int
   playerId    String
   AnswerSheet AnswerSheet[]
-
 
   @@index([playerId])
 }
@@ -211,9 +208,9 @@ model MatchInfo {
   time           DateTime
   arena          String
   city           String
-  matchId        Int   
+  matchId        Int
   Championship   Championship? @relation(fields: [championshipId], references: [id])
-  championshipId String?       
+  championshipId String?
 
   @@index([championshipId])
 }
