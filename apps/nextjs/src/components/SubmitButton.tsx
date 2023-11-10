@@ -19,7 +19,7 @@ export default function SubmitButton({
 }: Props) {
   return (
     <button
-      className={`${className} mt-2 h-[33px] w-[100px] cursor-pointer rounded-sm border border-polarNight bg-frost3 px-3 py-1 text-slate`}
+      className={`${className} mt-2 h-[33px] min-w-[100px] cursor-pointer rounded-sm border border-polarNight bg-frost3 px-3 py-1 text-slate`}
       onClick={onClick}
       type={type}
       disabled={isLoading}
