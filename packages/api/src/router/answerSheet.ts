@@ -69,7 +69,6 @@ export const answerSheetRouter = router({
           data: {
             championshipId: championship.id,
             goalscorerId: newGoalScorer ? newGoalScorer.id : undefined,
-            timeUpdated: new Date(),
           },
         });
 

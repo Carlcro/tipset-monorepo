@@ -1,5 +1,7 @@
 import { z } from "zod";
 import { router, protectedProcedure } from "../trpc";
+import { getMatchExplanationText } from "calculations/src/points/World/pointCalculation";
+import { TRPCError } from "@trpc/server";
 
 export const betslipRouter = router({
   createBetSlip: protectedProcedure
@@ -96,6 +98,47 @@ export const betslipRouter = router({
       },
     });
   }),
+  getPointsExplanation: protectedProcedure
+    .input(
+      z.object({
+        betslipId: z.string(),
+        matchId: z.number(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const outcome = await ctx.prisma.result.findFirst({
+        where: {
+          matchId: input.matchId,
+        },
+        include: {
+          team1: true,
+          team2: true,
+        },
+      });
+
+      const bet = await ctx.prisma.bet.findFirst({
+        where: {
+          betSlipId: input.betslipId,
+          matchId: input.matchId,
+        },
+        include: {
+          team1: true,
+          team2: true,
+        },
+      });
+
+      // TODO fix type
+      if (outcome && bet) {
+        const explanation = getMatchExplanationText(outcome, bet);
+
+        return explanation;
+      } else {
+        return new TRPCError({
+          code: "NOT_FOUND",
+          message: "Something failed",
+        });
+      }
+    }),
   getPlacedBet: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {

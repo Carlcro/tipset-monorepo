@@ -37,5 +37,9 @@
   "error-saving": "Could not save bet, please try again",
   "all-games-must-be-filled-in": "All games must be filled in",
   "missing-penalty-winner": "A match in the playoffs that ends in a draw is missing a penalty winner",
-  "goal-scorer-missing": "Goal scorer is missing"
+  "goal-scorer-missing": "Goal scorer is missing",
+  "group-stage-explanation-correct-result": "Correct result: {{result}} p",
+  "group-stage-explanation-correct-winner-draw": "Correct winner/draw: 20 p - {{goalDiff}} p = {{result}} p",
+  "group-stage-explanation-wrong-winner-draw": "Wrong winner/draw: 10 p - {{goalDiff}} p = {{result}}",
+  "finals-points-explanation": "Correct result: {{correctResult}} p + Correct 1/X/2: {{correct1x2}} p = {{result}} p"
 }

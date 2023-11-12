@@ -163,7 +163,7 @@ const Navbar = () => {
               className={
                 router.pathname === "/bet-slip"
                   ? "underline underline-offset-4"
-                  : `${user.betSlip ? "" : "animate-pulse"}`
+                  : `${user.betSlip ? "" : "animate-pulse font-bold"}`
               }
               href={"/bet-slip"}
             >

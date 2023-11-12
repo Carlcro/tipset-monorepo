@@ -125,7 +125,7 @@ model AnswerSheet {
   goalscorerId   String?
   championship   Championship @relation(fields: [championshipId], references: [id])
   championshipId String       @unique
-  timeUpdated    DateTime     
+  timeUpdated    DateTime     @default(now())
 
   @@index([goalscorerId])
 }

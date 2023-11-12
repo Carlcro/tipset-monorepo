@@ -11,10 +11,6 @@ type Props = {
   userTournamentId: string;
 };
 
-function isDate(obj: any): obj is Date {
-  return obj instanceof Date && !isNaN(obj.getTime());
-}
-
 const HighScoreTable = ({ userTournamentId }: Props) => {
   const { t } = useTranslation("user-tournament-page");
 
@@ -22,9 +18,13 @@ const HighScoreTable = ({ userTournamentId }: Props) => {
     userTournamentId: userTournamentId,
   });
 
-  const { data: lastUpdated } = trpc.answerSheet.lastUpdated.useQuery();
+  const {
+    data: lastUpdated,
+    isLoading,
+    isError,
+  } = trpc.answerSheet.lastUpdated.useQuery();
 
-  if (!data) {
+  if (!data || isError || isLoading) {
     return <div className="sm:w-[500px]"></div>;
   }
   return (
@@ -38,9 +38,7 @@ const HighScoreTable = ({ userTournamentId }: Props) => {
           {data.name === "main-tournament" ? t("highscore") : data.name}
         </h2>
         <div className="flex justify-center text-sm">
-          {isDate(lastUpdated?.timeUpdated) && (
-            <span>{format(lastUpdated?.timeUpdated || 0, "dd/M H:mm")}</span>
-          )}
+          <span>{format(lastUpdated.timeUpdated, "dd/M H:mm")}</span>
         </div>
         <table className="mx-1 w-full">
           <thead>

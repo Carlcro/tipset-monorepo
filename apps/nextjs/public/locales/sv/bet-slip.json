@@ -37,5 +37,9 @@
   "error-saving": "Det gick inte att spara tipset, försök gärna igen",
   "all-games-must-be-filled-in": "Alla matcher måste vara ifyllda",
   "missing-penalty-winner": "En match i slutspelet som slutar oavgjort saknar straffvinnare",
-  "goal-scorer-missing": "Skyttekung saknas"
+  "goal-scorer-missing": "Skyttekung saknas",
+  "group-stage-explanation-correct-result": "Rätt resultat: {{result}} p",
+  "group-stage-explanation-correct-winner-draw": "Rätt segrare/oavgjort: 20 p - {{goalDiff}} p = {{result}} p",
+  "group-stage-explanation-wrong-winner-draw": "Fel segrare/oavgjort: 10 p -  {{goalDiff}} p = {{result}}",
+  "finals-points-explanation": "Rätt resultat: {{correctResult}} p + Rätt 1/X/2: {{correct1x2}} p = {{result}} p"
 }

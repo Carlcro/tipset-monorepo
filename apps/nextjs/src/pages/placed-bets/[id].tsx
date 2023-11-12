@@ -39,14 +39,6 @@ const PlacedBets = () => {
 
   const { data: config, isLoading: configLoading } =
     trpc.config.getConfig.useQuery();
-
-  useEffect(() => {
-    if (betSlipData) {
-      setFromBetslip(betSlipData);
-      setName(betSlipData.user.fullName);
-    }
-  }, [setFromBetslip, betSlipData]);
-
   const { data: championshipData } =
     trpc.championship.getOneChampionship.useQuery();
 
@@ -55,6 +47,13 @@ const PlacedBets = () => {
       setChampionship(championshipData);
     }
   }, [championshipData, setChampionship]);
+
+  useEffect(() => {
+    if (betSlipData) {
+      setFromBetslip(betSlipData);
+      setName(betSlipData.user.fullName);
+    }
+  }, [setFromBetslip, betSlipData]);
 
   if (!config || placedBetLoading || configLoading) {
     return null;

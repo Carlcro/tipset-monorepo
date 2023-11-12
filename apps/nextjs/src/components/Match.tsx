@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler } from "react";
+import React, { ChangeEventHandler, useState } from "react";
 import GoalInput from "./GoalInput";
 import { format, addHours } from "date-fns";
 import {
@@ -15,8 +15,59 @@ import { Team } from "calculations/src/types/team";
 import { Match } from "calculations/src/types/match";
 import { useTranslation } from "next-i18next";
 import { Mode } from "../types";
+import { trpc } from "../utils/trpc";
+import { useRouter } from "next/router";
+import { Button, Flex, Popover } from "@radix-ui/themes";
+import Spinner from "./Spinner";
 
 polyfillCountryFlagEmojis();
+
+type ExplanationProps = {
+  points: number | null | undefined;
+  betslipId: string;
+  matchId: number;
+};
+
+const PointsExplanation = ({
+  points,
+  betslipId,
+  matchId,
+}: ExplanationProps) => {
+  const { t } = useTranslation(["bet-slip", "countries"]);
+
+  const [openMatchId, setOpenMatchId] = useState<number>(0);
+
+  const { data: explanation, isLoading } =
+    trpc.betslip.getPointsExplanation.useQuery(
+      {
+        betslipId: betslipId,
+        matchId: matchId,
+      },
+      {
+        enabled: openMatchId != 0,
+      },
+    );
+
+  if (!points) return <div />;
+
+  return (
+    <Popover.Root>
+      <Popover.Trigger onClick={() => setOpenMatchId(matchId)}>
+        <Button variant="ghost">{points}</Button>
+      </Popover.Trigger>
+      <Popover.Content style={{ width: 360 }}>
+        {/* @ts-ignore */}
+        {isLoading ? (
+          <div className="flex justify-center">
+            <Spinner height={30} width={30} />
+          </div>
+        ) : (
+          t(explanation.text, explanation)
+        )}
+      </Popover.Content>
+    </Popover.Root>
+  );
+};
 
 type Stats = {
   team1Percentage: number;
@@ -130,6 +181,9 @@ const Match: React.FC<MatchProps> = ({
   mode,
 }) => {
   const { t } = useTranslation("countries");
+  const router = useRouter();
+
+  const id = router.query.id as string;
 
   const { team1, team2, matchId } = match;
   const { arena, city, time } = matchInfo;
@@ -244,7 +298,13 @@ const Match: React.FC<MatchProps> = ({
         <span className={`truncate ${team2Style}`}>{t(team2.name)}</span>
       </div>
       {mode === "placedBet" && (
-        <div className="text-center">{matchScore.points}</div>
+        <div className="flex justify-center">
+          <PointsExplanation
+            points={matchScore.points}
+            matchId={matchScore.matchId}
+            betslipId={id}
+          />
+        </div>
       )}
       <div className="hidden flex-col truncate lg:flex">
         <span className="truncate">
