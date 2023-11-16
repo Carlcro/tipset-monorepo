@@ -159,4 +159,7 @@ export const betslipRouter = router({
         },
       });
     }),
+  getNumberOfBetSlips: protectedProcedure.query(({ ctx }) => {
+    return ctx.prisma.betSlip.count();
+  }),
 });

@@ -9,6 +9,8 @@ import BetSlip from "../../components/bet-slip/BetSlip";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
 
+const BATCH_SIZE = 20;
+
 const AnswerSheet = () => {
   const utils = trpc.useContext();
 
@@ -35,6 +37,9 @@ const AnswerSheet = () => {
       utils.invalidate();
     },
   });
+
+  const { data: nrOfBetSlips = 0 } =
+    trpc.betslip.getNumberOfBetSlips.useQuery();
 
   const { data: config } = trpc.config.getConfig.useQuery();
 
@@ -65,7 +70,10 @@ const AnswerSheet = () => {
     trpc.answerSheet.saveAnswerSheet.useMutation({
       onSuccess: () => {
         toast.success("Sparat!");
-        updateBetSlips();
+        updatePoints({
+          calculateAllPoints,
+          skip: 0,
+        });
       },
       onError: (error) => {
         toast.error(error.message);
@@ -73,16 +81,21 @@ const AnswerSheet = () => {
     });
 
   const { mutate: updatePoints } = trpc.answerSheet.updatePoints.useMutation({
-    onSuccess: () => {
-      toast.success("Poäng Uppdaterade!");
+    onSuccess: (data, variable) => {
+      toast.success(
+        `Batch ${variable.skip / BATCH_SIZE + 1} of ${Math.ceil(
+          nrOfBetSlips / BATCH_SIZE,
+        )} updated!`,
+      );
+      const skip = variable.skip + BATCH_SIZE;
+      if (skip < nrOfBetSlips) {
+        updatePoints({
+          calculateAllPoints,
+          skip,
+        });
+      }
     },
   });
-
-  const updateBetSlips = async () => {
-    updatePoints({
-      calculateAllPoints,
-    });
-  };
 
   const submitAnswer = async () => {
     const finalsNotPlayed = finalsMatches.filter((x) => x.id > betslip.length);

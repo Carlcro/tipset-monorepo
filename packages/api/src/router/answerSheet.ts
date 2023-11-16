@@ -31,6 +31,7 @@ export const answerSheetRouter = router({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      console.log("HEJ");
       try {
         const championship = await ctx.prisma.championship.findFirstOrThrow();
         const answerSheet = await ctx.prisma.answerSheet.findUnique({
@@ -146,7 +147,7 @@ export const answerSheetRouter = router({
     });
   }),
   updatePoints: protectedProcedure
-    .input(z.object({ calculateAllPoints: z.boolean() }))
+    .input(z.object({ calculateAllPoints: z.boolean(), skip: z.number() }))
     .mutation(async ({ ctx, input }) => {
       const championship = await ctx.prisma.championship.findFirstOrThrow({
         include: {
@@ -180,6 +181,8 @@ export const answerSheetRouter = router({
       const matchNumber = answerSheet.bets.length;
 
       const allBetSlips = await ctx.prisma.betSlip.findMany({
+        skip: input.skip,
+        take: 20,
         include: {
           goalscorer: true,
           pointsHistory: true,
@@ -192,6 +195,8 @@ export const answerSheetRouter = router({
           },
         },
       });
+
+      console.log("XXX", allBetSlips.length);
 
       const answerSheetGroupResult = calculateGroupResults(
         answerSheet.bets,
