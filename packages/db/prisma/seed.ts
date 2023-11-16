@@ -1,4 +1,5 @@
-import { prisma } from "./../index";
+import { Championship, User, UserTournament, prisma } from "./../index";
+import { faker } from "@faker-js/faker";
 import players from "./data/players.json";
 import matchInfo from "./data/matchInfo.json";
 import { matchGroups } from "./data/matchGroups";
@@ -20,12 +21,25 @@ const load = async () => {
     await prisma.player.deleteMany();
     await prisma.config.deleteMany();
 
-    await prisma.user.deleteMany();
+    await prisma.user.deleteMany({
+      where: {
+        NOT: {
+          email: "carl.cronsioe@gmail.com",
+        },
+      },
+    });
     await prisma.userTournament.deleteMany();
 
     const championship = await prisma.championship.create({
       data: {
         name: "Euro 2024",
+      },
+    });
+
+    await prisma.answerSheet.create({
+      data: {
+        championshipId: championship.id,
+        goalscorerId: undefined,
       },
     });
 
@@ -102,6 +116,9 @@ const load = async () => {
       });
     }
 
+    /*     const matches = await createUsers(mainUserTournament, championship);
+     */
+
     console.log("Added data!");
   } catch (e) {
     console.error(e);
@@ -109,6 +126,92 @@ const load = async () => {
   } finally {
     await prisma.$disconnect();
   }
+
+  async function createUsers(
+    mainUserTournament: UserTournament,
+    championship: Championship,
+  ) {
+    const USERS: Omit<User, "id" | "userTournamentId">[] =
+      faker.helpers.multiple(createRandomUser, {
+        count: 5,
+      });
+
+    await prisma.user.createMany({
+      data: USERS,
+    });
+
+    const matches = await prisma.match.findMany({
+      include: {
+        team1: true,
+        team2: true,
+      },
+    });
+
+    const allUsers = await prisma.user.findMany();
+
+    allUsers.forEach(async (user) => {
+      await prisma.userTournament.update({
+        where: {
+          id: mainUserTournament.id,
+        },
+        data: {
+          members: {
+            connect: {
+              email: user.email,
+            },
+          },
+        },
+      });
+
+      const newBetSlip = {
+        userId: user.userId,
+        championshipId: championship.id,
+        goalscorerId: undefined,
+        pointsFromGoalscorer: 0,
+        points: 0,
+      };
+
+      const createdBetslip = await prisma.betSlip.create({
+        data: newBetSlip,
+      });
+
+      await prisma.bet.createMany({
+        data: matches.map((match) => {
+          const team1Score = Math.floor(Math.random() * 6);
+          const team2Score = Math.floor(Math.random() * 6);
+          let penaltyWinnerId: string | undefined = undefined;
+
+          if (team1Score === team2Score) {
+            penaltyWinnerId = match.team1Id;
+          }
+
+          return {
+            matchId: match.matchId,
+            team1Id: match.team1Id,
+            team2Id: match.team2Id,
+            team1Score: team1Score,
+            team2Score: team2Score,
+            penaltyWinnerId,
+            betSlipId: createdBetslip.id,
+          };
+        }),
+      });
+    });
+    return matches;
+  }
 };
+
+export function createRandomUser(): Omit<User, "id" | "userTournamentId"> {
+  const firstName = faker.person.firstName();
+  const lastName = faker.person.lastName();
+
+  return {
+    userId: faker.string.uuid(),
+    email: faker.internet.email(),
+    firstName,
+    lastName,
+    fullName: `${firstName} ${lastName}`,
+  };
+}
 
 load();
