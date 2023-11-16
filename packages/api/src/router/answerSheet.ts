@@ -294,7 +294,7 @@ export const answerSheetRouter = router({
           data: {
             points: points,
             pointsFromGoalscorer: goalScorerPoints,
-            pointsHistory: {
+            /*       pointsHistory: {
               upsert: {
                 where: {
                   matchNumber: matchNumber,
@@ -307,7 +307,7 @@ export const answerSheetRouter = router({
                   points: points,
                 },
               },
-            },
+            }, */
           },
         });
 

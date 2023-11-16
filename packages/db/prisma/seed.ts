@@ -49,6 +49,19 @@ const load = async () => {
       },
     });
 
+    await prisma.userTournament.update({
+      where: {
+        id: mainUserTournament.id,
+      },
+      data: {
+        members: {
+          connect: {
+            email: "carl.cronsioe@gmail.com",
+          },
+        },
+      },
+    });
+
     await prisma.config.create({
       data: {
         bettingAllowed: true,
@@ -116,8 +129,7 @@ const load = async () => {
       });
     }
 
-    /*     const matches = await createUsers(mainUserTournament, championship);
-     */
+    const matches = await createUsers(mainUserTournament, championship);
 
     console.log("Added data!");
   } catch (e) {
@@ -133,7 +145,7 @@ const load = async () => {
   ) {
     const USERS: Omit<User, "id" | "userTournamentId">[] =
       faker.helpers.multiple(createRandomUser, {
-        count: 5,
+        count: 400,
       });
 
     await prisma.user.createMany({
