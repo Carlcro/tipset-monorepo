@@ -235,6 +235,15 @@ export const answerSheetRouter = router({
             } else {
               totalPointsFromMatches += bet.points || 0;
             }
+          } else if (input.calculateAllPoints) {
+            await ctx.prisma.bet.update({
+              where: {
+                id: bet.id,
+              },
+              data: {
+                points: null,
+              },
+            });
           }
         });
 
