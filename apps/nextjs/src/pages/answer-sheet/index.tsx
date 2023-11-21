@@ -9,7 +9,7 @@ import BetSlip from "../../components/bet-slip/BetSlip";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
 
-const BATCH_SIZE = 20;
+const BATCH_SIZE = 40;
 
 const AnswerSheet = () => {
   const utils = trpc.useContext();
