@@ -22,36 +22,42 @@ import { env } from "../env/client.mjs";
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-type FormData = {
+type SignUpData = {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
 };
 
-type FormErrors = {
-  [K in keyof FormData]?: string;
+type SignInData = Omit<SignUpData, "firstName" | "lastName">;
+
+type SignUpFormErrors = {
+  [K in keyof SignUpData]?: string;
 };
 
-function SignInForm({ logInAsGuest }) {
+type SignInFormErrors = {
+  [K in keyof SignInData]?: string;
+};
+
+function SignUpForm() {
   const { isLoaded, signUp, setActive } = useSignUp();
 
   const router = useRouter();
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<SignUpData>({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
   });
-  const [formErrors, setFormErrors] = useState<FormErrors>({});
+  const [formErrors, setFormErrors] = useState<SignUpFormErrors>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
   };
 
-  const validate = (values: FormData): FormErrors => {
-    const errors: FormErrors = {};
+  const validate = (values: SignUpData): SignUpFormErrors => {
+    const errors: SignUpFormErrors = {};
     if (!values.firstName) {
       errors.firstName = "First name is required";
     }
@@ -109,7 +115,7 @@ function SignInForm({ logInAsGuest }) {
   };
 
   return (
-    <div className="mx-auto mt-10 w-[300px] rounded-lg border bg-slate p-6 shadow-sm">
+    <div>
       <h1 className="mb-6 text-center text-2xl font-bold">Sign Up</h1>
       <form onSubmit={handleSubmit} className="mb-3 space-y-3">
         <div>
@@ -191,15 +197,124 @@ function SignInForm({ logInAsGuest }) {
           Sign Up
         </Button>
       </form>
-      <Button className="w-full" variant="soft" onClick={logInAsGuest}>
-        Or log in as a Guest
-      </Button>
+    </div>
+  );
+}
+
+function SignInForm() {
+  const { isLoaded, signIn, setActive } = useSignIn();
+
+  const router = useRouter();
+  const [formData, setFormData] = useState<SignInData>({
+    email: "",
+    password: "",
+  });
+  const [formErrors, setFormErrors] = useState<SignInFormErrors>({});
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
+
+  const validate = (values: SignInData): SignInFormErrors => {
+    const errors: SignInFormErrors = {};
+
+    if (!values.email) {
+      errors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+      errors.email = "Email address is invalid";
+    }
+    if (!values.password) {
+      errors.password = "Password is required";
+    }
+    return errors;
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const errors = validate(formData);
+    if (Object.keys(errors).length) {
+      setFormErrors(errors);
+    } else {
+      // Submit your form
+      console.log("Form submitted", formData);
+      setFormErrors({});
+
+      if (!isLoaded) {
+        return;
+      }
+
+      console.log("hej");
+      try {
+        const result = await signIn.create({
+          identifier: formData.email,
+          password: formData.password,
+        });
+
+        console.log("result", result);
+
+        if (result.status === "complete") {
+          console.log(result);
+          await setActive({ session: result.createdSessionId });
+          router.push("/");
+        } else {
+          /*Investigate why the login hasn't completed */
+          console.log(result);
+        }
+      } catch (err: any) {
+        console.error("error", err.errors[0].longMessage);
+      }
+    }
+  };
+
+  return (
+    <div>
+      <h1 className="mb-6 text-center text-2xl font-bold">Sign In</h1>
+      <form onSubmit={handleSubmit} className="mb-3 space-y-3">
+        <div>
+          <label
+            htmlFor="email"
+            className="mb-2 block text-sm font-medium text-gray-700"
+          >
+            Email Address
+          </label>
+          <input
+            type="email"
+            id="email"
+            value={formData.email}
+            onChange={handleChange}
+            className="block w-full rounded-md border border-gray-300 px-2 py-1 focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+          />
+          {formErrors.email && (
+            <p className="mt-1 text-xs text-red-500">{formErrors.email}</p>
+          )}
+        </div>
+        <div>
+          <label
+            htmlFor="password"
+            className="mb-2 block text-sm font-medium text-gray-700"
+          >
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            value={formData.password}
+            onChange={handleChange}
+            className="block w-full rounded-md border border-gray-300 px-2 py-1 focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+          />
+          {formErrors.password && (
+            <p className="mt-1 text-xs text-red-500">{formErrors.password}</p>
+          )}
+        </div>
+      </form>
     </div>
   );
 }
 
 const LoggedOut = () => {
   const { isLoaded, signIn, setActive } = useSignIn();
+  const [onSignUp, setOnSign] = useState(true);
   const router = useRouter();
 
   const logInAsGuest = async () => {
@@ -222,7 +337,19 @@ const LoggedOut = () => {
     return (
       <div className="flex flex-col items-center justify-center">
         <div className="flex justify-center space-x-6">
-          <SignInForm logInAsGuest={logInAsGuest} />
+          <div className="mx-auto mt-10 w-[300px] space-y-3 rounded-lg border bg-slate p-6 shadow-sm">
+            {onSignUp ? <SignUpForm /> : <SignInForm />}
+            <Button
+              className="w-full"
+              variant="surface"
+              onClick={() => setOnSign(!onSignUp)}
+            >
+              {onSignUp ? "Go to Sign in" : "Go to Sign up"}
+            </Button>
+            <Button className="w-full" variant="soft" onClick={logInAsGuest}>
+              Or log in as a Guest
+            </Button>
+          </div>
         </div>
       </div>
     );
