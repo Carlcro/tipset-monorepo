@@ -37,8 +37,11 @@ const HighScoreTable = ({ userTournamentId }: Props) => {
         <h2 className="text-center text-xl font-semibold">
           {data.name === "main-tournament" ? t("highscore") : data.name}
         </h2>
-        <div className="flex justify-center text-sm">
-          <span>{format(lastUpdated.timeUpdated, "dd/M H:mm")}</span>
+        <div className="flex justify-center text-xs">
+          <span>{`${t("updated")} ${format(
+            lastUpdated.timeUpdated,
+            "dd/M H:mm",
+          )}`}</span>
         </div>
         <table className="mx-1 w-full">
           <thead>

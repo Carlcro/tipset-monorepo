@@ -155,23 +155,24 @@ const BetSlip = ({
               goalscorer={goalscorer}
               handleSetGoalscorer={handleSetGoalscorer}
             />
-            {mode !== "placedBet" && (
-              <div className="mb-10 flex">
-                {config?.bettingAllowed || mode === "answerSheet" ? (
-                  <SubmitButton
-                    isLoading={placingBetLoading}
-                    type="button"
-                    onClick={handleSave}
-                  >
-                    {t("save-bet")}
-                  </SubmitButton>
-                ) : (
-                  <div className="my-3 ml-3 rounded-lg py-1 px-2  font-bold text-red-500">
-                    {t("not-allowed-to-place-bet")}
-                  </div>
-                )}
-              </div>
-            )}
+            {mode === "placedBet" ||
+              (mode === "answerSheet" && (
+                <div className="mb-10 flex">
+                  {config?.bettingAllowed || mode === "answerSheet" ? (
+                    <SubmitButton
+                      isLoading={placingBetLoading}
+                      type="button"
+                      onClick={handleSave}
+                    >
+                      {t("save-bet")}
+                    </SubmitButton>
+                  ) : (
+                    <div className="my-3 ml-3 rounded-lg py-1 px-2  font-bold text-red-500">
+                      {t("not-allowed-to-place-bet")}
+                    </div>
+                  )}
+                </div>
+              ))}
           </div>
           <div className="flex max-w-[500px] flex-col gap-2 lg:max-w-[450px] lg:justify-start">
             <GroupBoard mode={mode} />

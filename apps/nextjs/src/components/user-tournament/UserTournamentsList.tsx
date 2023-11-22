@@ -4,6 +4,7 @@ import Container from "../Container";
 import { trpc } from "../../utils/trpc";
 import Spinner from "../Spinner";
 import { useTranslation } from "next-i18next";
+import { Link as RadixLink } from "@radix-ui/themes";
 
 const UserTournamentsList = () => {
   const { t } = useTranslation("user-tournament");
@@ -26,7 +27,7 @@ const UserTournamentsList = () => {
             {data?.map((tournament) => (
               <li key={tournament.id}>
                 <Link href={`/user-tournament-page/${tournament.id}`}>
-                  {tournament.name}
+                  <RadixLink>{tournament.name}</RadixLink>
                 </Link>
               </li>
             ))}

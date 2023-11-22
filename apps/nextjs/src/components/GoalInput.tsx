@@ -43,7 +43,7 @@ const GoalInput = (props: Props) => {
   return (
     <input
       ref={inputEl}
-      disabled={props.mode === "placedBet"}
+      disabled={props.mode === "placedBet" || props.mode === "facit"}
       value={props.teamScore}
       type="number"
       onChange={handleChange}
