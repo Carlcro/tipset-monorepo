@@ -17,7 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { appWithTranslation } from "next-i18next";
 import nextI18nConfig from "../../next-i18next.config.mjs";
 import "@radix-ui/themes/styles.css";
-import { Button, Theme } from "@radix-ui/themes";
+import { Box, Button, Tabs, Theme } from "@radix-ui/themes";
 import { env } from "../env/client.mjs";
 import { useState } from "react";
 import { useRouter } from "next/router";
@@ -116,7 +116,6 @@ function SignUpForm() {
 
   return (
     <div>
-      <h1 className="mb-6 text-center text-2xl font-bold">Sign Up</h1>
       <form onSubmit={handleSubmit} className="mb-3 space-y-3">
         <div>
           <label
@@ -269,7 +268,6 @@ function SignInForm() {
 
   return (
     <div>
-      <h1 className="mb-6 text-center text-2xl font-bold">Sign In</h1>
       <form onSubmit={handleSubmit} className="mb-3 space-y-3">
         <div>
           <label
@@ -307,6 +305,12 @@ function SignInForm() {
             <p className="mt-1 text-xs text-red-500">{formErrors.password}</p>
           )}
         </div>
+        <Button
+          type="submit"
+          className="text-white w-full rounded-md bg-blue-500 px-4 py-1 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+        >
+          Sign In
+        </Button>
       </form>
     </div>
   );
@@ -338,17 +342,28 @@ const LoggedOut = () => {
       <div className="flex flex-col items-center justify-center">
         <div className="flex justify-center space-x-6">
           <div className="mx-auto mt-10 w-[300px] space-y-3 rounded-lg border bg-slate p-6 shadow-sm">
-            {onSignUp ? <SignUpForm /> : <SignInForm />}
-            <Button
-              className="w-full"
-              variant="surface"
-              onClick={() => setOnSign(!onSignUp)}
-            >
-              {onSignUp ? "Go to Sign in" : "Go to Sign up"}
-            </Button>
-            <Button className="w-full" variant="soft" onClick={logInAsGuest}>
-              Or log in as a Guest
-            </Button>
+            <Tabs.Root defaultValue="signIn">
+              <Tabs.List>
+                <Tabs.Trigger value="signIn">Sign Up</Tabs.Trigger>
+                <Tabs.Trigger value="signUp">Sign In</Tabs.Trigger>
+              </Tabs.List>
+              <Box px="4" pt="3" pb="2">
+                <Tabs.Content value="signIn">
+                  <SignUpForm />
+                </Tabs.Content>
+
+                <Tabs.Content value="signUp">
+                  <SignInForm />
+                </Tabs.Content>
+                <Button
+                  className="w-full"
+                  variant="soft"
+                  onClick={logInAsGuest}
+                >
+                  Or log in as a Guest
+                </Button>
+              </Box>
+            </Tabs.Root>
           </div>
         </div>
       </div>
