@@ -33,7 +33,7 @@ const PointsExplanation = ({
   betslipId,
   matchId,
 }: ExplanationProps) => {
-  const { t } = useTranslation(["bet-slip", "countries", "cities"]);
+  const { t } = useTranslation(["bet-slip", "countries"]);
 
   const [openMatchId, setOpenMatchId] = useState<number>(0);
 
@@ -181,7 +181,7 @@ const Match: React.FC<MatchProps> = ({
   finalsStage,
   mode,
 }) => {
-  const { t } = useTranslation(["countries", "cities"]);
+  const { t } = useTranslation(["countries"]);
   const router = useRouter();
 
   const id = router.query.id as string;

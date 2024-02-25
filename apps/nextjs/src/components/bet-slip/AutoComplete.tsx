@@ -11,6 +11,11 @@ const AutoComplete = ({ goalscorer, handleSetGoalscorer }: Props) => {
   const [inputValue, setInputValue] = useState<string | undefined>(
     goalscorer?.name,
   );
+
+  useEffect(() => {
+    setInputValue(goalscorer?.name);
+  }, [goalscorer?.name]);
+
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const { data: names } = trpc.player.getAll.useQuery();
   const inputRef = useRef<HTMLDivElement>(null);

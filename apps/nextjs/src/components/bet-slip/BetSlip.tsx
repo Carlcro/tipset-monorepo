@@ -48,7 +48,6 @@ const BetSlip = ({
   const final = useRecoilValue(getFinal);
   const [goalscorer, setGoalscorer] = useRecoilState(goalscorerState);
   const { t } = useTranslation("bet-slip");
-
   const [showStatistics, setShowStatistics] = useState(false);
 
   const { data: config, isLoading: configLoading } =

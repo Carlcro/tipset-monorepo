@@ -15,7 +15,7 @@ type Props = {
 
 export default function Group({ groupResult, groupName, mode }: Props) {
   const points = useRecoilValue(getPointsFromGroup(groupName));
-  const { t } = useTranslation(["bet-slip", "countries", "cities"]);
+  const { t } = useTranslation(["bet-slip", "countries"]);
 
   return (
     <motion.div
