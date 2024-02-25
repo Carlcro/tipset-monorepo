@@ -15,7 +15,6 @@ import {
   getGroupOf8,
   getSemifinals,
   getFinal,
-  getThirdPlaceFinal,
 } from "../../recoil/bet-slip/selectors/matches";
 import { championshipState } from "../../recoil/championship/atoms";
 import Container from "../Container";
@@ -41,10 +40,11 @@ const BetSlip = ({
   placingBetLoading,
 }: Props) => {
   const championship = useRecoilValue(championshipState);
+  const bestOfThirds = useRecoilValue(getGroupOf16);
+
   const groupOf16 = useRecoilValue(getGroupOf16);
   const groupOf8 = useRecoilValue(getGroupOf8);
   const semiFinals = useRecoilValue(getSemifinals);
-  const thirdPlaceFinal = useRecoilValue(getThirdPlaceFinal);
   const final = useRecoilValue(getFinal);
   const [goalscorer, setGoalscorer] = useRecoilState(goalscorerState);
   const { t } = useTranslation("bet-slip");
@@ -66,7 +66,6 @@ const BetSlip = ({
         ...groupOf16.matches,
         ...groupOf8.matches,
         ...semiFinals.matches,
-        ...thirdPlaceFinal.matches,
         ...final.matches,
       ]);
     }
@@ -76,7 +75,6 @@ const BetSlip = ({
     groupOf8.matches,
     semiFinals.matches,
     setFinalsMatches,
-    thirdPlaceFinal.matches,
   ]);
 
   const setAllMatches = useSetRecoilState(setAllMatchesState);
@@ -140,11 +138,7 @@ const BetSlip = ({
               matchInfos={championship.matchInfos}
               mode={mode}
             />
-            <MatchGroup
-              group={thirdPlaceFinal}
-              matchInfos={championship.matchInfos}
-              mode={mode}
-            />
+
             <MatchGroup
               group={final}
               matchInfos={championship.matchInfos}
@@ -155,24 +149,23 @@ const BetSlip = ({
               goalscorer={goalscorer}
               handleSetGoalscorer={handleSetGoalscorer}
             />
-            {mode === "placedBet" ||
-              (mode === "answerSheet" && (
-                <div className="mb-10 flex">
-                  {config?.bettingAllowed || mode === "answerSheet" ? (
-                    <SubmitButton
-                      isLoading={placingBetLoading}
-                      type="button"
-                      onClick={handleSave}
-                    >
-                      {t("save-bet")}
-                    </SubmitButton>
-                  ) : (
-                    <div className="my-3 ml-3 rounded-lg py-1 px-2  font-bold text-red-500">
-                      {t("not-allowed-to-place-bet")}
-                    </div>
-                  )}
-                </div>
-              ))}
+            {(mode === "betslip" || mode === "answerSheet") && (
+              <div className="mb-10 flex">
+                {config?.bettingAllowed || mode === "answerSheet" ? (
+                  <SubmitButton
+                    isLoading={placingBetLoading}
+                    type="button"
+                    onClick={handleSave}
+                  >
+                    {t("save-bet")}
+                  </SubmitButton>
+                ) : (
+                  <div className="my-3 ml-3 rounded-lg py-1 px-2  font-bold text-red-500">
+                    {t("not-allowed-to-place-bet")}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
           <div className="flex max-w-[500px] flex-col gap-2 lg:max-w-[450px] lg:justify-start">
             <GroupBoard mode={mode} />

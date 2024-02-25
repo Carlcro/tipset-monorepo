@@ -23,7 +23,7 @@ export function getBestOfThirds(
 }
 
 export function getThirdPlaceGroups(teamResults: TeamResult[]): string[] {
-  return teamResults.map((result) => result.team.group);
+  return teamResults.map((result) => result.groupName);
 }
 
 export function calculateTopFourThirdPlaces(

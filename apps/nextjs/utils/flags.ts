@@ -6,33 +6,43 @@ export const flags: FlagsObject = {
   qatar: "🇶🇦",
   ecuador: "🇪🇨",
   senegal: "🇸🇳",
-  netherlands: "🇳🇱", // Nederländerna
+  netherlands: "🇳🇱",
   england: "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
   iran: "🇮🇷",
   usa: "🇺🇸",
   wales: "🏴󠁧󠁢󠁷󠁬󠁳󠁿",
-  mexico: "🇲🇽", // Mexiko
-  poland: "🇵🇱", // Polen
+  mexico: "🇲🇽",
+  poland: "🇵🇱",
   argentina: "🇦🇷",
-  saudi_arabia: "🇸🇦", // Saudiarabien
-  france: "🇫🇷", // Frankrike
-  australia: "🇦🇺", // Australien
-  denmark: "🇩🇰", // Danmark
-  tunisia: "🇹🇳", // Tunisien
-  germany: "🇩🇪", // Tyskland
+  saudi_arabia: "🇸🇦",
+  france: "🇫🇷",
+  australia: "🇦🇺",
+  denmark: "🇩🇰",
+  tunisia: "🇹🇳",
+  germany: "🇩🇪",
   japan: "🇯🇵",
-  spain: "🇪🇸", // Spanien
-  costa_rica: "🇨🇷", // CostaRica
-  belgium: "🇧🇪", // Belgien
-  canada: "🇨🇦", // Kanada
-  morocco: "🇲🇦", // Marocko
-  croatia: "🇭🇷", // Kroatien
-  brazil: "🇧🇷", // Brasilien
-  serbia: "🇷🇸", // Serbien
-  switzerland: "🇨🇭", // Schweiz
-  cameroon: "🇨🇲", // Kamerun
+  spain: "🇪🇸",
+  costa_rica: "🇨🇷",
+  belgium: "🇧🇪",
+  canada: "🇨🇦",
+  morocco: "🇲🇦",
+  croatia: "🇭🇷",
+  brazil: "🇧🇷",
+  serbia: "🇷🇸",
+  switzerland: "🇨🇭",
+  cameroon: "🇨🇲",
   portugal: "🇵🇹",
   ghana: "🇬🇭",
   uruguay: "🇺🇾",
-  south_korea: "🇰🇷", // Sydkorea
+  south_korea: "🇰🇷",
+  scotland: "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+  hungary: "🇭🇺",
+  italy: "🇮🇹",
+  albania: "🇦🇱",
+  slovenia: "🇸🇮",
+  austria: "🇦🇹",
+  slovakia: "🇸🇰",
+  romania: "🇷🇴",
+  turkey: "🇹🇷",
+  czech_republic: "🇨🇿",
 };

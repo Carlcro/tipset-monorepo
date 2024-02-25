@@ -15,48 +15,51 @@ export function calculateGroupOf16(
     return [];
   }
 
-  return [
-    {
-      matchId: 40,
-      team1: rankedGroups[1].teams[0],
-      team2: bestOfThirds[0],
-    },
-    {
-      matchId: 38,
-      team1: rankedGroups[0].teams[0],
-      team2: rankedGroups[2].teams[1],
-    },
-    {
-      matchId: 42,
-      team1: rankedGroups[5].teams[0],
-      team2: bestOfThirds[3],
-    },
-    {
-      matchId: 41,
-      team1: rankedGroups[3].teams[1],
-      team2: rankedGroups[4].teams[1],
-    },
-    {
-      matchId: 44,
-      team1: rankedGroups[4].teams[0],
-      team2: bestOfThirds[2],
-    },
-    {
-      matchId: 43,
-      team1: rankedGroups[3].teams[0],
-      team2: rankedGroups[5].teams[1],
-    },
-    {
-      matchId: 39,
-      team1: rankedGroups[2].teams[0],
-      team2: bestOfThirds[1],
-    },
-    {
-      matchId: 37,
-      team1: rankedGroups[0].teams[1],
-      team2: rankedGroups[1].teams[1],
-    },
-  ];
+  if (bestOfThirds !== undefined) {
+    console.log("bestOfThirds", bestOfThirds);
+    return [
+      {
+        matchId: 40,
+        team1: rankedGroups[1].teams[0],
+        team2: bestOfThirds[0],
+      },
+      {
+        matchId: 38,
+        team1: rankedGroups[0].teams[0],
+        team2: rankedGroups[2].teams[1],
+      },
+      {
+        matchId: 42,
+        team1: rankedGroups[5].teams[0],
+        team2: bestOfThirds[3],
+      },
+      {
+        matchId: 41,
+        team1: rankedGroups[3].teams[1],
+        team2: rankedGroups[4].teams[1],
+      },
+      {
+        matchId: 44,
+        team1: rankedGroups[4].teams[0],
+        team2: bestOfThirds[2],
+      },
+      {
+        matchId: 43,
+        team1: rankedGroups[3].teams[0],
+        team2: rankedGroups[5].teams[1],
+      },
+      {
+        matchId: 39,
+        team1: rankedGroups[2].teams[0],
+        team2: bestOfThirds[1],
+      },
+      {
+        matchId: 37,
+        team1: rankedGroups[0].teams[1],
+        team2: rankedGroups[1].teams[1],
+      },
+    ];
+  }
 }
 
 export function calculateGroupOf8(teams: Team[]): Match[] {

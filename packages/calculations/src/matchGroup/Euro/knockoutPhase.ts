@@ -4,7 +4,7 @@ import { Team } from "../../types/team";
 import { TeamResult } from "../../types/teamResult";
 
 export const getKnockoutPhase = () => {
-  let knockoutPhase = new Map();
+  const knockoutPhase = new Map();
 
   knockoutPhase.set("ABCD", ["A", "D", "B", "C"]);
   knockoutPhase.set("ABCE", ["A", "E", "B", "C"]);
@@ -31,7 +31,7 @@ export function getKnockoutPhaseGroups(
 ): Team[] {
   return knockoutPhaseLineup
     .flatMap((place) => {
-      const team = thirds.find((x) => x.team.group === place);
+      const team = thirds.find((x) => x.groupName === place);
       return team === undefined ? [] : [team];
     })
     .map((teamResult) => teamResult.team);

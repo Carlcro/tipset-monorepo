@@ -1,10 +1,17 @@
 export const matchGroups = [
-  { group: "A", teams: ["qatar", "ecuador", "senegal", "netherlands"] },
-  { group: "B", teams: ["england", "iran", "usa", "wales"] },
-  { group: "C", teams: ["argentina", "saudi_arabia", "mexico", "poland"] },
-  { group: "D", teams: ["france", "australia", "denmark", "tunisia"] },
-  { group: "E", teams: ["spain", "costa_rica", "germany", "japan"] },
-  { group: "F", teams: ["belgium", "canada", "morocco", "croatia"] },
-  { group: "G", teams: ["brazil", "serbia", "switzerland", "cameroon"] },
-  { group: "H", teams: ["portugal", "ghana", "uruguay", "south_korea"] },
+  { group: "A", teams: ["germany", "scotland", "hungary", "switzerland"] },
+  { group: "B", teams: ["spain", "croatia", "italy", "albania"] },
+  { group: "C", teams: ["slovenia", "denmark", "serbia", "england"] },
+  {
+    group: "D",
+    teams: ["play-off-winner-a", "netherlands", "austria", "france"],
+  },
+  {
+    group: "E",
+    teams: ["belgium", "slovakia", "romania", "play-off-winner-b"],
+  },
+  {
+    group: "F",
+    teams: ["turkey", "play-off-winner-c", "portugal", "czech_republic"],
+  },
 ];

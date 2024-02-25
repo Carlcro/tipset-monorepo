@@ -5,6 +5,7 @@ import { TeamResult } from "../types/teamResult";
 export function calculateTeamResults(
   results: MatchResult[],
   teams: Team[],
+  groupName: string,
 ): TeamResult[] {
   const groupStageResults = results.filter((x) => x.matchId <= 48);
   const teamPoints = calculateTeamPoints(groupStageResults, teams);
@@ -19,6 +20,7 @@ export function calculateTeamResults(
   const teamResults: TeamResult[] = [];
   teams.forEach((team) => {
     teamResults.push({
+      groupName,
       team: team,
       goals: goals.get(team.name),
       conceded: conceded.get(team.name),
@@ -128,7 +130,7 @@ function calculate(
   teams: Team[],
   calculation: (r: MatchResult, data: Map<string, number>) => void,
 ) {
-  let data = initializeMapToZero(teams);
+  const data = initializeMapToZero(teams);
 
   results.forEach((r) => calculation(r, data));
 
@@ -136,7 +138,7 @@ function calculate(
 }
 
 function initializeMapToZero(teams: Team[]) {
-  let data = new Map();
+  const data = new Map();
   teams.forEach((t) => data.set(t.name, 0));
   return data;
 }

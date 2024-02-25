@@ -86,13 +86,13 @@ const BetSlipContainer = () => {
       (bet) => bet.team1Score !== null && bet.team2Score !== null,
     );
 
-    if (!allMatchesFilled || betslip.length !== 64) {
+    if (!allMatchesFilled || betslip.length !== 51) {
       errorToast(t("all-games-must-be-filled-in"));
       return false;
     }
 
     const playoffMatches = [
-      49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65,
+      37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,
     ];
     const missingPenaltyWinner = betslip.some(
       (bet) =>
@@ -106,10 +106,7 @@ const BetSlipContainer = () => {
       return false;
     }
 
-    if (
-      isMatchIncomplete(betslip[62], 62) ||
-      isMatchIncomplete(betslip[63], 63)
-    ) {
+    if (isMatchIncomplete(betslip[51], 51)) {
       errorToast(t("all-games-must-be-filled-in"));
       return false;
     }
@@ -159,7 +156,7 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
     ...(await serverSideTranslations(
       locale,
-      ["countries", "bet-slip", "common"],
+      ["countries", "bet-slip", "common", "cities"],
       nextI18nConfig,
       ["en", "sv"],
     )),

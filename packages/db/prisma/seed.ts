@@ -145,7 +145,7 @@ const load = async () => {
   ) {
     const USERS: Omit<User, "id" | "userTournamentId">[] =
       faker.helpers.multiple(createRandomUser, {
-        count: 400,
+        count: 5,
       });
 
     await prisma.user.createMany({

@@ -18,8 +18,7 @@ import {
   calculateSemiFinals,
   calculateTeamRanking,
   calculateGroupOf8Results,
-  calculateSemiFinalsLosers,
-  calculateThirdPlaceMatch,
+  getBestOfThirds,
 } from "calculations";
 import { championshipState } from "../../championship/atoms";
 import { Team } from "calculations/src/types/team";
@@ -252,7 +251,12 @@ export const setMatchState = selector({
         .map((gr) => calculateTeamRanking(gr.results, betSlip as MatchResult[]))
         .map((results) => ({ teams: results.map((result) => result.team) }));
 
-      const newGroupOf16 = calculateGroupOf16(teamRankings);
+      const bestOfThirds = getBestOfThirds(
+        groupResults,
+        betSlip as MatchResult[],
+      );
+
+      const newGroupOf16 = calculateGroupOf16(teamRankings, bestOfThirds);
       updateMatches(betSlip, newGroupOf16, newValue);
 
       const groupOf16Result = calculateGroupOf16Results(
@@ -268,8 +272,6 @@ export const setMatchState = selector({
       updateMatches(betSlip, newSemiFinals, newValue);
 
       const semiFinal = calculateSemiFinalsResults(betSlip as RawMatchResult[]);
-      const newThirdPlaceFinal = calculateThirdPlaceMatch(semiFinal);
-      updateMatches(betSlip, newThirdPlaceFinal, newValue);
 
       const newFinal = calculateFinal(semiFinal);
       updateMatches(betSlip, newFinal, newValue);

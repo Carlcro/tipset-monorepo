@@ -73,7 +73,11 @@ export function getGroupResults(): (group: MatchGroupScores) => GroupResult {
   return (mgs) => {
     return {
       name: mgs.matchGroup.name,
-      results: calculateTeamResults(mgs.scores, mgs.matchGroup.teams),
+      results: calculateTeamResults(
+        mgs.scores,
+        mgs.matchGroup.teams,
+        mgs.matchGroup.name,
+      ),
     };
   };
 }

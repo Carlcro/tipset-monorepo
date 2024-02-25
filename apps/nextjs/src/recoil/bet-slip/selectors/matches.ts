@@ -6,7 +6,7 @@ import {
   calculateGroupOf8,
   calculateSemiFinals,
   calculateTeamRanking,
-  calculateThirdPlaceMatch,
+  getBestOfThirds,
 } from "calculations";
 
 import { betSlipState } from "../atoms";
@@ -15,9 +15,24 @@ import {
   selectGroupOf16Results,
   selectGroupOf8Results,
   getSemiFinalsResults,
-  getSemiFinalsLosers,
 } from "./results";
 import { MatchResult } from "calculations/src/types/matchResult";
+
+export const bestOfThirds = selector({
+  key: "bestOfThirds",
+  get: ({ get }) => {
+    const groupResults = get(getGroupResults);
+
+    const betSlip = get(betSlipState);
+    const bestOfThirds = getBestOfThirds(
+      groupResults,
+      betSlip as MatchResult[],
+    );
+
+    console.log("bestOfThirds", bestOfThirds);
+    return bestOfThirds;
+  },
+});
 
 export const getGroupOf16 = selector({
   key: "getGroupOf16State",
@@ -26,38 +41,48 @@ export const getGroupOf16 = selector({
 
     const betSlip = get(betSlipState);
 
-    const allGroupMatchesSet = !betSlip.some(
-      (x) =>
-        (!Number.isInteger(x.team1Score) || !Number.isInteger(x.team2Score)) &&
-        x.matchId <= 48,
-    );
+    const allGroupMatchesSet =
+      betSlip.length > 0 &&
+      !betSlip.some(
+        (x) =>
+          (!Number.isInteger(x.team1Score) ||
+            !Number.isInteger(x.team2Score)) &&
+          x.matchId <= 36,
+      );
 
     const teamRankings = groupResults
       .map((gr) => calculateTeamRanking(gr.results, betSlip as MatchResult[]))
       .map((results) => ({ teams: results.map((result) => result.team) }));
-    /*     const bestOfThirds = getBestOfThirds(groupResults, betSlip);
-     */
+    const bestOfThirds = getBestOfThirds(
+      groupResults,
+      betSlip as MatchResult[],
+    );
 
     return {
       id: "",
       name: "round-of-16",
-      matches: allGroupMatchesSet ? calculateGroupOf16(teamRankings) : [],
+      matches: allGroupMatchesSet
+        ? calculateGroupOf16(teamRankings, bestOfThirds)
+        : [],
       finalsStage: true,
     };
   },
 });
 
-/* export const getBestThirds = selector({
+export const getBestThirds = selector({
   key: "bestThirds",
   get: ({ get }) => {
     const groupResults = get(getGroupResults);
     const betSlip = get(betSlipState);
 
-    const bestOfThirds = calculateTopFourThirdPlaces(groupResults, betSlip);
+    const bestOfThirds = calculateTopFourThirdPlaces(
+      groupResults,
+      betSlip as MatchResult[],
+    );
 
     return { name: "Topp treor", results: bestOfThirds };
   },
-}); */
+});
 
 export const getGroupOf8 = selector({
   key: "getGroupOf8State",
@@ -80,19 +105,6 @@ export const getSemifinals = selector({
     return {
       name: "semi-finals",
       matches: calculateSemiFinals(groupOf8),
-      finalsStage: true,
-    };
-  },
-});
-
-export const getThirdPlaceFinal = selector({
-  key: "getThirdPlaceFinal",
-  get: ({ get }) => {
-    const semiFinalsLosers = get(getSemiFinalsLosers);
-
-    return {
-      name: "third-place-final",
-      matches: calculateThirdPlaceMatch(semiFinalsLosers),
       finalsStage: true,
     };
   },

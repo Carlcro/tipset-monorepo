@@ -33,7 +33,7 @@ const PointsExplanation = ({
   betslipId,
   matchId,
 }: ExplanationProps) => {
-  const { t } = useTranslation(["bet-slip", "countries"]);
+  const { t } = useTranslation(["bet-slip", "countries", "cities"]);
 
   const [openMatchId, setOpenMatchId] = useState<number>(0);
 
@@ -181,7 +181,7 @@ const Match: React.FC<MatchProps> = ({
   finalsStage,
   mode,
 }) => {
-  const { t } = useTranslation("countries");
+  const { t } = useTranslation(["countries", "cities"]);
   const router = useRouter();
 
   const id = router.query.id as string;
@@ -309,7 +309,7 @@ const Match: React.FC<MatchProps> = ({
       )}
       <div className="hidden flex-col truncate lg:flex">
         <span className="truncate">
-          {city}, {arena}
+          {t(city)}, {arena}
         </span>
       </div>
     </div>

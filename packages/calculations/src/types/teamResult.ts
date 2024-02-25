@@ -10,4 +10,5 @@ export interface TeamResult {
   won: number;
   lost: number;
   draw: number;
+  groupName: string;
 }

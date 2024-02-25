@@ -4,8 +4,7 @@ import {
   calculateGroupOf8,
   calculateSemiFinals,
   calculateTeamRanking,
-  calculateThirdPlaceMatch,
-} from "./matchGroup/World/calculations";
+} from "./matchGroup/Euro/calculations";
 import {
   getBestOfThirds,
   calculateTopFourThirdPlaces,
@@ -15,14 +14,13 @@ import {
   calculateGroupOf8Results,
   calculateGroupResults,
   calculateSemiFinalsResults,
-  calculateSemiFinalsLosers,
-} from "./results/World/results";
+} from "./results/Euro/results";
 import {
   calculatePoints,
   calculatePointsFromGroup,
   getMatchPoint,
   calculateCorrectAdvanceTeam,
-} from "./points/World/pointCalculation";
+} from "./points/Euro/pointCalculation";
 
 export {
   calculateGroupOf16,
@@ -40,6 +38,4 @@ export {
   calculatePointsFromGroup,
   getMatchPoint,
   calculateCorrectAdvanceTeam,
-  calculateSemiFinalsLosers,
-  calculateThirdPlaceMatch,
 };

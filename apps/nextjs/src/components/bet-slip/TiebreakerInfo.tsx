@@ -15,7 +15,7 @@ function TiebreakerInfo() {
   ];
 
   return (
-    <Container classNames="px-10 py-2 m-2">
+    <Container classNames="px-10 py-2">
       <h1 className="mb-2 -ml-5 text-lg font-bold ">
         {t("tiebreaker-header")}
       </h1>
