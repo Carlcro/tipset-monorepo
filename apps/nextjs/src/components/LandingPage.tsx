@@ -1,4 +1,3 @@
-import { Button } from "@radix-ui/themes";
 import { SignInButton } from "@clerk/nextjs";
 import Container from "./Container";
 import SubmitButton from "./SubmitButton";
@@ -25,7 +24,7 @@ const LandingPage = () => {
               </p>
               <div className="space-x-4">
                 <SignInButton>
-                  <SubmitButton size={"4"}>Sign In</SubmitButton>
+                  <SubmitButton type="button">Sign In</SubmitButton>
                 </SignInButton>
               </div>
             </div>
