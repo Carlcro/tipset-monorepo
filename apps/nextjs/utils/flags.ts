@@ -45,4 +45,6 @@ export const flags: FlagsObject = {
   romania: "🇷🇴",
   turkey: "🇹🇷",
   czech_republic: "🇨🇿",
+  ukraine: "🇺🇦",
+  georgia: "🇬🇪",
 };

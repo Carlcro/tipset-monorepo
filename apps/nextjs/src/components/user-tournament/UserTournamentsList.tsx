@@ -72,6 +72,7 @@ const UserTournamentsList = () => {
         <div className="mt-5 flex flex-col text-sm font-bold">
           <span>{t("participateInMainTournament")}</span>
           <Switch
+            color="cyan"
             onCheckedChange={handleParticipateInMainTournament}
             checked={isInMainTournamentData}
           />

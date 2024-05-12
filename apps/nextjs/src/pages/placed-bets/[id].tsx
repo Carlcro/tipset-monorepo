@@ -41,6 +41,7 @@ const PlacedBets = () => {
     trpc.config.getConfig.useQuery();
   const { data: championshipData } =
     trpc.championship.getOneChampionship.useQuery();
+  const { data: user } = trpc.user.getUser.useQuery();
 
   useEffect(() => {
     if (championshipData) {
@@ -59,7 +60,7 @@ const PlacedBets = () => {
     return null;
   }
 
-  if (config.bettingAllowed) {
+  if (config.bettingAllowed && !user?.isAdmin) {
     return (
       <div className=" grid place-content-center">
         <motion.div

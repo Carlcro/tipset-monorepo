@@ -4,14 +4,14 @@ export const matchGroups = [
   { group: "C", teams: ["slovenia", "denmark", "serbia", "england"] },
   {
     group: "D",
-    teams: ["play-off-winner-a", "netherlands", "austria", "france"],
+    teams: ["poland", "netherlands", "austria", "france"],
   },
   {
     group: "E",
-    teams: ["belgium", "slovakia", "romania", "play-off-winner-b"],
+    teams: ["belgium", "slovakia", "romania", "ukraine"],
   },
   {
     group: "F",
-    teams: ["turkey", "play-off-winner-c", "portugal", "czech_republic"],
+    teams: ["turkey", "georgia", "portugal", "czech_republic"],
   },
 ];

@@ -42,6 +42,8 @@ const BetSlip = ({
   const championship = useRecoilValue(championshipState);
   const bestOfThirds = useRecoilValue(getGroupOf16);
 
+  console.log(bestOfThirds);
+
   const groupOf16 = useRecoilValue(getGroupOf16);
   const groupOf8 = useRecoilValue(getGroupOf8);
   const semiFinals = useRecoilValue(getSemifinals);
@@ -52,6 +54,7 @@ const BetSlip = ({
 
   const { data: config, isLoading: configLoading } =
     trpc.config.getConfig.useQuery();
+  const { data: user, isLoading: loadingUser } = trpc.user.getUser.useQuery();
 
   /*  const { data: matchStats, isLoading: matchStatisticsLoading } = useQuery(
     ["matchStatistics"],
@@ -94,7 +97,7 @@ const BetSlip = ({
   const handleSetGoalscorer = (goalscorer: Player) => {
     setGoalscorer(goalscorer);
   };
-  if (configLoading) {
+  if (configLoading || loadingUser) {
     return null;
   }
 
@@ -105,9 +108,11 @@ const BetSlip = ({
           <div className="flex-1">
             <Container classNames="mx-auto w-[300px] md:w-[500px] flex flex-col space-y-3 items-center ">
               <h1 className="text-center text-xl">{headerText} </h1>
-              <button onClick={() => handleSetAllMatches()}>
-                Set all matches
-              </button>
+              {user?.isAdmin && (
+                <button onClick={() => handleSetAllMatches()}>
+                  Set all matches
+                </button>
+              )}
             </Container>
           </div>
         </div>

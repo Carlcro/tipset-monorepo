@@ -21,6 +21,7 @@ model User {
   UserTournament   UserTournament[]
   userTournamentId String?
   betSlip          BetSlip?
+  isAdmin         Boolean @default(false)
 
   @@index([userTournamentId])
 }
@@ -55,7 +56,7 @@ model Team {
 model BetSlip {
   id                    String                  @id @default(cuid())
   userId                String                  @unique
-  user                  User                    @relation(fields: [userId], references: [userId])
+  user                  User                    @relation(fields: [userId], references: [userId], onDelete: Cascade)
   bets                  Bet[]
   pointsFromGroup       PointsFromGroup[]
   pointsFromAdvancement PointsFromAdvancement[]

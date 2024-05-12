@@ -134,16 +134,18 @@ const Navbar = () => {
           >
             {t("home")}
           </Link>
-          <Link
-            className={
-              router.pathname === "/answer-sheet"
-                ? "underline underline-offset-4"
-                : ""
-            }
-            href="/answer-sheet"
-          >
-            Admin
-          </Link>
+          {user.isAdmin && (
+            <Link
+              className={
+                router.pathname === "/answer-sheet"
+                  ? "underline underline-offset-4"
+                  : ""
+              }
+              href="/answer-sheet"
+            >
+              Admin
+            </Link>
+          )}
           {config?.bettingAllowed === false && user.betSlip && (
             <Link
               className={

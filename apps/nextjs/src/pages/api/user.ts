@@ -66,6 +66,7 @@ export default async function handler(req: NextRequest, res: NextResponse) {
         lastName: data.last_name,
         fullName: `${data.first_name} ${data.last_name}`,
         userId: data.id,
+        isAdmin: false,
       },
     });
 

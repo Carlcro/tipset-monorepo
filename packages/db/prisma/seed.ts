@@ -223,6 +223,7 @@ export function createRandomUser(): Omit<User, "id" | "userTournamentId"> {
     firstName,
     lastName,
     fullName: `${firstName} ${lastName}`,
+    isAdmin: false,
   };
 }
 
