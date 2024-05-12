@@ -29,6 +29,8 @@ const ClerkResponse = z.object({
 export default async function handler(req: NextRequest, res: NextResponse) {
   const event = ClerkResponse.parse(req.body);
 
+  console.log("clerkResponse", event);
+
   if (event.type === "user.deleted") {
     const data = deleteUserDataSchema.parse(event.data);
 

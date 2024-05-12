@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { trpc } from "../utils/trpc";
-import { useAuth, SignOutButton, useClerk } from "@clerk/nextjs";
+import { useAuth, SignOutButton, useClerk, UserButton } from "@clerk/nextjs";
 import { useTranslation } from "next-i18next";
 import LanguageSwitcher, { FlagsObject } from "./LanguagePicker";
 import { Button, DropdownMenu } from "@radix-ui/themes";
@@ -15,7 +15,6 @@ const routesLoggedIn = (user: any, bettingAllowed?: boolean) => [
   },
   { name: "point-system", route: "/point-system" },
   { name: "facit", route: "/championship" },
-  { name: "profile", route: "/user" },
 ];
 
 const BurgerMenu = ({
@@ -72,7 +71,6 @@ const BurgerMenu = ({
               <Link href={route.route}>{t(route.name)}</Link>
             </DropdownMenu.Item>
           ))}
-
           <DropdownMenu.Separator />
           <DropdownMenu.Sub>
             <DropdownMenu.SubTrigger>
@@ -121,8 +119,8 @@ const Navbar = () => {
       aria-label="main navigation"
     >
       <>
-        <div className="mr-5 flex-1 space-x-5 md:hidden">
-          <Link href="/">{user.fullName}</Link>
+        <div className="ml-10 flex-1 space-x-5 md:hidden">
+          <UserButton />
         </div>
         <BurgerMenu user={user} bettingAllowed={config?.bettingAllowed} t={t} />
       </>
@@ -193,16 +191,7 @@ const Navbar = () => {
 
           <div className="mr-5 flex flex-1 items-center justify-end space-x-7 text-right">
             <LanguageSwitcher />
-            <Link
-              className={
-                router.pathname === "/user"
-                  ? "underline underline-offset-4 "
-                  : ""
-              }
-              href="/user"
-            >
-              {user.fullName}
-            </Link>
+            <UserButton />
             <SignOutButton>{t("sign-out")}</SignOutButton>
           </div>
         </div>

@@ -4,10 +4,46 @@ import Container from "../Container";
 import { trpc } from "../../utils/trpc";
 import Spinner from "../Spinner";
 import { useTranslation } from "next-i18next";
-import { Link as RadixLink } from "@radix-ui/themes";
+import { Link as RadixLink, Switch } from "@radix-ui/themes";
 
 const UserTournamentsList = () => {
   const { t } = useTranslation("user-tournament");
+  const utils = trpc.useContext();
+
+  const { mutate } =
+    trpc.userTournament.updateMainTournamentParticipation.useMutation({
+      onMutate: async (newState) => {
+        await utils.userTournament.isParticipationInMainTournament.cancel();
+
+        utils.userTournament.isParticipationInMainTournament.setData(
+          undefined,
+          newState.join,
+        );
+        const previousData =
+          utils.userTournament.isParticipationInMainTournament.getData();
+
+        return { previousData, newState };
+      },
+      onError(err, newPost, ctx) {
+        utils.userTournament.isParticipationInMainTournament.setData(
+          undefined,
+          ctx?.previousData,
+        );
+      },
+      onSettled() {
+        utils.userTournament.isParticipationInMainTournament.invalidate();
+      },
+    });
+  const {
+    data: isInMainTournamentData,
+    isLoading: isLoadingIsinMainTournament,
+  } = trpc.userTournament.isParticipationInMainTournament.useQuery();
+
+  const handleParticipateInMainTournament = (checked: boolean) => {
+    mutate({
+      join: checked,
+    });
+  };
 
   const { data, isLoading } = trpc.userTournament.getUserTournaments.useQuery();
   return (
@@ -18,7 +54,7 @@ const UserTournamentsList = () => {
     >
       <Container>
         <div className="font-bold">{t("your-groups")}</div>
-        {isLoading ? (
+        {isLoading || isLoadingIsinMainTournament ? (
           <div className="flex items-center justify-center">
             <Spinner />
           </div>
@@ -33,6 +69,13 @@ const UserTournamentsList = () => {
             ))}
           </ul>
         )}
+        <div className="mt-5 flex flex-col text-sm font-bold">
+          <span>{t("participateInMainTournament")}</span>
+          <Switch
+            onCheckedChange={handleParticipateInMainTournament}
+            checked={isInMainTournamentData}
+          />
+        </div>
       </Container>
     </motion.div>
   );

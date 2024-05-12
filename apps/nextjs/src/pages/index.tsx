@@ -30,7 +30,7 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
     ...(await serverSideTranslations(
       locale,
-      ["user-tournament", "common", "user-tournament-page"],
+      ["user", "user-tournament", "common", "user-tournament-page"],
       nextI18nConfig,
       ["en", "sv"],
     )),
