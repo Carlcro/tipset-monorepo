@@ -17,7 +17,7 @@ import { useTranslation } from "next-i18next";
 import { Mode } from "../types";
 import { trpc } from "../utils/trpc";
 import { useRouter } from "next/router";
-import { Button, Flex, Popover } from "@radix-ui/themes";
+import { Button, Popover } from "@radix-ui/themes";
 import Spinner from "./Spinner";
 
 polyfillCountryFlagEmojis();
@@ -175,7 +175,7 @@ type MatchProps = {
   mode: Mode;
 };
 
-const Match: React.FC<MatchProps> = ({
+const MatchComponent: React.FC<MatchProps> = ({
   match,
   matchInfo,
   finalsStage,
@@ -316,4 +316,4 @@ const Match: React.FC<MatchProps> = ({
   );
 };
 
-export default Match;
+export default MatchComponent;
