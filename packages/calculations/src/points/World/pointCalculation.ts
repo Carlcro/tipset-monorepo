@@ -6,6 +6,8 @@ import {
   getGroupStageScorePointsExplanation,
   getSemiFinalMatchPointsExplanation,
   getThirdPlaceFinalMatchPointsExplanation,
+  getGroupOf8MatchPointsExplanation,
+  getFinalMatchPointsExplanation,
 } from "../common";
 import { GoalScorer } from "../../types/goalScorer";
 import { GroupResult } from "../../results/groupResult";

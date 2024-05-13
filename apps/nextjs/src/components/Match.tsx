@@ -63,7 +63,10 @@ const PointsExplanation = ({
             <Spinner height={30} width={30} />
           </div>
         ) : (
-          t(explanation.text, explanation)
+          <div className="flex flex-col">
+            <span>{t("end-result", explanation)}</span>
+            <span>{t(explanation.text, explanation)}</span>
+          </div>
         )}
       </Popover.Content>
     </Popover.Root>

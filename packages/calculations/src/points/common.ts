@@ -121,6 +121,7 @@ export function getFinalMatchPointsExplanation(
   outcome: MatchResult,
 ) {
   return {
+    outcome: `${outcome.team1Score} - ${outcome.team2Score}`,
     text: "finals-points-explanation",
     correctResult: calculateFinalCorrectScorePoints(bet, outcome),
     correct1x2: calculateFinalSymbolPoints(bet, outcome),
@@ -142,6 +143,7 @@ export function getThirdPlaceFinalMatchPointsExplanation(
   outcome: MatchResult,
 ) {
   return {
+    outcome: `${outcome.team1Score} - ${outcome.team2Score}`,
     text: "finals-points-explanation",
     correctResult: calculateThirdPlaceFinalCorrectScorePoints(bet, outcome),
     correct1x2: calculateThirdPlaceFinalSymbolPoints(bet, outcome),
@@ -203,6 +205,7 @@ export function getSemiFinalMatchPointsExplanation(
   outcome: MatchResult,
 ) {
   return {
+    outcome: `${outcome.team1Score} - ${outcome.team2Score}`,
     text: "finals-points-explanation",
     correctResult: calculateSemiFinalCorrectScorePoints(bet, outcome),
     correct1x2: calculateSemiFinalSymbolPoints(bet, outcome),
@@ -238,6 +241,7 @@ export function getGroupOf8MatchPointsExplanation(
   bet: MatchResult,
 ) {
   return {
+    outcome: `${outcome.team1Score} - ${outcome.team2Score}`,
     text: "finals-points-explanation",
     correctResult: calculateGroupOf8SymbolPoints(betMatch, bet),
     correct1x2: calculateGroupOf8SymbolPoints(betMatch, bet),
@@ -273,6 +277,7 @@ export function getGroupOf16MatchPointsExplanation(
   outcome: MatchResult,
 ) {
   return {
+    outcome: `${outcome.team1Score} - ${outcome.team2Score}`,
     text: "finals-points-explanation",
     correctResult: calculateGroupOf16CorrectScorePoints(bet, outcome),
     correct1x2: calculateGroupOf16SymbolPoints(bet, outcome),
@@ -390,19 +395,25 @@ export function getGroupStageScorePointsExplanation(
   outcome: MatchResult,
 ) {
   if (predictedScoreCorrectly(bet, outcome)) {
-    return { text: "group-stage-explanation-correct-result", result: 25 };
+    return {
+      outcome: `${outcome.team1Score} - ${outcome.team2Score}`,
+      text: "group-stage-explanation-correct-result",
+      result: 25,
+    };
   } else if (
     predictedTeam1Winner(bet, outcome) ||
     predictedTeam2Winner(bet, outcome) ||
     predictedDraw(bet, outcome)
   ) {
     return {
+      outcome: `${outcome.team1Score} - ${outcome.team2Score}`,
       text: "group-stage-explanation-correct-winner-draw",
       goalDiff: penaltyScore(bet, outcome),
       result: 20 - penaltyScore(bet, outcome),
     };
   } else {
     return {
+      outcome: `${outcome.team1Score} - ${outcome.team2Score}`,
       text: "group-stage-explanation-wrong-winner-draw",
       goalDiff: penaltyScore(bet, outcome),
       result: 10 - penaltyScore(bet, outcome),
