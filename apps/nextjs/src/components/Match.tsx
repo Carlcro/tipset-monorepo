@@ -56,15 +56,17 @@ const PointsExplanation = ({
         <Button variant="ghost">{points}</Button>
       </Popover.Trigger>
       <Popover.Content style={{ width: 360 }}>
-        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-        {/* @ts-ignore */}
         {isLoading ? (
           <div className="flex justify-center">
             <Spinner height={30} width={30} />
           </div>
         ) : (
           <div className="flex flex-col">
+            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+            {/* @ts-ignore */}
             <span>{t("end-result", explanation)}</span>
+            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+            {/* @ts-ignore */}
             <span>{t(explanation.text, explanation)}</span>
           </div>
         )}
