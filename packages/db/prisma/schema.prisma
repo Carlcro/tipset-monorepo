@@ -113,11 +113,14 @@ model PointsFromAdvancement {
 
 model PointsHistory {
   id          String   @id @default(cuid())
-  matchNumber Int      @unique
+  matchNumber Int
   points      Int
-  betSlip     BetSlip? @relation(fields: [betSlipId], references: [id])
-  betSlipId   String?  @unique
+  betSlip     BetSlip? @relation(fields: [betSlipId], references: [id], onDelete: Cascade)
+  betSlipId   String?
+
+  @@index([betSlipId])
 }
+
 
 model AnswerSheet {
   id             String       @id @default(cuid())

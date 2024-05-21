@@ -149,34 +149,35 @@ export const answerSheetRouter = router({
   updatePoints: protectedProcedure
     .input(z.object({ calculateAllPoints: z.boolean(), skip: z.number() }))
     .mutation(async ({ ctx, input }) => {
-      const championship = await ctx.prisma.championship.findFirstOrThrow({
-        include: {
-          matchGroups: {
-            include: {
-              teams: true,
-
-              matches: {
-                include: {
-                  team1: true,
-                  team2: true,
+      const [championship, answerSheet] = await Promise.all([
+        ctx.prisma.championship.findFirstOrThrow({
+          include: {
+            matchGroups: {
+              include: {
+                teams: true,
+                matches: {
+                  include: {
+                    team1: true,
+                    team2: true,
+                  },
                 },
               },
             },
           },
-        },
-      });
-      const answerSheet = await ctx.prisma.answerSheet.findFirstOrThrow({
-        include: {
-          goalscorer: true,
-          bets: {
-            include: {
-              penaltyWinner: true,
-              team1: true,
-              team2: true,
+        }),
+        ctx.prisma.answerSheet.findFirstOrThrow({
+          include: {
+            goalscorer: true,
+            bets: {
+              include: {
+                penaltyWinner: true,
+                team1: true,
+                team2: true,
+              },
             },
           },
-        },
-      });
+        }),
+      ]);
 
       const matchNumber = answerSheet.bets.length;
 
@@ -196,8 +197,6 @@ export const answerSheetRouter = router({
         },
       });
 
-      console.log("XXX", allBetSlips.length);
-
       const answerSheetGroupResult = calculateGroupResults(
         answerSheet.bets,
         championship.matchGroups,
@@ -210,12 +209,12 @@ export const answerSheetRouter = router({
         );
 
         let totalPointsFromMatches = 0;
+        const betUpdates = [];
 
-        betSlip.bets.forEach(async (bet) => {
+        for (const bet of betSlip.bets) {
           const outcomeResult = answerSheet.bets.find(
             (x) => x.matchId === bet.matchId,
           );
-
           if (
             outcomeResult &&
             !isNaN(outcomeResult.team1Score) &&
@@ -224,28 +223,23 @@ export const answerSheetRouter = router({
             if (!Number.isInteger(bet.points) || input.calculateAllPoints) {
               const matchPoint = getMatchPoint(outcomeResult, bet);
               totalPointsFromMatches += matchPoint;
-              await ctx.prisma.bet.update({
-                where: {
-                  id: bet.id,
-                },
-                data: {
-                  points: matchPoint,
-                },
-              });
+              betUpdates.push({ id: bet.id, points: matchPoint });
             } else {
               totalPointsFromMatches += bet.points || 0;
             }
           } else if (input.calculateAllPoints) {
-            await ctx.prisma.bet.update({
-              where: {
-                id: bet.id,
-              },
-              data: {
-                points: null,
-              },
-            });
+            betUpdates.push({ id: bet.id, points: null });
           }
-        });
+        }
+
+        await ctx.prisma.$transaction(
+          betUpdates.map((bet) =>
+            ctx.prisma.bet.update({
+              where: { id: bet.id },
+              data: { points: bet.points },
+            }),
+          ),
+        );
 
         const pointsFromGroup = betSlipGroupResult.map((groupResult, i) => {
           const oneAnswerSheet = answerSheetGroupResult[i];
@@ -299,20 +293,12 @@ export const answerSheetRouter = router({
           data: {
             points: points,
             pointsFromGoalscorer: goalScorerPoints,
-            /*       pointsHistory: {
-              upsert: {
-                where: {
-                  matchNumber: matchNumber,
-                },
-                create: {
-                  points: points,
-                  matchNumber: matchNumber,
-                },
-                update: {
-                  points: points,
-                },
+            pointsHistory: {
+              create: {
+                points: points,
+                matchNumber: matchNumber,
               },
-            }, */
+            },
           },
         });
 

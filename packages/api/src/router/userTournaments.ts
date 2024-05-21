@@ -272,26 +272,54 @@ export const userTournamentRouter = router({
       });
 
       const betSlips = await ctx.prisma.betSlip.findMany({
+        orderBy: { points: "desc" },
         where: {
           userId: { in: userTournament.members.map((user) => user.userId) },
         },
         include: {
           user: true,
+          pointsHistory: {
+            orderBy: {
+              matchNumber: "desc",
+            },
+            take: 2,
+          },
         },
       });
+
+      // Function to calculate ranking based on points
+      const calculateRankings = (betSlips, index) => {
+        return betSlips
+          .map((betSlip) => ({
+            id: betSlip.id,
+            points: betSlip.pointsHistory[index]?.points || 0,
+          }))
+          .sort((a, b) => b.points - a.points)
+          .reduce((acc, curr, idx) => {
+            acc[curr.id] = idx + 1; // Assign rank
+            return acc;
+          }, {});
+      };
+
+      // Calculate rankings for the last and second last entries
+      const lastRankings = calculateRankings(betSlips, 0);
+      const secondLastRankings = calculateRankings(betSlips, 1);
+
+      // Map the high score data including the difference in rankings
+      const highScoreData = betSlips.map((betSlip) => ({
+        id: betSlip.id,
+        points: betSlip.points,
+        fullName: betSlip.user.fullName,
+        email: betSlip.user.email,
+        userId: betSlip.user.userId,
+        difference: secondLastRankings[betSlip.id] - lastRankings[betSlip.id],
+      }));
 
       return {
         ownerId: ctx.auth.userId,
         isOwner: userTournament.ownerId === ctx.auth.userId,
         name: userTournament.name,
-        highScoreData: betSlips.map((betSlip) => ({
-          id: betSlip.id,
-          points: betSlip.points,
-          fullName: betSlip.user.fullName,
-          email: betSlip.user.email,
-          userId: betSlip.user.userId,
-          difference: 0,
-        })),
+        highScoreData,
       };
     }),
 });

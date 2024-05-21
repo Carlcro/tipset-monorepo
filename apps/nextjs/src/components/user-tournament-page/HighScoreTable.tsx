@@ -81,7 +81,7 @@ const HighScoreTable = ({ userTournamentId }: Props) => {
                 </td>
                 <td className="text-center">{betslip.points || "-"}</td>
                 <td className="text-center">
-                  {false ? (
+                  {betslip.difference !== 0 ? (
                     <div className="absolute my-2 justify-around">
                       <span
                         className={
