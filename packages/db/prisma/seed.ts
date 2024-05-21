@@ -18,16 +18,10 @@ const load = async () => {
 
     await prisma.team.deleteMany();
     await prisma.matchGroup.deleteMany();
-    await prisma.player.deleteMany();
-    await prisma.config.deleteMany();
+    /*     await prisma.player.deleteMany();
+     */ await prisma.config.deleteMany();
 
-    /*     await prisma.user.deleteMany({
-      where: {
-        NOT: {
-          email: "carl.cronsioe@gmail.com",
-        },
-      },
-    }); */
+    await prisma.user.deleteMany();
     await prisma.userTournament.deleteMany();
 
     const championship = await prisma.championship.create({
@@ -69,12 +63,12 @@ const load = async () => {
       },
     });
 
-    await prisma.player.createMany({
+    /*     await prisma.player.createMany({
       data: players.map((player) => ({
         name: player.name,
       })),
     });
-
+ */
     let matchId = 0;
     for await (const mg of matchGroups) {
       const newMatchGroup = await prisma.matchGroup.create({

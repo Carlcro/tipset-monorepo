@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { router, protectedProcedure } from "../trpc";
+import { BetSlip, PointsHistory, User } from "@acme/db";
 
 export const userTournamentRouter = router({
   createUserTournament: protectedProcedure
@@ -287,20 +288,6 @@ export const userTournamentRouter = router({
         },
       });
 
-      // Function to calculate ranking based on points
-      const calculateRankings = (betSlips, index) => {
-        return betSlips
-          .map((betSlip) => ({
-            id: betSlip.id,
-            points: betSlip.pointsHistory[index]?.points || 0,
-          }))
-          .sort((a, b) => b.points - a.points)
-          .reduce((acc, curr, idx) => {
-            acc[curr.id] = idx + 1; // Assign rank
-            return acc;
-          }, {});
-      };
-
       // Calculate rankings for the last and second last entries
       const lastRankings = calculateRankings(betSlips, 0);
       const secondLastRankings = calculateRankings(betSlips, 1);
@@ -312,6 +299,8 @@ export const userTournamentRouter = router({
         fullName: betSlip.user.fullName,
         email: betSlip.user.email,
         userId: betSlip.user.userId,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         difference: secondLastRankings[betSlip.id] - lastRankings[betSlip.id],
       }));
 
@@ -323,3 +312,25 @@ export const userTournamentRouter = router({
       };
     }),
 });
+
+// Function to calculate ranking based on points
+const calculateRankings = (
+  betSlips: (BetSlip & {
+    user: User;
+    pointsHistory: PointsHistory[];
+  })[],
+  index: number,
+) => {
+  return betSlips
+    .map((betSlip) => ({
+      id: betSlip.id,
+      points: betSlip.pointsHistory[index]?.points || 0,
+    }))
+    .sort((a, b) => b.points - a.points)
+    .reduce((acc, curr, idx) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      acc[curr.id] = idx + 1;
+      return acc;
+    }, {});
+};
