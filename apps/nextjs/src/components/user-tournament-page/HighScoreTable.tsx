@@ -18,13 +18,15 @@ const HighScoreTable = ({ userTournamentId }: Props) => {
     userTournamentId: userTournamentId,
   });
 
+  const { data: configData } = trpc.config.getConfig.useQuery();
+
   const {
     data: lastUpdated,
     isLoading,
     isError,
   } = trpc.answerSheet.lastUpdated.useQuery();
 
-  if (!data || isError || isLoading) {
+  if (!data || isError || isLoading || !configData) {
     return <div className="sm:w-[500px]"></div>;
   }
   return (
@@ -38,10 +40,12 @@ const HighScoreTable = ({ userTournamentId }: Props) => {
           {data.name === "main-tournament" ? t("highscore") : data.name}
         </h2>
         <div className="flex justify-center text-xs">
-          <span>{`${t("updated")} ${format(
-            lastUpdated.timeUpdated,
-            "dd/M H:mm",
-          )}`}</span>
+          {!configData.bettingAllowed && (
+            <span>{`${t("updated")} ${format(
+              lastUpdated.timeUpdated,
+              "dd/M H:mm",
+            )}`}</span>
+          )}
         </div>
         <table className="mx-1 w-full">
           <thead>
