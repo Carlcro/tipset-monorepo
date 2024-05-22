@@ -22,6 +22,14 @@ export const betslipRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       const championship = await ctx.prisma.championship.findFirstOrThrow();
+      const config = await ctx.prisma.config.findFirstOrThrow();
+
+      if (!config.bettingAllowed) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You cannot update your betslip after tournament has begun",
+        });
+      }
       const betslip = await ctx.prisma.betSlip.findUnique({
         where: {
           userId: ctx.auth.userId,
