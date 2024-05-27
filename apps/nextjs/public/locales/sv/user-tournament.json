@@ -1,8 +1,9 @@
 {
   "your-groups": "Dina grupper",
-  "create-group-info": "För att göra det lättare att följa ställningen mellan familj och vänner kan du skapa en grupp för just er. Det gör du genom att skriva in ett gruppnamn här och sedan och klicka på 'skapa grupp'.",
+  "create-group-info": "För att göra det lättare att följa ställningen mellan vänner kan du skapa en grupp för just er. Det gör du genom att skriva in ett gruppnamn här och sedan och klicka på 'skapa grupp'.",
   "give-your-group-a-name": "Namnge din grupp",
   "create-group": "Skapa grupp",
   "you-are-being-sent-to-group": "Du skickas snart till din grupp.",
-  "participateInMainTournament": "Delta i huvudturneringen"
+  "participateInMainTournament": "Delta i huvudturneringen",
+  "main-tournament-explanation": "Genom att delta i huvudturneringen och fylla i ditt tips kommer ditt namn att visas på resultattavlan till höger."
 }

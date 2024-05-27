@@ -76,6 +76,9 @@ const UserTournamentsList = () => {
             onCheckedChange={handleParticipateInMainTournament}
             checked={isInMainTournamentData}
           />
+          <span className="mt-2 text-xs font-light">
+            {t("main-tournament-explanation")}
+          </span>
         </div>
       </Container>
     </motion.div>
