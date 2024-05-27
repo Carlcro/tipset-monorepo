@@ -7,10 +7,13 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
 import Spinner from "../../components/Spinner";
 import { championshipState } from "../../recoil/championship/atoms";
+import { useTranslation } from "react-i18next";
 
 const Championship = () => {
   const setFromBetslip = useSetRecoilState(setFromBetslipState);
   const setChampionship = useSetRecoilState(championshipState);
+
+  const { t } = useTranslation("common");
 
   const { data: betSlipData, isLoading } =
     trpc.answerSheet.getAnswerSheet.useQuery();
@@ -39,7 +42,7 @@ const Championship = () => {
 
   return (
     <div className="pb-10">
-      <BetSlip headerText={"Facit"} mode={"facit"} />;
+      <BetSlip headerText={t("facit")} mode={"facit"} />;
     </div>
   );
 };
