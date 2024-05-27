@@ -31,7 +31,6 @@ export const answerSheetRouter = router({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      console.log("HEJ");
       try {
         const championship = await ctx.prisma.championship.findFirstOrThrow();
         const answerSheet = await ctx.prisma.answerSheet.findUnique({

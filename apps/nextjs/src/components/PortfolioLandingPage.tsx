@@ -65,8 +65,6 @@ function SignUpForm() {
     if (Object.keys(errors).length) {
       setFormErrors(errors);
     } else {
-      // Submit your form
-      console.log("Form submitted", formData);
       setFormErrors({});
 
       if (!isLoaded) {
@@ -81,14 +79,10 @@ function SignUpForm() {
           password: formData.password,
         });
 
-        console.log("result", result);
-
         if (result.status === "complete") {
-          console.log(result);
           await setActive({ session: result.createdSessionId });
           router.push("/");
         } else {
-          /*Investigate why the login hasn't completed */
           console.log(result);
         }
       } catch (err: any) {
@@ -219,7 +213,6 @@ function SignInForm() {
       setFormErrors(errors);
     } else {
       // Submit your form
-      console.log("Form submitted", formData);
       setFormErrors({});
 
       if (!isLoaded) {
@@ -232,10 +225,7 @@ function SignInForm() {
           password: formData.password,
         });
 
-        console.log("result", result);
-
         if (result.status === "complete") {
-          console.log(result);
           await setActive({ session: result.createdSessionId });
           router.push("/");
         } else {

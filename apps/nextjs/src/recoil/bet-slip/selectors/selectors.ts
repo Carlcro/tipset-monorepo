@@ -55,9 +55,7 @@ export const resetAllBets = selector({
 
     set(betSlipState, betSlip);
   },
-  get: () => {
-    console.log("hej");
-  },
+  get: () => {},
 });
 
 export const setFromBetslipState = selector({

@@ -16,13 +16,13 @@ const load = async () => {
     await prisma.match.deleteMany();
     await prisma.matchInfo.deleteMany();
 
-    await prisma.team.deleteMany();
-    await prisma.matchGroup.deleteMany();
+    /*     await prisma.team.deleteMany();
+     */ await prisma.matchGroup.deleteMany();
     /*     await prisma.player.deleteMany();
      */ await prisma.config.deleteMany();
 
-    await prisma.user.deleteMany();
-    await prisma.userTournament.deleteMany();
+/*     await prisma.user.deleteMany();
+ */    await prisma.userTournament.deleteMany();
 
     const championship = await prisma.championship.create({
       data: {
@@ -123,8 +123,8 @@ const load = async () => {
       });
     }
 
-    const matches = await createUsers(mainUserTournament, championship);
-
+    /*     const matches = await createUsers(mainUserTournament, championship);
+     */
     console.log("Added data!");
   } catch (e) {
     console.error(e);
