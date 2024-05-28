@@ -2,6 +2,10 @@ import { prisma } from "@acme/db";
 import { NextRequest, NextResponse } from "next/server";
 import * as z from "zod";
 
+function capitalizeFirstLetter(string: string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 const emailAddressSchema = z.object({
   email_address: z.string(),
   id: z.string(),
@@ -44,14 +48,17 @@ export default async function handler(req: NextRequest, res: NextResponse) {
   if (event.type === "user.updated") {
     const data = userSchema.parse(event.data);
 
+    const firstName = capitalizeFirstLetter(data.first_name);
+    const lastName = capitalizeFirstLetter(data.last_name);
+
     await prisma.user.update({
       where: {
         userId: data.id,
       },
       data: {
-        firstName: data.first_name,
-        lastName: data.last_name,
-        fullName: `${data.first_name} ${data.last_name}`,
+        firstName,
+        lastName,
+        fullName: `${firstName} ${lastName}`,
       },
     });
   }
@@ -59,12 +66,15 @@ export default async function handler(req: NextRequest, res: NextResponse) {
   if (event.type === "user.created") {
     const data = userSchema.parse(event.data);
 
+    const firstName = capitalizeFirstLetter(data.first_name);
+    const lastName = capitalizeFirstLetter(data.last_name);
+
     const user = await prisma.user.create({
       data: {
         email: data.email_addresses[0]?.email_address || "",
-        firstName: data.first_name,
-        lastName: data.last_name,
-        fullName: `${data.first_name} ${data.last_name}`,
+        firstName,
+        lastName,
+        fullName: `${firstName} ${lastName}`,
         userId: data.id,
         isAdmin: false,
       },
