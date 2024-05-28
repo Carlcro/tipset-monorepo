@@ -18,6 +18,8 @@ import { Suspense } from "react";
 
 const MyApp: AppType = ({ Component, pageProps: { ...pageProps } }) => {
   const cpk = env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
+  return <div>Just need to fix a small thing. Please try again soon</div>;
   return (
     <ClerkProvider {...pageProps} publishableKey={cpk}>
       <Suspense fallback={<div>Hej</div>}>
