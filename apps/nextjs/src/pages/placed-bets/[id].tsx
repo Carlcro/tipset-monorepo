@@ -22,6 +22,8 @@ const PlacedBets = () => {
   const [name, setName] = useState("");
   const router = useRouter();
   const id = router.query.id as string;
+  const { data: config, isLoading: configLoading } =
+    trpc.config.getConfig.useQuery();
 
   const { data: betSlipData, isLoading: placedBetLoading } =
     trpc.betslip.getPlacedBet.useQuery(
@@ -29,7 +31,7 @@ const PlacedBets = () => {
         id,
       },
       {
-        enabled: Boolean(id),
+        enabled: Boolean(id) && !config?.bettingAllowed,
         retry: false,
         onError: () => {
           setPlacedBet(false);
@@ -37,8 +39,6 @@ const PlacedBets = () => {
       },
     );
 
-  const { data: config, isLoading: configLoading } =
-    trpc.config.getConfig.useQuery();
   const { data: championshipData } =
     trpc.championship.getOneChampionship.useQuery();
   const { data: user } = trpc.user.getUser.useQuery();
@@ -50,13 +50,13 @@ const PlacedBets = () => {
   }, [championshipData, setChampionship]);
 
   useEffect(() => {
-    if (betSlipData) {
+    if (betSlipData && !config?.bettingAllowed) {
       setFromBetslip(betSlipData);
       setName(betSlipData.user.fullName);
     }
   }, [setFromBetslip, betSlipData]);
 
-  if (!config || placedBetLoading || configLoading) {
+  if (!config || configLoading) {
     return null;
   }
 
