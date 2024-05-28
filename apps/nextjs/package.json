@@ -25,6 +25,7 @@
     "@trpc/react-query": "^10.1.0",
     "@trpc/server": "^10.1.0",
     "@types/react-autosuggest": "^10.1.6",
+    "@vercel/analytics": "^1.3.1",
     "calculations": "workspace:*",
     "country-flag-emoji-polyfill": "^0.1.4",
     "date-fns": "^2.29.3",
