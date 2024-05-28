@@ -54,7 +54,7 @@ const PlacedBets = () => {
       setFromBetslip(betSlipData);
       setName(betSlipData.user.fullName);
     }
-  }, [setFromBetslip, betSlipData]);
+  }, [setFromBetslip, betSlipData, config?.bettingAllowed]);
 
   if (!config || configLoading) {
     return null;
