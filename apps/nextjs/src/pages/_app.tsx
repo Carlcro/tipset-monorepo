@@ -15,6 +15,10 @@ import { env } from "../env/client.mjs";
 import PortfolioLandingPage from "../components/PortfolioLandingPage";
 import LandingPage from "../components/LandingPage";
 import { Suspense } from "react";
+import { Analytics } from "@vercel/analytics/react";
+import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
+
+polyfillCountryFlagEmojis();
 
 const MyApp: AppType = ({ Component, pageProps: { ...pageProps } }) => {
   const cpk = env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
@@ -26,6 +30,7 @@ const MyApp: AppType = ({ Component, pageProps: { ...pageProps } }) => {
             <SignedIn>
               <Navbar />
               <Component {...pageProps} />
+              <Analytics />
             </SignedIn>
             <SignedOut>
               {env.NEXT_PUBLIC_IS_PORTFOLIO === "yes" ? (

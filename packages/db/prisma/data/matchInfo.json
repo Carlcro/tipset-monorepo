@@ -15,9 +15,9 @@
     "arena": "Rhein Energie Stadion",
     "city": "cologne",
     "team1": "Hungary",
-    "team2": "Swizerland",
+    "team2": "Switzerland",
     "matchGroupId": "A",
-    "matchId": 2
+    "matchId": 6
   },
   {
     "date": "06-19-2024",
@@ -27,7 +27,7 @@
     "team1": "Germany",
     "team2": "Hungary",
     "matchGroupId": "A",
-    "matchId": 14
+    "matchId": 2
   },
   {
     "date": "06-19-2024",
@@ -35,19 +35,19 @@
     "arena": "Rhein Energie Stadion",
     "city": "cologne",
     "team1": "Scotland",
-    "team2": "Swizerland",
+    "team2": "Switzerland",
     "matchGroupId": "A",
-    "matchId": 13
+    "matchId": 5
   },
   {
     "date": "06-23-2024",
     "time": "21:00",
     "arena": "Waldstadion",
     "city": "frankfurt",
-    "team1": "Swizerland",
+    "team1": "Switzerland",
     "team2": "Germany",
     "matchGroupId": "A",
-    "matchId": 25
+    "matchId": 3
   },
   {
     "date": "06-23-2024",
@@ -57,7 +57,7 @@
     "team1": "Scotland",
     "team2": "Hungary",
     "matchGroupId": "A",
-    "matchId": 26
+    "matchId": 4
   },
   {
     "date": "06-15-2024",
@@ -67,7 +67,7 @@
     "team1": "Italy",
     "team2": "Albania",
     "matchGroupId": "B",
-    "matchId": 3
+    "matchId": 12
   },
   {
     "date": "06-15-2024",
@@ -77,7 +77,7 @@
     "team1": "Italy",
     "team2": "Albania",
     "matchGroupId": "B",
-    "matchId": 4
+    "matchId": 12
   },
   {
     "date": "06-19-2024",
@@ -87,7 +87,7 @@
     "team1": "Croatia",
     "team2": "Albania",
     "matchGroupId": "B",
-    "matchId": 15
+    "matchId": 11
   },
   {
     "date": "06-24-2024",
@@ -97,7 +97,7 @@
     "team1": "Spain",
     "team2": "Italy",
     "matchGroupId": "B",
-    "matchId": 16
+    "matchId": 8
   },
   {
     "date": "06-24-2024",
@@ -107,7 +107,7 @@
     "team1": "Albania",
     "team2": "Spain",
     "matchGroupId": "B",
-    "matchId": 27
+    "matchId": 9
   },
   {
     "date": "06-29-2024",
@@ -117,7 +117,7 @@
     "team1": "Croatia",
     "team2": "Italy",
     "matchGroupId": "B",
-    "matchId": 28
+    "matchId": 10
   },
   {
     "date": "06-16-2024",
@@ -127,7 +127,7 @@
     "team1": "Slovenia",
     "team2": "Denmark",
     "matchGroupId": "C",
-    "matchId": 6
+    "matchId": 13
   },
   {
     "date": "06-16-2024",
@@ -137,7 +137,7 @@
     "team1": "Serbia",
     "team2": "England",
     "matchGroupId": "C",
-    "matchId": 5
+    "matchId": 18
   },
   {
     "date": "06-20-2024",
@@ -147,7 +147,7 @@
     "team1": "Slovenia",
     "team2": "Serbia",
     "matchGroupId": "C",
-    "matchId": 18
+    "matchId": 14
   },
   {
     "date": "06-20-2024",
@@ -167,7 +167,7 @@
     "team1": "England",
     "team2": "Slovenia",
     "matchGroupId": "C",
-    "matchId": 29
+    "matchId": 15
   },
   {
     "date": "06-25-2024",
@@ -177,7 +177,7 @@
     "team1": "Denmark",
     "team2": "Serbia",
     "matchGroupId": "C",
-    "matchId": 30
+    "matchId": 16
   },
   {
     "date": "06-16-2024",
@@ -197,7 +197,7 @@
     "team1": "Austria",
     "team2": "France",
     "matchGroupId": "D",
-    "matchId": 8
+    "matchId": 24
   },
   {
     "date": "06-21-2024",
@@ -217,7 +217,7 @@
     "team1": "Netherlands",
     "team2": "France",
     "matchGroupId": "D",
-    "matchId": 20
+    "matchId": 23
   },
   {
     "date": "06-25-2024",
@@ -227,7 +227,7 @@
     "team1": "Netherlands",
     "team2": "Austria",
     "matchGroupId": "D",
-    "matchId": 31
+    "matchId": 22
   },
   {
     "date": "06-25-2024",
@@ -257,7 +257,7 @@
     "team1": "Belgium",
     "team2": "Slovakia",
     "matchGroupId": "E",
-    "matchId": 9
+    "matchId": 25
   },
   {
     "date": "06-21-2024",
@@ -277,7 +277,7 @@
     "team1": "Belgium",
     "team2": "Romania",
     "matchGroupId": "E",
-    "matchId": 22
+    "matchId": 26
   },
   {
     "date": "06-26-2024",
@@ -287,7 +287,7 @@
     "team1": "Slovakia",
     "team2": "Romania",
     "matchGroupId": "E",
-    "matchId": 33
+    "matchId": 28
   },
   {
     "date": "06-26-2024",
@@ -337,7 +337,7 @@
     "team1": "Turkey",
     "team2": "Portugal",
     "matchGroupId": "F",
-    "matchId": 23
+    "matchId": 32
   },
   {
     "date": "06-26-2024",
@@ -359,7 +359,6 @@
     "matchGroupId": "F",
     "matchId": 36
   },
-
   {
     "date": "06-29-2024",
     "time": "18:00",
