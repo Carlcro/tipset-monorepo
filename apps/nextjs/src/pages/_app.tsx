@@ -22,6 +22,13 @@ polyfillCountryFlagEmojis();
 
 const MyApp: AppType = ({ Component, pageProps: { ...pageProps } }) => {
   const cpk = env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
+  return (
+    <div className="grid place-content-center">
+      Temporary down. please check again tomorrow
+    </div>
+  );
+
   return (
     <ClerkProvider {...pageProps} publishableKey={cpk}>
       <Suspense fallback={<div>Hej</div>}>
