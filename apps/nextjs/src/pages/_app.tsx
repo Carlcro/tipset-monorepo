@@ -24,8 +24,8 @@ const MyApp: AppType = ({ Component, pageProps: { ...pageProps } }) => {
   const cpk = env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
   return (
-    <div className="grid place-content-center">
-      Temporary down. please check again tomorrow
+    <div className="grid h-28 place-content-center">
+      Temporarily down. please check again tomorrow
     </div>
   );
 
