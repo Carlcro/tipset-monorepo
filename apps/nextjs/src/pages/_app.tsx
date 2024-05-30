@@ -17,6 +17,7 @@ import LandingPage from "../components/LandingPage";
 import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
+import Container from "../components/Container";
 
 polyfillCountryFlagEmojis();
 
@@ -25,7 +26,7 @@ const MyApp: AppType = ({ Component, pageProps: { ...pageProps } }) => {
 
   return (
     <div className="grid h-28 place-content-center">
-      Temporarily down. please check again tomorrow
+      <Container>Temporarily down. please check again tomorrow</Container>
     </div>
   );
 
