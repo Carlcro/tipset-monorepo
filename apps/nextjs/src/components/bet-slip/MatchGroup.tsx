@@ -36,7 +36,7 @@ function MatchGroup({ group, matchInfos, mode }: MatchGroupProps) {
     matchIds &&
     matchInfos
       .filter((mi) => matchIds.includes(mi.matchId))
-      .sort((a, b) => new Date(b.time).valueOf() - new Date(a.time).valueOf());
+      .sort((a, b) => new Date(a.time).valueOf() - new Date(b.time).valueOf());
 
   if (!group?.matches?.length) return null;
 
