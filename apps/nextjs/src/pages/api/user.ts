@@ -43,6 +43,7 @@ export default async function handler(req: NextRequest, res: NextResponse) {
         id: data.id,
       },
     });
+    return new Response("", { status: 200 });
   }
 
   if (event.type === "user.updated") {
@@ -61,6 +62,7 @@ export default async function handler(req: NextRequest, res: NextResponse) {
         fullName: `${firstName} ${lastName}`,
       },
     });
+    return new Response("", { status: 200 });
   }
 
   if (event.type === "user.created") {
@@ -94,6 +96,8 @@ export default async function handler(req: NextRequest, res: NextResponse) {
         },
       },
     });
+
+    return new Response("", { status: 200 });
   }
 
   return res.ok;
