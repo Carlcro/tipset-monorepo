@@ -29,76 +29,63 @@ const ClerkResponse = z.object({
   type: z.enum(["user.created", "user.updated", "user.deleted"]),
 });
 
-// called by webhook in clerk when user is created
 export default async function handler(req: NextRequest, res: NextResponse) {
-  const event = ClerkResponse.parse(req.body);
+  const startTime = Date.now();
+  try {
+    const event = ClerkResponse.parse(req.body);
+    console.log("clerkResponse", event);
 
-  console.log("clerkResponse", event);
+    if (event.type === "user.deleted") {
+      const data = deleteUserDataSchema.parse(event.data);
+      await prisma.user.delete({
+        where: { id: data.id },
+      });
+    } else if (event.type === "user.updated") {
+      const data = userSchema.parse(event.data);
+      const firstName = capitalizeFirstLetter(data.first_name);
+      const lastName = capitalizeFirstLetter(data.last_name);
+      await prisma.user.update({
+        where: { userId: data.id },
+        data: {
+          firstName,
+          lastName,
+          fullName: `${firstName} ${lastName}`,
+        },
+      });
+    } else if (event.type === "user.created") {
+      const data = userSchema.parse(event.data);
+      const firstName = capitalizeFirstLetter(data.first_name);
+      const lastName = capitalizeFirstLetter(data.last_name);
 
-  if (event.type === "user.deleted") {
-    const data = deleteUserDataSchema.parse(event.data);
+      const userPromise = prisma.user.create({
+        data: {
+          email: data.email_addresses[0]?.email_address || "",
+          firstName,
+          lastName,
+          fullName: `${firstName} ${lastName}`,
+          userId: data.id,
+          isAdmin: false,
+        },
+      });
 
-    await prisma.user.delete({
-      where: {
-        id: data.id,
-      },
-    });
-    return new Response("", { status: 200 });
-  }
+      const configPromise = prisma.config.findFirstOrThrow();
 
-  if (event.type === "user.updated") {
-    const data = userSchema.parse(event.data);
+      const [user, config] = await Promise.all([userPromise, configPromise]);
 
-    const firstName = capitalizeFirstLetter(data.first_name);
-    const lastName = capitalizeFirstLetter(data.last_name);
-
-    await prisma.user.update({
-      where: {
-        userId: data.id,
-      },
-      data: {
-        firstName,
-        lastName,
-        fullName: `${firstName} ${lastName}`,
-      },
-    });
-    return new Response("", { status: 200 });
-  }
-
-  if (event.type === "user.created") {
-    const data = userSchema.parse(event.data);
-
-    const firstName = capitalizeFirstLetter(data.first_name);
-    const lastName = capitalizeFirstLetter(data.last_name);
-
-    const user = await prisma.user.create({
-      data: {
-        email: data.email_addresses[0]?.email_address || "",
-        firstName,
-        lastName,
-        fullName: `${firstName} ${lastName}`,
-        userId: data.id,
-        isAdmin: false,
-      },
-    });
-
-    const config = await prisma.config.findFirstOrThrow();
-
-    await prisma.userTournament.update({
-      where: {
-        id: config.mainTournament,
-      },
-      data: {
-        members: {
-          connect: {
-            email: user.email,
+      await prisma.userTournament.update({
+        where: { id: config.mainTournament },
+        data: {
+          members: {
+            connect: { email: user.email },
           },
         },
-      },
-    });
+      });
+    }
 
+    console.log(`Function execution time: ${Date.now() - startTime}ms`);
     return new Response("", { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return new Response("Internal Server Error", { status: 500 });
   }
-
-  return res.ok;
 }
