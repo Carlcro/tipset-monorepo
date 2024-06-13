@@ -297,7 +297,6 @@ export const userTournamentRouter = router({
         id: betSlip.id,
         points: betSlip.points,
         fullName: betSlip.user.fullName,
-        email: betSlip.user.email,
         userId: betSlip.user.userId,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
