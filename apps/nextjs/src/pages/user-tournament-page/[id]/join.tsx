@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 
 export default function Join() {
   const router = useRouter();
-  const { t } = useTranslation("user-tournament-page");
+  const { t } = useTranslation("user-tournament");
 
   const id = router.query.id as string;
 
@@ -41,7 +41,7 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
     ...(await serverSideTranslations(
       locale,
-      ["common", "user-tournament-page"],
+      ["common", "user-tournament"],
       nextI18nConfig,
       ["en", "sv"],
     )),
