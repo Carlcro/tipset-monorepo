@@ -324,8 +324,15 @@ const calculateRankings = (
     .map((betSlip) => ({
       id: betSlip.id,
       points: betSlip.pointsHistory[index]?.points || 0,
+      firstName: betSlip.user.firstName,
     }))
-    .sort((a, b) => b.points - a.points)
+    .sort((a, b) => {
+      if (b.points !== a.points) {
+        return b.points - a.points;
+      } else {
+        return a.firstName.localeCompare(b.firstName);
+      }
+    })
     .reduce((acc, curr, idx) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
