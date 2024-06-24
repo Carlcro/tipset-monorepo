@@ -273,7 +273,7 @@ export const userTournamentRouter = router({
       });
 
       const betSlips = await ctx.prisma.betSlip.findMany({
-        orderBy: { points: "desc" },
+        orderBy: [{ points: "desc" }, { user: { firstName: "asc" } }],
         where: {
           userId: { in: userTournament.members.map((user) => user.userId) },
         },
