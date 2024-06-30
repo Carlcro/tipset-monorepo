@@ -39,6 +39,20 @@ const PlacedBets = () => {
       },
     );
 
+  const { data: advancementFromGroup, isLoading: advancementFromGropLoading } =
+    trpc.betslip.getAdvancementFromGroup.useQuery(
+      {
+        id,
+      },
+      {
+        enabled: Boolean(id) && !config?.bettingAllowed,
+        retry: false,
+        onError: () => {
+          setPlacedBet(false);
+        },
+      },
+    );
+
   const { data: championshipData } =
     trpc.championship.getOneChampionship.useQuery();
   const { data: user } = trpc.user.getUser.useQuery();
@@ -100,7 +114,11 @@ const PlacedBets = () => {
 
   return (
     <div className="pb-10">
-      <BetSlip headerText={name} mode={"placedBet"} />
+      <BetSlip
+        headerText={name}
+        mode={"placedBet"}
+        advancementFromGroup={advancementFromGroup}
+      />
     </div>
   );
 };

@@ -125,6 +125,9 @@ export function getFinalMatchPointsExplanation(
     text: "finals-points-explanation",
     correctResult: calculateFinalCorrectScorePoints(bet, outcome),
     correct1x2: calculateFinalSymbolPoints(bet, outcome),
+    result:
+      calculateFinalCorrectScorePoints(bet, outcome) +
+      calculateFinalSymbolPoints(bet, outcome),
   };
 }
 
@@ -209,6 +212,9 @@ export function getSemiFinalMatchPointsExplanation(
     text: "finals-points-explanation",
     correctResult: calculateSemiFinalCorrectScorePoints(bet, outcome),
     correct1x2: calculateSemiFinalSymbolPoints(bet, outcome),
+    result:
+      calculateSemiFinalCorrectScorePoints(bet, outcome) +
+      calculateSemiFinalSymbolPoints(bet, outcome),
   };
 }
 
@@ -237,14 +243,17 @@ export function calculateGroupOf8MatchPoints(
 }
 
 export function getGroupOf8MatchPointsExplanation(
-  betMatch: MatchResult,
   bet: MatchResult,
+  outcome: MatchResult,
 ) {
   return {
     outcome: `${outcome.team1Score} - ${outcome.team2Score}`,
     text: "finals-points-explanation",
-    correctResult: calculateGroupOf8SymbolPoints(betMatch, bet),
-    correct1x2: calculateGroupOf8SymbolPoints(betMatch, bet),
+    correctResult: calculateGroupOf8CorrectScorePoints(bet, outcome),
+    correct1x2: calculateGroupOf8SymbolPoints(bet, outcome),
+    result:
+      calculateGroupOf8CorrectScorePoints(bet, outcome) +
+      calculateGroupOf8SymbolPoints(bet, outcome),
   };
 }
 

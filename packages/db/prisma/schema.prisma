@@ -108,7 +108,9 @@ model PointsFromAdvancement {
   final     String
   points    Int
   betSlip   BetSlip? @relation(fields: [betSlipId], references: [id])
-  betSlipId String?  @unique
+  betSlipId String?  
+
+  @@index([betSlipId])
 }
 
 model PointsHistory {

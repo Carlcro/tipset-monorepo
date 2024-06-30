@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { router, protectedProcedure } from "../trpc";
-import { getMatchExplanationText } from "calculations/src/points/World/pointCalculation";
+import { getMatchExplanationText } from "calculations/src/points/Euro/pointCalculation";
 import { TRPCError } from "@trpc/server";
 
 export const betslipRouter = router({
@@ -150,7 +150,7 @@ export const betslipRouter = router({
   getPlacedBet: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
-      return ctx.prisma.betSlip.findUnique({
+      const betslip = ctx.prisma.betSlip.findUnique({
         where: {
           id: input.id,
         },
@@ -166,6 +166,21 @@ export const betslipRouter = router({
           },
         },
       });
+
+      return betslip;
+    }),
+  getAdvancementFromGroup: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const advancementPoints = await ctx.prisma.pointsFromAdvancement.findMany(
+        {
+          where: {
+            betSlipId: input.id,
+          },
+        },
+      );
+
+      return advancementPoints;
     }),
   getNumberOfBetSlips: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.betSlip.count();

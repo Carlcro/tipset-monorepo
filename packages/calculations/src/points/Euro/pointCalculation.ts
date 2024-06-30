@@ -1,11 +1,11 @@
 // @ts-nocheck
 
 import {
-  calculateThirdPlaceAdvancePoints,
+  getFinalMatchPointsExplanation,
   getGroupOf16MatchPointsExplanation,
+  getGroupOf8MatchPointsExplanation,
   getGroupStageScorePointsExplanation,
   getSemiFinalMatchPointsExplanation,
-  getThirdPlaceFinalMatchPointsExplanation,
 } from "../common";
 import { GoalScorer } from "../../types/goalScorer";
 import { GroupResult } from "../../results/groupResult";
@@ -22,7 +22,6 @@ import {
   calculatePositionPoints,
   calculateSemiFinalAdvancePoints,
   calculateSemiFinalMatchPoints,
-  calculateThirdPlaceFinalMatchPoints,
   isGroupFinished,
 } from "../common";
 import { calculateTeamRanking } from "../../matchGroup/Euro/calculations";
@@ -82,13 +81,13 @@ export const getMatchPoint = (
   outcomeResult: MatchResult,
   matchResult: MatchResult,
 ) => {
-  if (outcomeResult.matchId <= 48) {
+  if (outcomeResult.matchId <= 36) {
     return calculateGroupStageScorePoints(matchResult, outcomeResult);
-  } else if (outcomeResult.matchId <= 56) {
+  } else if (outcomeResult.matchId <= 44) {
     return calculateGroupOf16MatchPoints(matchResult, outcomeResult);
-  } else if (outcomeResult.matchId <= 60) {
+  } else if (outcomeResult.matchId <= 48) {
     return calculateGroupOf8MatchPoints(matchResult, outcomeResult);
-  } else if (outcomeResult.matchId <= 62) {
+  } else if (outcomeResult.matchId <= 50) {
     return calculateSemiFinalMatchPoints(matchResult, outcomeResult);
   } else {
     return calculateFinalMatchPoints(matchResult, outcomeResult);
@@ -99,13 +98,13 @@ export const getMatchExplanationText = (
   outcomeResult: MatchResult,
   matchResult: MatchResult,
 ) => {
-  if (outcomeResult.matchId <= 48) {
+  if (outcomeResult.matchId <= 36) {
     return getGroupStageScorePointsExplanation(matchResult, outcomeResult);
-  } else if (outcomeResult.matchId <= 56) {
+  } else if (outcomeResult.matchId <= 44) {
     return getGroupOf16MatchPointsExplanation(matchResult, outcomeResult);
-  } else if (outcomeResult.matchId <= 60) {
+  } else if (outcomeResult.matchId <= 48) {
     return getGroupOf8MatchPointsExplanation(matchResult, outcomeResult);
-  } else if (outcomeResult.matchId <= 62) {
+  } else if (outcomeResult.matchId <= 50) {
     return getSemiFinalMatchPointsExplanation(matchResult, outcomeResult);
   } else {
     return getFinalMatchPointsExplanation(matchResult, outcomeResult);
@@ -127,8 +126,8 @@ export const calculateCorrectAdvanceTeam = (
       points: calculateGroupOf16AdvancePoints(
         betMatchResults,
         outcomeMatchResults,
-        57,
-        60,
+        45,
+        48,
       ),
     },
     {
@@ -136,8 +135,8 @@ export const calculateCorrectAdvanceTeam = (
       points: calculateGroupOf8AdvancePoints(
         betMatchResults,
         outcomeMatchResults,
-        61,
-        62,
+        49,
+        50,
       ),
     },
     {
@@ -145,8 +144,8 @@ export const calculateCorrectAdvanceTeam = (
       points: calculateSemiFinalAdvancePoints(
         betMatchResults,
         outcomeMatchResults,
-        64,
-        64,
+        51,
+        51,
       ),
     },
     {
@@ -154,7 +153,7 @@ export const calculateCorrectAdvanceTeam = (
       points: calculateFinalAdvancePoints(
         betMatchResults,
         outcomeMatchResults,
-        64,
+        51,
       ),
     },
   ];

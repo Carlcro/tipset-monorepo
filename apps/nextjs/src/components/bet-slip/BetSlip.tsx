@@ -20,7 +20,7 @@ import { championshipState } from "../../recoil/championship/atoms";
 import Container from "../Container";
 import SubmitButton from "../SubmitButton";
 import Spinner from "../Spinner";
-import { Player } from "@acme/db";
+import { Player, PointsFromAdvancement } from "@acme/db";
 import { Mode } from "../../types";
 import { useTranslation } from "next-i18next";
 
@@ -30,6 +30,7 @@ type Props = {
   setFinalsMatches?: (matches: any[]) => void;
   headerText: string;
   placingBetLoading?: boolean;
+  advancementFromGroup?: PointsFromAdvancement[];
 };
 
 const BetSlip = ({
@@ -38,6 +39,7 @@ const BetSlip = ({
   setFinalsMatches,
   headerText,
   placingBetLoading,
+  advancementFromGroup,
 }: Props) => {
   const championship = useRecoilValue(championshipState);
   const bestOfThirds = useRecoilValue(getGroupOf16);
@@ -59,6 +61,14 @@ const BetSlip = ({
     getMatchStatistics,
     { enabled: config && !config.bettingAllowed },
   ); */
+  const result = useMemo(() => {
+    return (
+      advancementFromGroup?.reduce((acc, item) => {
+        acc[item.final] = item;
+        return acc;
+      }, {}) || {}
+    );
+  }, [advancementFromGroup]);
 
   useMemo(() => {
     if (setFinalsMatches) {
@@ -126,22 +136,26 @@ const BetSlip = ({
               />
             ))}
             <MatchGroup
+              advancementPoints={result["Åttondelsfinaler"]}
               group={groupOf16}
               matchInfos={championship.matchInfos}
               mode={mode}
             />
             <MatchGroup
+              advancementPoints={result["Kvartsfinaler"]}
               group={groupOf8}
               matchInfos={championship.matchInfos}
               mode={mode}
             />
             <MatchGroup
+              advancementPoints={result["Semifinaler"]}
               group={semiFinals}
               matchInfos={championship.matchInfos}
               mode={mode}
             />
 
             <MatchGroup
+              advancementPoints={result["Final"]}
               group={final}
               matchInfos={championship.matchInfos}
               mode={mode}

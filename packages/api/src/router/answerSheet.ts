@@ -322,17 +322,12 @@ export const answerSheetRouter = router({
           },
         });
 
-        await ctx.prisma.pointsFromAdvancement.deleteMany({
-          where: {
-            betSlipId: betSlip.id,
-          },
-        });
-
         for await (const pa of pointsFromAdvancement) {
           await ctx.prisma.pointsFromAdvancement.create({
             data: {
               final: pa.final,
               points: pa.points,
+              betSlipId: betSlip.id,
             },
           });
         }

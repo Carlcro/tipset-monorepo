@@ -7,7 +7,7 @@ import {
 } from "../../recoil/bet-slip/selectors/selectors";
 import Container from "../Container";
 import Match from "../Match";
-import { MatchInfo } from "@acme/db";
+import { MatchInfo, PointsFromAdvancement } from "@acme/db";
 import { useTranslation } from "next-i18next";
 import { Mode } from "../../types";
 
@@ -19,15 +19,20 @@ type MatchGroupProps = {
   };
   matchInfos: MatchInfo[];
   mode: Mode;
+  advancementPoints?: PointsFromAdvancement;
 };
 
-function MatchGroup({ group, matchInfos, mode }: MatchGroupProps) {
-  const points = useRecoilValue(getPointsFromAdvancement(group.name));
+function MatchGroup({
+  group,
+  matchInfos,
+  mode,
+  advancementPoints,
+}: MatchGroupProps) {
   const { t } = useTranslation("bet-slip");
 
   const LabelMap: { [key: string]: string } = {
     Bronsmatch: t("points-correct-bronze-winner"),
-    Final: t("points-correct-euro-champion"),
+    final: t("points-correct-euro-champion"),
   };
 
   const matchIds = group?.matches?.map((m) => m.matchId);
@@ -72,12 +77,12 @@ function MatchGroup({ group, matchInfos, mode }: MatchGroupProps) {
             );
           }
         })}
-        {points !== null && mode === "placedBet" && (
+        {advancementPoints?.points !== undefined && mode === "placedBet" && (
           <div className="border-black flex justify-end border-t pt-1 pr-1 ">
-            {points > 0
+            {advancementPoints?.points > 0
               ? `${
                   LabelMap[group.name] || t("points-correct-team-advancing")
-                }: ${points}`
+                }: ${advancementPoints?.points}`
               : ""}
           </div>
         )}
