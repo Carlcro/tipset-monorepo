@@ -75,7 +75,9 @@ function MatchGroup({ group, matchInfos, mode }: MatchGroupProps) {
         {points !== null && mode === "placedBet" && (
           <div className="border-black flex justify-end border-t pt-1 pr-1 ">
             {points > 0
-              ? `${LabelMap[group.name] || "Poäng rätt lag vidare"}: ${points}`
+              ? `${
+                  LabelMap[group.name] || t("points-correct-team-advancing")
+                }: ${points}`
               : ""}
           </div>
         )}
