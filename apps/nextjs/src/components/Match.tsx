@@ -48,7 +48,7 @@ const PointsExplanation = ({
       },
     );
 
-  if (!points) return <div />;
+  if (!Number.isInteger(points)) return <div />;
 
   return (
     <Popover.Root>
