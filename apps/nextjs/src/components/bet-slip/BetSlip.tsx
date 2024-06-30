@@ -42,8 +42,6 @@ const BetSlip = ({
   const championship = useRecoilValue(championshipState);
   const bestOfThirds = useRecoilValue(getGroupOf16);
 
-  console.log(bestOfThirds);
-
   const groupOf16 = useRecoilValue(getGroupOf16);
   const groupOf8 = useRecoilValue(getGroupOf8);
   const semiFinals = useRecoilValue(getSemifinals);

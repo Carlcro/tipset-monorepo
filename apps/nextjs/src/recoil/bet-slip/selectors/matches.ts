@@ -29,7 +29,6 @@ export const bestOfThirds = selector({
       betSlip as MatchResult[],
     );
 
-    console.log("bestOfThirds", bestOfThirds);
     return bestOfThirds;
   },
 });

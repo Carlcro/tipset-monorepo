@@ -33,7 +33,6 @@ export default async function handler(req: NextRequest, res: NextResponse) {
   const startTime = Date.now();
   try {
     const event = ClerkResponse.parse(req.body);
-    console.log("clerkResponse", event);
 
     if (event.type === "user.deleted") {
       const data = deleteUserDataSchema.parse(event.data);
@@ -82,7 +81,6 @@ export default async function handler(req: NextRequest, res: NextResponse) {
       });
     }
 
-    console.log(`Function execution time: ${Date.now() - startTime}ms`);
     return new Response("", { status: 200 });
   } catch (error) {
     console.error(error);
