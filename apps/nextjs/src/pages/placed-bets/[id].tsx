@@ -56,7 +56,7 @@ const PlacedBets = () => {
     }
   }, [setFromBetslip, betSlipData, config?.bettingAllowed]);
 
-  if (!config || configLoading) {
+  if (!config || configLoading || placedBetLoading) {
     return null;
   }
 
