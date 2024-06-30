@@ -33,6 +33,10 @@ type Props = {
   advancementFromGroup?: PointsFromAdvancement[];
 };
 
+interface AdvancementGroup {
+  [key: string]: PointsFromAdvancement;
+}
+
 const BetSlip = ({
   mode,
   handleSave,
@@ -61,15 +65,14 @@ const BetSlip = ({
     getMatchStatistics,
     { enabled: config && !config.bettingAllowed },
   ); */
-  const result = useMemo(() => {
+  const result = useMemo<AdvancementGroup>(() => {
     return (
-      advancementFromGroup?.reduce((acc, item) => {
+      advancementFromGroup?.reduce<AdvancementGroup>((acc, item) => {
         acc[item.final] = item;
         return acc;
       }, {}) || {}
     );
   }, [advancementFromGroup]);
-
   useMemo(() => {
     if (setFinalsMatches) {
       setFinalsMatches([
