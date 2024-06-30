@@ -12,12 +12,13 @@ export const calculateGroupOf16AdvancePoints = (
   matchId2: number,
 ): number => {
   let points = 0;
-  const teamsInBestOf8Bet = getTeamsInMatches(
+  const teamsInBestOf8Bet = getWinningTeams(
     betMatchResults,
     matchId1,
     matchId2,
   );
-  const teamsInBestOf8Outcome = getTeamsInMatches(
+
+  const teamsInBestOf8Outcome = getWinningTeams(
     outcomeMatchResults,
     matchId1,
     matchId2,
@@ -26,7 +27,6 @@ export const calculateGroupOf16AdvancePoints = (
   teamsInBestOf8Bet.forEach((t) => {
     if (teamsInBestOf8Outcome.includes(t)) points = points + 25;
   });
-
   return points;
 };
 
@@ -37,12 +37,12 @@ export const calculateGroupOf8AdvancePoints = (
   matchId2: number,
 ): number => {
   let points = 0;
-  const teamsInBestOf8Bet = getTeamsInMatches(
+  const teamsInBestOf8Bet = getWinningTeams(
     betMatchResults,
     matchId1,
     matchId2,
   );
-  const teamsInBestOf8Outcome = getTeamsInMatches(
+  const teamsInBestOf8Outcome = getWinningTeams(
     outcomeMatchResults,
     matchId1,
     matchId2,
@@ -62,12 +62,12 @@ export const calculateSemiFinalAdvancePoints = (
   matchId2: number,
 ): number => {
   let points = 0;
-  const teamsSemiFinalsBet = getTeamsInMatches(
+  const teamsSemiFinalsBet = getWinningTeams(
     betMatchResults,
     matchId1,
     matchId2,
   );
-  const teamsSemiFinalsOutcome = getTeamsInMatches(
+  const teamsSemiFinalsOutcome = getWinningTeams(
     outcomeMatchResults,
     matchId1,
     matchId2,
@@ -502,21 +502,6 @@ export function allGroupMatchesSet(betSlip: MatchResult[]): boolean {
   return betSlip.filter((match) => match.matchId <= 36).length >= 36;
 }
 
-export const getTeamsInMatches = (
-  betMatchResults: MatchResult[],
-  fromId: number,
-  toId: number,
-): string[] => {
-  const teams = betMatchResults.reduce<string[]>((acc, curr) => {
-    if (curr.matchId >= fromId && curr.matchId <= toId) {
-      return [...acc, curr.team1.id, curr.team2.id];
-    }
-    return acc;
-  }, []);
-
-  return teams;
-};
-
 export function calculateGoalScorer(
   betGoalScorerId: string | null,
   outcomeGoalScorer: GoalScorer | null,
@@ -526,4 +511,30 @@ export function calculateGoalScorer(
   }
 
   return 0;
+}
+
+export function getWinningTeams(
+  results: MatchResult[],
+  matchId1: number,
+  matchId2: number,
+): (string | null)[] {
+  const winners: (string | null)[] = [];
+
+  results
+    .filter(
+      (result) => result.matchId >= matchId1 && result.matchId <= matchId2,
+    )
+    .forEach((match) => {
+      if (match.penaltyWinnerId) {
+        winners.push(match.penaltyWinnerId);
+      } else if (match.team1Score > match.team2Score) {
+        winners.push(match.team1Id);
+      } else if (match.team2Score > match.team1Score) {
+        winners.push(match.team2Id);
+      } else {
+        winners.push(null);
+      }
+    });
+
+  return winners;
 }

@@ -126,8 +126,8 @@ export const calculateCorrectAdvanceTeam = (
       points: calculateGroupOf16AdvancePoints(
         betMatchResults,
         outcomeMatchResults,
-        45,
-        48,
+        37,
+        44,
       ),
     },
     {
@@ -135,8 +135,8 @@ export const calculateCorrectAdvanceTeam = (
       points: calculateGroupOf8AdvancePoints(
         betMatchResults,
         outcomeMatchResults,
-        49,
-        50,
+        45,
+        48,
       ),
     },
     {
@@ -144,8 +144,8 @@ export const calculateCorrectAdvanceTeam = (
       points: calculateSemiFinalAdvancePoints(
         betMatchResults,
         outcomeMatchResults,
-        51,
-        51,
+        49,
+        50,
       ),
     },
     {
