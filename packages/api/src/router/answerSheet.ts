@@ -201,6 +201,8 @@ export const answerSheetRouter = router({
         championship.matchGroups,
       );
 
+      await ctx.prisma.pointsFromAdvancement.deleteMany({});
+
       allBetSlips.forEach(async (betSlip) => {
         const betSlipGroupResult = calculateGroupResults(
           betSlip.bets,
@@ -316,11 +318,7 @@ export const answerSheetRouter = router({
           });
         }
 
-        await ctx.prisma.pointsFromAdvancement.deleteMany({
-          where: {
-            betSlipId: betSlip.id,
-          },
-        });
+        
 
         for await (const pa of pointsFromAdvancement) {
           await ctx.prisma.pointsFromAdvancement.create({
