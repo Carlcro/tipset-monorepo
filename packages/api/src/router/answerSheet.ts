@@ -182,7 +182,7 @@ export const answerSheetRouter = router({
 
       const allBetSlips = await ctx.prisma.betSlip.findMany({
         skip: input.skip,
-        take: 20,
+        take: 10,
         include: {
           goalscorer: true,
           pointsHistory: true,
