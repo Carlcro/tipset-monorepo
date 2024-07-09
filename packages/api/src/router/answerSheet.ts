@@ -57,6 +57,8 @@ export const answerSheetRouter = router({
             },
           });
 
+          await ctx.prisma.pointsFromAdvancement.deleteMany({});
+
           await ctx.prisma.goalScorer.deleteMany();
         }
 
