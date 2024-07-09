@@ -2,7 +2,6 @@ import {
   calculateGroupResults,
   calculatePointsFromGroup,
   getMatchPoint,
-  calculateCorrectAdvanceTeam,
 } from "calculations";
 import { calculateGoalScorer } from "calculations/src/points/common";
 import { z } from "zod";
@@ -19,7 +18,13 @@ export const answerSheetRouter = router({
             team2Score: z.number(),
             team1Id: z.string(),
             team2Id: z.string(),
-            penaltyWinnerId: z.optional(z.string()),
+            penaltyWinner: z.optional(
+              z.object({
+                id: z.string(),
+                matchGroupId: z.string(),
+                name: z.string(),
+              }),
+            ),
           }),
         ),
         goalScorer: z.optional(
@@ -90,7 +95,7 @@ export const answerSheetRouter = router({
             team2Id: bet.team2Id,
             team1Score: bet.team1Score,
             team2Score: bet.team2Score,
-            penaltyWinnerId: bet.penaltyWinnerId,
+            penaltyWinnerId: bet.penaltyWinner?.id,
             answerSheetId: newAnswerSheet.id,
           })),
         });
@@ -182,7 +187,7 @@ export const answerSheetRouter = router({
 
       const allBetSlips = await ctx.prisma.betSlip.findMany({
         skip: input.skip,
-        take: 20,
+        take: 10,
         include: {
           goalscorer: true,
           pointsHistory: true,
@@ -220,7 +225,11 @@ export const answerSheetRouter = router({
             !isNaN(outcomeResult.team2Score)
           ) {
             if (!Number.isInteger(bet.points) || input.calculateAllPoints) {
-              const matchPoint = getMatchPoint(outcomeResult, bet);
+              const matchPoint = getMatchPoint(
+                outcomeResult,
+                bet,
+                answerSheet.bets,
+              );
               totalPointsFromMatches += matchPoint;
               betUpdates.push({ id: bet.id, points: matchPoint });
             } else {
@@ -259,11 +268,6 @@ export const answerSheetRouter = router({
           };
         });
 
-        const pointsFromAdvancement = calculateCorrectAdvanceTeam(
-          betSlip.bets,
-          answerSheet.bets,
-        );
-
         const goalScorerPoints = calculateGoalScorer(
           betSlip.goalscorerId,
           answerSheet.goalscorer,
@@ -274,16 +278,8 @@ export const answerSheetRouter = router({
           0,
         );
 
-        const totalPointsFromAdvancement = pointsFromAdvancement.reduce(
-          (acc, x) => acc + x.points,
-          0,
-        );
-
         const points =
-          totalPointsFromMatches +
-          totalPointsFromGroup +
-          totalPointsFromAdvancement +
-          goalScorerPoints;
+          totalPointsFromMatches + totalPointsFromGroup + goalScorerPoints;
 
         await ctx.prisma.betSlip.update({
           where: {
@@ -312,22 +308,6 @@ export const answerSheetRouter = router({
             data: {
               group: pg.group,
               points: pg.points,
-            },
-          });
-        }
-
-        await ctx.prisma.pointsFromAdvancement.deleteMany({
-          where: {
-            betSlipId: betSlip.id,
-          },
-        });
-
-        for await (const pa of pointsFromAdvancement) {
-          await ctx.prisma.pointsFromAdvancement.create({
-            data: {
-              final: pa.final,
-              points: pa.points,
-              betSlipId: betSlip.id,
             },
           });
         }

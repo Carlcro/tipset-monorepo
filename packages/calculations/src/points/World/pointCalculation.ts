@@ -1,7 +1,6 @@
 // @ts-nocheck
 
 import {
-  calculateThirdPlaceAdvancePoints,
   getGroupOf16MatchPointsExplanation,
   getGroupStageScorePointsExplanation,
   getSemiFinalMatchPointsExplanation,
@@ -9,76 +8,20 @@ import {
   getGroupOf8MatchPointsExplanation,
   getFinalMatchPointsExplanation,
 } from "../common";
-import { GoalScorer } from "../../types/goalScorer";
 import { GroupResult } from "../../results/groupResult";
 import {
   calculateAdvanceToGroupOf16Points,
-  calculateFinalAdvancePoints,
   calculateFinalMatchPoints,
-  calculateGoalScorer,
-  calculateGroupOf16AdvancePoints,
   calculateGroupOf16MatchPoints,
-  calculateGroupOf8AdvancePoints,
   calculateGroupOf8MatchPoints,
   calculateGroupStageScorePoints,
   calculatePositionPoints,
-  calculateSemiFinalAdvancePoints,
   calculateSemiFinalMatchPoints,
   calculateThirdPlaceFinalMatchPoints,
   isGroupFinished,
 } from "../common";
 import { calculateTeamRanking } from "../../matchGroup/World/calculations";
 import { MatchResult } from "../../types/matchResult";
-
-export function calculatePoints(
-  betGroupResults: GroupResult[],
-  betMatchResults: MatchResult[],
-  betGoalScorerId: string,
-  adjustedPoints: number,
-  outcomeGroupsResults: GroupResult[],
-  outcomeMatchResults: MatchResult[],
-  outcomeGoalScorer: GoalScorer,
-): number {
-  const positionPoints = betGroupResults
-    .map((groupResult, i): number => {
-      return calculatePointsFromGroup(
-        groupResult,
-        outcomeGroupsResults[i],
-        betMatchResults,
-        outcomeMatchResults,
-      );
-    })
-    .reduce((x, y) => x + y, 0);
-
-  const matchPoints = outcomeMatchResults
-    .map((or) => {
-      const matchResult = betMatchResults.find((x) => x.matchId === or.matchId);
-      if (matchResult) {
-        return getMatchPoint(or, matchResult);
-      } else {
-        return 0;
-      }
-    })
-    .reduce((acc, x) => acc + x, 0);
-
-  const correctAdvancedTeam = calculateCorrectAdvanceTeam(
-    betMatchResults,
-    outcomeMatchResults,
-  ).reduce((acc, x) => acc + x.points, 0);
-
-  const goalScorerPoints = calculateGoalScorer(
-    betGoalScorerId,
-    outcomeGoalScorer,
-  );
-
-  return (
-    matchPoints +
-    goalScorerPoints +
-    positionPoints +
-    correctAdvancedTeam +
-    adjustedPoints
-  );
-}
 
 export const getMatchPoint = (
   outcomeResult: MatchResult,
@@ -122,57 +65,6 @@ interface AdvancementPoints {
   final: string;
   points: number;
 }
-
-export const calculateCorrectAdvanceTeam = (
-  betMatchResults: MatchResult[],
-  outcomeMatchResults: MatchResult[],
-): AdvancementPoints[] => {
-  return [
-    {
-      final: "Åttondelsfinaler",
-      points: calculateGroupOf16AdvancePoints(
-        betMatchResults,
-        outcomeMatchResults,
-        57,
-        60,
-      ),
-    },
-    {
-      final: "Kvartsfinaler",
-      points: calculateGroupOf8AdvancePoints(
-        betMatchResults,
-        outcomeMatchResults,
-        61,
-        62,
-      ),
-    },
-    {
-      final: "Semifinaler",
-      points: calculateSemiFinalAdvancePoints(
-        betMatchResults,
-        outcomeMatchResults,
-        64,
-        64,
-      ),
-    },
-    {
-      final: "Bronsmatch",
-      points: calculateThirdPlaceAdvancePoints(
-        betMatchResults,
-        outcomeMatchResults,
-        63,
-      ),
-    },
-    {
-      final: "Final",
-      points: calculateFinalAdvancePoints(
-        betMatchResults,
-        outcomeMatchResults,
-        64,
-      ),
-    },
-  ];
-};
 
 export const calculatePointsFromGroup = (
   groupResult: GroupResult,

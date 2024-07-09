@@ -33,17 +33,12 @@ type Props = {
   advancementFromGroup?: PointsFromAdvancement[];
 };
 
-interface AdvancementGroup {
-  [key: string]: PointsFromAdvancement;
-}
-
 const BetSlip = ({
   mode,
   handleSave,
   setFinalsMatches,
   headerText,
   placingBetLoading,
-  advancementFromGroup,
 }: Props) => {
   const championship = useRecoilValue(championshipState);
   const bestOfThirds = useRecoilValue(getGroupOf16);
@@ -65,14 +60,7 @@ const BetSlip = ({
     getMatchStatistics,
     { enabled: config && !config.bettingAllowed },
   ); */
-  const result = useMemo<AdvancementGroup>(() => {
-    return (
-      advancementFromGroup?.reduce<AdvancementGroup>((acc, item) => {
-        acc[item.final] = item;
-        return acc;
-      }, {}) || {}
-    );
-  }, [advancementFromGroup]);
+
   useMemo(() => {
     if (setFinalsMatches) {
       setFinalsMatches([
@@ -139,26 +127,22 @@ const BetSlip = ({
               />
             ))}
             <MatchGroup
-              advancementPoints={result["Åttondelsfinaler"]}
               group={groupOf16}
               matchInfos={championship.matchInfos}
               mode={mode}
             />
             <MatchGroup
-              advancementPoints={result["Kvartsfinaler"]}
               group={groupOf8}
               matchInfos={championship.matchInfos}
               mode={mode}
             />
             <MatchGroup
-              advancementPoints={result["Semifinaler"]}
               group={semiFinals}
               matchInfos={championship.matchInfos}
               mode={mode}
             />
 
             <MatchGroup
-              advancementPoints={result["Final"]}
               group={final}
               matchInfos={championship.matchInfos}
               mode={mode}

@@ -114,24 +114,12 @@ export const betslipRouter = router({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const outcome = await ctx.prisma.result.findFirst({
-        where: {
-          matchId: input.matchId,
-        },
-        include: {
-          team1: true,
-          team2: true,
-        },
-      });
+      const outcome = await ctx.prisma.result.findMany({});
 
       const bet = await ctx.prisma.bet.findFirst({
         where: {
           betSlipId: input.betslipId,
           matchId: input.matchId,
-        },
-        include: {
-          team1: true,
-          team2: true,
         },
       });
 

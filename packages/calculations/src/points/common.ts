@@ -1,346 +1,179 @@
-// @ts-nocheck
-
 import { GroupResult } from "../results/groupResult";
 import { GoalScorer } from "../types/goalScorer";
-import { MatchResult } from "../types/matchResult";
 import { TeamResult } from "../types/teamResult";
+import { Bet } from "../types/bet";
 
-export const calculateGroupOf16AdvancePoints = (
-  betMatchResults: MatchResult[],
-  outcomeMatchResults: MatchResult[],
-  matchId1: number,
-  matchId2: number,
+export const calculateAdvancePoints = (
+  betMatchResult: Bet,
+  outcomeMatchResult: Bet[],
+  pointsPerMatch: number,
 ): number => {
-  let points = 0;
-  const teamsInBestOf8Bet = getWinningTeams(
-    betMatchResults,
+  const { matchId1, matchId2 } = getTeamsInNextStage(betMatchResult);
+  const betWinner = getWinningTeam(betMatchResult);
+  const outcomeWinners = getWinningTeams(
+    outcomeMatchResult,
     matchId1,
     matchId2,
   );
 
-  const teamsInBestOf8Outcome = getWinningTeams(
-    outcomeMatchResults,
-    matchId1,
-    matchId2,
-  );
-
-  teamsInBestOf8Bet.forEach((t) => {
-    if (teamsInBestOf8Outcome.includes(t)) points = points + 25;
-  });
-  return points;
+  return outcomeWinners.includes(betWinner) ? pointsPerMatch : 0;
 };
 
-export const calculateGroupOf8AdvancePoints = (
-  betMatchResults: MatchResult[],
-  outcomeMatchResults: MatchResult[],
-  matchId1: number,
-  matchId2: number,
-): number => {
-  let points = 0;
-  const teamsInBestOf8Bet = getWinningTeams(
-    betMatchResults,
-    matchId1,
-    matchId2,
-  );
-  const teamsInBestOf8Outcome = getWinningTeams(
-    outcomeMatchResults,
-    matchId1,
-    matchId2,
-  );
-
-  teamsInBestOf8Bet.forEach((t) => {
-    if (teamsInBestOf8Outcome.includes(t)) points = points + 25;
-  });
-
-  return points;
-};
-
-export const calculateSemiFinalAdvancePoints = (
-  betMatchResults: MatchResult[],
-  outcomeMatchResults: MatchResult[],
-  matchId1: number,
-  matchId2: number,
-): number => {
-  let points = 0;
-  const teamsSemiFinalsBet = getWinningTeams(
-    betMatchResults,
-    matchId1,
-    matchId2,
-  );
-  const teamsSemiFinalsOutcome = getWinningTeams(
-    outcomeMatchResults,
-    matchId1,
-    matchId2,
-  );
-
-  teamsSemiFinalsBet.forEach((t) => {
-    if (teamsSemiFinalsOutcome.includes(t)) points = points + 30;
-  });
-
-  return points;
-};
-
-export const calculateThirdPlaceAdvancePoints = (
-  betMatchResults: MatchResult[],
-  outcomeMatchResults: MatchResult[],
-  matchId: number,
-): number => {
-  const points = 0;
-
-  return 0;
-
-  // TODO på nått vis så får bronsmatchen samma lag som finalen. Vet inte varför men tillsvidare så får man 0 poäng från bronsmatchen
-  /*  const bet = betMatchResults.find((mr) => mr.matchId === matchId);
-  const outcome = outcomeMatchResults.find((mr) => mr.matchId === matchId);
-
-  if (bet && outcome) {
-    points = calculateAdvancePoints(bet, outcome, 30);
+function getTeamsInNextStage(bet: Bet): { matchId1: number; matchId2: number } {
+  if (bet.matchId >= 37 && bet.matchId <= 44) {
+    return { matchId1: 37, matchId2: 44 };
   }
 
-  return points; */
-};
-
-export const calculateFinalAdvancePoints = (
-  betMatchResults: MatchResult[],
-  outcomeMatchResults: MatchResult[],
-  matchId: number,
-): number => {
-  let points = 0;
-  const bet = betMatchResults.find((mr) => mr.matchId === matchId);
-  const outcome = outcomeMatchResults.find((mr) => mr.matchId === matchId);
-
-  if (bet && outcome) {
-    points = calculateAdvancePoints(bet, outcome, 35);
+  if (bet.matchId >= 45 && bet.matchId <= 48) {
+    return { matchId1: 45, matchId2: 48 };
   }
 
-  return points;
-};
+  if (bet.matchId >= 49 && bet.matchId <= 50) {
+    return { matchId1: 49, matchId2: 50 };
+  }
 
-export function getFinalMatchPointsExplanation(
-  bet: MatchResult,
-  outcome: MatchResult,
-) {
+  return { matchId1: 51, matchId2: 51 };
+}
+
+export function getFinalMatchPointsExplanation(bet: Bet, outcomes: Bet[]) {
+  const outcome = outcomes.find((o) => o.matchId === bet.matchId);
+
+  if (!outcome) return null;
   return {
     outcome: `${outcome.team1Score} - ${outcome.team2Score}`,
-    text: "finals-points-explanation",
+    text: "finals-points-explanation-final",
     correctResult: calculateFinalCorrectScorePoints(bet, outcome),
     correct1x2: calculateFinalSymbolPoints(bet, outcome),
-    result:
-      calculateFinalCorrectScorePoints(bet, outcome) +
-      calculateFinalSymbolPoints(bet, outcome),
+    correctAdvancingTeam: calculateAdvancePoints(bet, outcomes, 35),
+    result: calculateFinalMatchPoints(bet, outcome, outcomes),
   };
 }
 
 export function calculateFinalMatchPoints(
-  bet: MatchResult,
-  outcome: MatchResult,
+  bet: Bet,
+  outcome: Bet,
+  outcomes: Bet[],
 ) {
   return (
     calculateFinalCorrectScorePoints(bet, outcome) +
-    calculateFinalSymbolPoints(bet, outcome)
+    calculateFinalSymbolPoints(bet, outcome) +
+    calculateAdvancePoints(bet, outcomes, 35)
   );
 }
 
-export function getThirdPlaceFinalMatchPointsExplanation(
-  bet: MatchResult,
-  outcome: MatchResult,
-) {
-  return {
-    outcome: `${outcome.team1Score} - ${outcome.team2Score}`,
-    text: "finals-points-explanation",
-    correctResult: calculateThirdPlaceFinalCorrectScorePoints(bet, outcome),
-    correct1x2: calculateThirdPlaceFinalSymbolPoints(bet, outcome),
-  };
-}
-
-export function calculateThirdPlaceFinalMatchPoints(
-  bet: MatchResult,
-  outcome: MatchResult,
-) {
-  return (
-    calculateThirdPlaceFinalCorrectScorePoints(bet, outcome) +
-    calculateThirdPlaceFinalSymbolPoints(bet, outcome)
-  );
-}
-
-export function calculateThirdPlaceFinalCorrectScorePoints(
-  bet: MatchResult,
-  outcome: MatchResult,
-) {
-  return 0;
-  return calculateStageMatchPoints(bet, outcome, 20);
-}
-
-export function calculateThirdPlaceFinalSymbolPoints(
-  bet: MatchResult,
-  outcome: MatchResult,
-) {
-  return 0;
-  return calculateStageSymbolPoints(bet, outcome, 20);
-}
-
-export function calculateFinalCorrectScorePoints(
-  bet: MatchResult,
-  outcome: MatchResult,
-) {
+export function calculateFinalCorrectScorePoints(bet: Bet, outcome: Bet) {
   return calculateStageMatchPoints(bet, outcome, 25);
 }
 
-export function calculateFinalSymbolPoints(
-  bet: MatchResult,
-  outcome: MatchResult,
-) {
+export function calculateFinalSymbolPoints(bet: Bet, outcome: Bet) {
   return calculateStageSymbolPoints(bet, outcome, 25);
 }
 
-export function calculateSemiFinalMatchPoints(
-  bet: MatchResult,
-  outcome: MatchResult,
-) {
-  return (
-    calculateSemiFinalCorrectScorePoints(bet, outcome) +
-    calculateSemiFinalSymbolPoints(bet, outcome)
-  );
-}
+export function getSemiFinalMatchPointsExplanation(bet: Bet, outcomes: Bet[]) {
+  const outcome = outcomes.find((o) => o.matchId === bet.matchId);
 
-export function getSemiFinalMatchPointsExplanation(
-  bet: MatchResult,
-  outcome: MatchResult,
-) {
+  if (!outcome) return null;
   return {
     outcome: `${outcome.team1Score} - ${outcome.team2Score}`,
     text: "finals-points-explanation",
     correctResult: calculateSemiFinalCorrectScorePoints(bet, outcome),
     correct1x2: calculateSemiFinalSymbolPoints(bet, outcome),
-    result:
-      calculateSemiFinalCorrectScorePoints(bet, outcome) +
-      calculateSemiFinalSymbolPoints(bet, outcome),
+    correctAdvancingTeam: calculateAdvancePoints(bet, outcomes, 30),
+
+    result: calculateSemiFinalMatchPoints(bet, outcome, outcomes),
   };
 }
 
-export function calculateSemiFinalSymbolPoints(
-  bet: MatchResult,
-  outcome: MatchResult,
-) {
-  return calculateStageSymbolPoints(bet, outcome, 20);
-}
-
-export function calculateSemiFinalCorrectScorePoints(
-  bet: MatchResult,
-  outcome: MatchResult,
-) {
-  return calculateStageMatchPoints(bet, outcome, 20);
-}
-
-export function calculateGroupOf8MatchPoints(
-  betMatch: MatchResult,
-  bet: MatchResult,
+export function calculateSemiFinalMatchPoints(
+  bet: Bet,
+  outcome: Bet,
+  outcomes: Bet[],
 ) {
   return (
-    calculateGroupOf8CorrectScorePoints(betMatch, bet) +
-    calculateGroupOf8SymbolPoints(betMatch, bet)
+    calculateSemiFinalCorrectScorePoints(bet, outcome) +
+    calculateSemiFinalSymbolPoints(bet, outcome) +
+    calculateAdvancePoints(bet, outcomes, 30)
   );
 }
 
-export function getGroupOf8MatchPointsExplanation(
-  bet: MatchResult,
-  outcome: MatchResult,
-) {
+export function calculateSemiFinalSymbolPoints(bet: Bet, outcome: Bet) {
+  return calculateStageSymbolPoints(bet, outcome, 20);
+}
+
+export function calculateSemiFinalCorrectScorePoints(bet: Bet, outcome: Bet) {
+  return calculateStageMatchPoints(bet, outcome, 20);
+}
+
+export function getGroupOf8MatchPointsExplanation(bet: Bet, outcomes: Bet[]) {
+  const outcome = outcomes.find((o) => o.matchId === bet.matchId);
+
+  if (!outcome) return null;
   return {
     outcome: `${outcome.team1Score} - ${outcome.team2Score}`,
     text: "finals-points-explanation",
     correctResult: calculateGroupOf8CorrectScorePoints(bet, outcome),
     correct1x2: calculateGroupOf8SymbolPoints(bet, outcome),
-    result:
-      calculateGroupOf8CorrectScorePoints(bet, outcome) +
-      calculateGroupOf8SymbolPoints(bet, outcome),
+    correctAdvancingTeam: calculateAdvancePoints(bet, outcomes, 25),
+
+    result: calculateGroupOf8MatchPoints(bet, outcome, outcomes),
   };
 }
 
-export function calculateGroupOf8SymbolPoints(
-  bet: MatchResult,
-  outcome: MatchResult,
-) {
-  return calculateStageSymbolPoints(bet, outcome, 15);
-}
-
-export function calculateGroupOf8CorrectScorePoints(
-  bet: MatchResult,
-  outcome: MatchResult,
-) {
-  return calculateStageMatchPoints(bet, outcome, 15);
-}
-
-export function calculateGroupOf16MatchPoints(
-  bet: MatchResult,
-  outcome: MatchResult,
+export function calculateGroupOf8MatchPoints(
+  betMatch: Bet,
+  outcome: Bet,
+  outcomes: Bet[],
 ) {
   return (
-    calculateGroupOf16CorrectScorePoints(bet, outcome) +
-    calculateGroupOf16SymbolPoints(bet, outcome)
+    calculateGroupOf8CorrectScorePoints(betMatch, outcome) +
+    calculateGroupOf8SymbolPoints(betMatch, outcome) +
+    calculateAdvancePoints(betMatch, outcomes, 25)
   );
 }
 
-export function getGroupOf16MatchPointsExplanation(
-  bet: MatchResult,
-  outcome: MatchResult,
-) {
+export function calculateGroupOf8SymbolPoints(bet: Bet, outcome: Bet) {
+  return calculateStageSymbolPoints(bet, outcome, 15);
+}
+
+export function calculateGroupOf8CorrectScorePoints(bet: Bet, outcome: Bet) {
+  return calculateStageMatchPoints(bet, outcome, 15);
+}
+
+export function getGroupOf16MatchPointsExplanation(bet: Bet, outcomes: Bet[]) {
+  const outcome = outcomes.find((o) => o.matchId === bet.matchId);
+
+  if (!outcome) return null;
+
   return {
     outcome: `${outcome.team1Score} - ${outcome.team2Score}`,
     text: "finals-points-explanation",
     correctResult: calculateGroupOf16CorrectScorePoints(bet, outcome),
     correct1x2: calculateGroupOf16SymbolPoints(bet, outcome),
-    result:
-      calculateGroupOf16CorrectScorePoints(bet, outcome) +
-      calculateGroupOf16SymbolPoints(bet, outcome),
+    correctAdvancingTeam: calculateAdvancePoints(bet, outcomes, 25),
+    result: calculateGroupOf16MatchPoints(bet, outcome, outcomes),
   };
 }
 
-function calculateAdvancePoints(
-  bet: MatchResult,
-  outcome: MatchResult,
-  points: number,
+export function calculateGroupOf16MatchPoints(
+  bet: Bet,
+  outcome: Bet,
+  outcomes: Bet[],
 ) {
-  let betWinningTeam;
-
-  if (bet.team1Score > bet.team2Score) {
-    betWinningTeam = bet.team1.id;
-  } else if (bet.team1Score < bet.team2Score) {
-    betWinningTeam = bet.team2.id;
-  } else {
-    betWinningTeam = bet.penaltyWinner ? bet.penaltyWinner.id : bet.team1.id;
-  }
-
-  if (outcome.team1Score > outcome.team2Score) {
-    if (outcome.team1.id === betWinningTeam) {
-      return points;
-    }
-  } else if (outcome.team1Score < outcome.team2Score) {
-    if (outcome.team2.id === betWinningTeam) {
-      return points;
-    }
-  } else if (betWinningTeam === outcome.penaltyWinner?.id) {
-    return points;
-  }
-
-  return 0;
+  return (
+    calculateGroupOf16CorrectScorePoints(bet, outcome) +
+    calculateGroupOf16SymbolPoints(bet, outcome) +
+    calculateAdvancePoints(bet, outcomes, 25)
+  );
 }
 
-export function calculateGroupOf16SymbolPoints(
-  bet: MatchResult,
-  outcome: MatchResult,
-) {
+export function calculateGroupOf16SymbolPoints(bet: Bet, outcome: Bet) {
   return calculateStageSymbolPoints(bet, outcome, 15);
 }
 
-function calculateStageSymbolPoints(
-  bet: MatchResult,
-  outcome: MatchResult,
-  points: number,
-) {
+function calculateStageSymbolPoints(bet: Bet, outcome: Bet, points: number) {
   if (
-    bet.team1.id === outcome.team1.id &&
-    bet.team2.id === outcome.team2.id &&
+    bet.team1Id === outcome.team1Id &&
+    bet.team2Id === outcome.team2Id &&
     (predictedTeam1Winner(bet, outcome) ||
       predictedTeam2Winner(bet, outcome) ||
       predictedDraw(bet, outcome))
@@ -351,18 +184,11 @@ function calculateStageSymbolPoints(
   }
 }
 
-export function calculateGroupOf16CorrectScorePoints(
-  bet: MatchResult,
-  outcome: MatchResult,
-) {
+export function calculateGroupOf16CorrectScorePoints(bet: Bet, outcome: Bet) {
   return calculateStageMatchPoints(bet, outcome, 15);
 }
 
-function calculateStageMatchPoints(
-  bet: MatchResult,
-  outcome: MatchResult,
-  points: number,
-) {
+function calculateStageMatchPoints(bet: Bet, outcome: Bet, points: number) {
   if (predictedScoreAndTeamsCorrectly(bet, outcome)) {
     return points;
   } else {
@@ -370,22 +196,16 @@ function calculateStageMatchPoints(
   }
 }
 
-function predictedScoreAndTeamsCorrectly(
-  bet: MatchResult,
-  outcome: MatchResult,
-) {
+function predictedScoreAndTeamsCorrectly(bet: Bet, outcome: Bet) {
   return (
     Number(bet.team1Score) === Number(outcome.team1Score) &&
     Number(bet.team2Score) === Number(outcome.team2Score) &&
-    bet.team1.id === outcome.team1.id &&
-    bet.team2.id === outcome.team2.id
+    bet.team1Id === outcome.team1Id &&
+    bet.team2Id === outcome.team2Id
   );
 }
 
-export function calculateGroupStageScorePoints(
-  bet: MatchResult,
-  outcome: MatchResult,
-) {
+export function calculateGroupStageScorePoints(bet: Bet, outcome: Bet) {
   if (predictedScoreCorrectly(bet, outcome)) {
     return 25;
   } else if (
@@ -399,10 +219,11 @@ export function calculateGroupStageScorePoints(
   }
 }
 
-export function getGroupStageScorePointsExplanation(
-  bet: MatchResult,
-  outcome: MatchResult,
-) {
+export function getGroupStageScorePointsExplanation(bet: Bet, outcomes: Bet[]) {
+  const outcome = outcomes.find((o) => o.matchId === bet.matchId);
+
+  if (!outcome) return null;
+
   if (predictedScoreCorrectly(bet, outcome)) {
     return {
       outcome: `${outcome.team1Score} - ${outcome.team2Score}`,
@@ -430,33 +251,33 @@ export function getGroupStageScorePointsExplanation(
   }
 }
 
-function penaltyScore(bet: MatchResult, outcome: MatchResult) {
+function penaltyScore(bet: Bet, outcome: Bet) {
   return (
     Math.abs(bet.team1Score - outcome.team1Score) +
     Math.abs(bet.team2Score - outcome.team2Score)
   );
 }
 
-function predictedTeam2Winner(bet: MatchResult, outcome: MatchResult) {
+function predictedTeam2Winner(bet: Bet, outcome: Bet) {
   return (
     bet.team1Score < bet.team2Score && outcome.team1Score < outcome.team2Score
   );
 }
 
-function predictedDraw(bet: MatchResult, outcome: MatchResult) {
+function predictedDraw(bet: Bet, outcome: Bet) {
   return (
     bet.team1Score === bet.team2Score &&
     outcome.team1Score === outcome.team2Score
   );
 }
 
-function predictedTeam1Winner(bet: MatchResult, outcome: MatchResult) {
+function predictedTeam1Winner(bet: Bet, outcome: Bet) {
   return (
     bet.team1Score > bet.team2Score && outcome.team1Score > outcome.team2Score
   );
 }
 
-function predictedScoreCorrectly(bet: MatchResult, outcome: MatchResult) {
+function predictedScoreCorrectly(bet: Bet, outcome: Bet) {
   return (
     bet.team1Score === outcome.team1Score &&
     bet.team2Score === outcome.team2Score
@@ -470,7 +291,7 @@ export function calculatePositionPoints(
   let points = 0;
 
   for (let i = 0; i < outcomeTeamResult.length; i++) {
-    if (betTeamResult[i].team.id === outcomeTeamResult[i].team.id) {
+    if (betTeamResult[i]?.team.id === outcomeTeamResult[i]?.team.id) {
       points += 5;
     }
   }
@@ -481,14 +302,14 @@ export function calculateAdvanceToGroupOf16Points(
   betTeamResult: TeamResult[],
   outcomeTeamResult: TeamResult[],
 ): number {
-  const first = outcomeTeamResult[0].team.id;
-  const second = outcomeTeamResult[1].team.id;
+  const first = outcomeTeamResult[0]?.team.id;
+  const second = outcomeTeamResult[1]?.team.id;
 
   let points = 0;
-  if ([first, second].includes(betTeamResult[0].team.id)) {
+  if ([first, second]?.includes(betTeamResult[0]?.team.id)) {
     points += 10;
   }
-  if ([first, second].includes(betTeamResult[1].team.id)) {
+  if ([first, second]?.includes(betTeamResult[1]?.team.id)) {
     points += 10;
   }
   return points;
@@ -498,7 +319,7 @@ export function isGroupFinished(groupResult: GroupResult): boolean {
   return groupResult.results.every((team) => team.played === 3);
 }
 
-export function allGroupMatchesSet(betSlip: MatchResult[]): boolean {
+export function allGroupMatchesSet(betSlip: Bet[]): boolean {
   return betSlip.filter((match) => match.matchId <= 36).length >= 36;
 }
 
@@ -513,12 +334,26 @@ export function calculateGoalScorer(
   return 0;
 }
 
+export function getWinningTeam(results: Bet): string | null {
+  if (results.penaltyWinnerId) {
+    return results.penaltyWinnerId;
+  } else if (results.team1Score > results.team2Score) {
+    return results.team1Id;
+  } else if (results.team2Score > results.team1Score) {
+    return results.team2Id;
+  } else {
+    return null;
+  }
+}
+
 export function getWinningTeams(
-  results: MatchResult[],
+  results: Bet[],
   matchId1: number,
   matchId2: number,
 ): (string | null)[] {
   const winners: (string | null)[] = [];
+
+  console.log("getWinningTeams", results);
 
   results
     .filter(

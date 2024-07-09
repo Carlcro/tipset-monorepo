@@ -41,6 +41,7 @@
   "group-stage-explanation-correct-result": "Rätt resultat: {{result}} p",
   "group-stage-explanation-correct-winner-draw": "Rätt segrare/oavgjort: 20 p - {{goalDiff}} p = {{result}} p",
   "group-stage-explanation-wrong-winner-draw": "Fel segrare/oavgjort: 10 p -  {{goalDiff}} p = {{result}}",
-  "finals-points-explanation": "Rätt resultat: {{correctResult}} p + Rätt 1/X/2: {{correct1x2}} p = {{result}} p",
+  "finals-points-explanation": "Rätt resultat: {{correctResult}} p + Rätt 1/X/2: {{correct1x2}} p + Rätt lag vidare: {{correctAdvancingTeam}} p = {{result}} p",
+  "finals-points-explanation-final": "Rätt resultat: {{correctResult}} p + Rätt 1/X/2: {{correct1x2}} p + Rätt lag som mästare: {{correctAdvancingTeam}} p = {{result}} p",
   "end-result": "Slutresultat: {{outcome}}"
 }

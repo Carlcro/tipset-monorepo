@@ -126,7 +126,7 @@ export function calculateFinal(teams: Team[]): Match[] {
 
 export function calculateTeamRanking(
   teamResults: TeamResult[],
-  matches: MatchResult[],
+  matches: Bet[],
 ): TeamResult[] {
   const results = [...teamResults];
   const groupMatches = [...matches].filter((x) => Boolean(x.matchId));

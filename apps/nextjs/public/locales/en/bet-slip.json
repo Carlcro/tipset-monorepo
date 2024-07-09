@@ -41,6 +41,7 @@
   "group-stage-explanation-correct-result": "Correct result: {{result}} p",
   "group-stage-explanation-correct-winner-draw": "Correct winner/draw: 20 p - {{goalDiff}} p = {{result}} p",
   "group-stage-explanation-wrong-winner-draw": "Wrong winner/draw: 10 p - {{goalDiff}} p = {{result}}",
-  "finals-points-explanation": "Correct result: {{correctResult}} p + Correct 1/X/2: {{correct1x2}} p = {{result}} p",
+  "finals-points-explanation": "Correct result: {{correctResult}} p + Correct 1/X/2: {{correct1x2}} p + Correct advancing team: {{correctAdvancingTeam}} p = {{result}} p",
+  "finals-points-explanation-final": "Correct result: {{correctResult}} p + Correct 1/X/2: {{correct1x2}} p + Correct team champions: {{correctAdvancingTeam}} p = {{result}} p",
   "end-result": "End result: {{outcome}}"
 }

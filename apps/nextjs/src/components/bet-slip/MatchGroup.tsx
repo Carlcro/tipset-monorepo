@@ -1,10 +1,6 @@
 import { motion } from "framer-motion";
 import React from "react";
-import { useRecoilValue } from "recoil";
-import {
-  MatchType,
-  getPointsFromAdvancement,
-} from "../../recoil/bet-slip/selectors/selectors";
+import { MatchType } from "../../recoil/bet-slip/selectors/selectors";
 import Container from "../Container";
 import Match from "../Match";
 import { MatchInfo, PointsFromAdvancement } from "@acme/db";
@@ -19,21 +15,10 @@ type MatchGroupProps = {
   };
   matchInfos: MatchInfo[];
   mode: Mode;
-  advancementPoints?: PointsFromAdvancement;
 };
 
-function MatchGroup({
-  group,
-  matchInfos,
-  mode,
-  advancementPoints,
-}: MatchGroupProps) {
+function MatchGroup({ group, matchInfos, mode }: MatchGroupProps) {
   const { t } = useTranslation("bet-slip");
-
-  const LabelMap: { [key: string]: string } = {
-    Bronsmatch: t("points-correct-bronze-winner"),
-    final: t("points-correct-euro-champion"),
-  };
 
   const matchIds = group?.matches?.map((m) => m.matchId);
 
@@ -77,15 +62,6 @@ function MatchGroup({
             );
           }
         })}
-        {advancementPoints?.points !== undefined && mode === "placedBet" && (
-          <div className="border-black flex justify-end border-t pt-1 pr-1 ">
-            {advancementPoints?.points > 0
-              ? `${
-                  LabelMap[group.name] || t("points-correct-team-advancing")
-                }: ${advancementPoints?.points}`
-              : ""}
-          </div>
-        )}
       </Container>
     </motion.div>
   );
